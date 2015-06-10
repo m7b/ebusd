@@ -30,6 +30,8 @@
 #include <boost/foreach.hpp>
 
 //Logging system
+std::shared_ptr<spdlog::logger> filelog;
+std::shared_ptr<spdlog::logger> console;
 
 //Serial port
 C_serial_com *rs232;
@@ -57,14 +59,18 @@ int main(int argc, char* argv[])
                 exit (-1);
             break;
     }
+            
+    //Init logging system
+    init_logger(spdlog::level::info, "ebusd.log");
 
     //Install signal handler for SIGINT signals
-    signal(SIGINT, signal_handler);
+	signal(SIGINT, signal_handler);
 
     //open rs232 port for listening
     fd = rs232_open(&ds);
     if (fd < 0)
 	{
+        console->error("Daemon terminated!");
         exit (-1);
 	}
 
@@ -72,14 +78,14 @@ int main(int argc, char* argv[])
 	mysql_connect(&ds);
 
     //Object to analyze the ebus messages
-	C_ebus_message msg;
+	C_ebus_message msg(filelog);
 
 	//register items for analyzing
 	register_items(&msg, &ds, mysql1);
 
 	/* loop while waiting for input. normally we would do something
 	 * useful here. */
-  printf("Start main loop!");
+    filelog->info() << "Start main loop!";
 
 	while(true)
 	{
@@ -110,16 +116,51 @@ int main(int argc, char* argv[])
 }
 
 
+void init_logger(const spdlog::level::level_enum level, const std::string& logfile)
+{
+    try
+    {
+        //Create console, multithreaded logger
+        auto console = spdlog::stdout_logger_mt("console");
+        console->set_level(spdlog::level::info);
+        
+        //Create async file logger
+        size_t q_size = 1048576; //queue size must be power of 2
+        spdlog::set_async_mode(q_size);
+        
+        auto file_logger = spdlog::rotating_logger_mt("ebusd", logfile, 1048576 * 5, 3);
+        file_logger->set_level(level);
+        
+		console = spdlog::get("console");
+		filelog = spdlog::get("ebus");
+	
+        console->info() << "Logging initialized";
+        filelog->info() << "Logging initialized";
+    }
+    catch (const spdlog::spdlog_ex& ex)
+    {
+        std::cout << "Log failed: " << ex.what() << std::endl;
+        exit (-1);
+    }
+}
+
+
+void close_logger(void)
+{
+    spdlog::drop_all();
+}
+
+
 void signal_handler(int signum)
 {
 	switch (signum)
 	{
 		case SIGINT:
-                        printf("Signal SIGINT received %d\n", signum);
+            console->info() << "Signal SIGINT received {}" << signum;
 			break;
 
 		default:
-        		printf("Signal received %d\n", signum);
+            console->info() << "Signal received {}" << signum;
 			break;
 	}
 
@@ -128,6 +169,9 @@ void signal_handler(int signum)
 
     /* disconnect from database */
 	mysql_disconnect();
+    
+    /* close logging system */
+    close_logger();
 
 	exit(signum);
 }
@@ -140,7 +184,7 @@ int rs232_open(deamon_settings *ds)
     int fd;
 
     //Initialize C_serial_com object for connection
-    rs232 = new C_serial_com();
+    rs232 = new C_serial_com(filelog);
     
     rs232->set_port(port);
 
@@ -165,7 +209,7 @@ void rs232_close(void)
     rs232->set_port_settings(0);
     delete rs232;
     
-    printf("Serial port closed.\n");
+	filelog->info("Serial port closed.");
 }
 
 
@@ -183,25 +227,25 @@ void mysql_connect(deamon_settings *ds)
 
 	if (mysql1 == NULL)
 	{
-		printf("%s\n", mysql_error(mysql1));
-		printf("    server: %s\n",  db_server.c_str());
-		printf("    db name: %s\n", db_name.c_str());
-		printf("    db user: %s\n", db_user_name.c_str());
+		filelog->error("{}", mysql_error(mysql1));
+		filelog->error("    server: {}",  db_server);
+		filelog->error("    db name: {}", db_name);
+		filelog->error("    db user: {}", db_user_name);
 		return;
 	}
 
 	//Connect to the database
 	if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
 	{
-		printf("{}", mysql_error(mysql1));
-		printf("    server: %s\n",  db_server.c_str());
-		printf("    db name: %s\n", db_name.c_str());
-		printf("    db user: %s\n", db_user_name.c_str());
+		filelog->error("{}", mysql_error(mysql1));
+		filelog->error("    server: {}",  db_server);
+		filelog->error("    db name: {}", db_name);
+		filelog->error("    db user: {}", db_user_name);
 		return;
 	}
 	else
 	{
-		printf("Database connection successful.\n");
+		filelog->info("Database connection successful.");
 	}
 
 }
@@ -211,7 +255,7 @@ void mysql_connect(deamon_settings *ds)
 void mysql_disconnect(void)
 {
 	mysql_close(mysql1);
-	printf("Disconnected from database.\n");
+	filelog->info("Disconnected from database.");
 }
 
 
@@ -276,7 +320,7 @@ void check_bus_state(C_ebus_message *msg, unsigned char *buf, int length)
 				if (msg->get_len() > 0)
 				{
 					msg->undo_subst();
-				//	msg->print();
+					msg->print();
 					msg->analyse();
 					msg->write_db(mysql1);
 					msg->clear();

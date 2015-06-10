@@ -46,10 +46,11 @@ void C_ebus_message::check_items(void)
 }
 
 
-C_ebus_message::C_ebus_message()
+C_ebus_message::C_ebus_message(const std::shared_ptr<spdlog::logger> log)
 : len(0), start(new unsigned char[1]), strbuf(new char [1])
 {
 	*start     = 0x00;
+	this->log  = log;
 }
 
 C_ebus_message::C_ebus_message(const unsigned char *s)

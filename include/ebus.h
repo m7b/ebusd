@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 
+#include "../include/spdlog/spdlog.h"
+
 struct deamon_settings
 {
     //serial port settings
@@ -41,6 +43,7 @@ struct deamon_settings
 };
 
 
+void init_logger(const spdlog::level::level_enum level, const std::string& logfile);
 void close_logger(void);
 void signal_handler(int);
 int rs232_open(deamon_settings *);

@@ -15,10 +15,12 @@
 
 #include "serial.h"
 
-C_serial_com::C_serial_com()
+C_serial_com::C_serial_com(const std::shared_ptr<spdlog::logger> log)
 : fd(0), oldtio(new struct termios), newtio(new struct termios)
 {
     port = "";
+	
+	this->log  = log;
 
 	/* set new default port settings for canonical input processing */
 	newtio->c_cflag = B2400 | CS8 | CLOCAL | CREAD;
@@ -43,6 +45,8 @@ void C_serial_com::set_port(const std::string port)
 int C_serial_com::com_open(void)
 {
 	fd = open(port.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+    if (fd < 0)
+		log->error("Can not open port {}!", port.c_str());
 	
     return fd;
 }

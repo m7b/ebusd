@@ -21,6 +21,8 @@
 #include <sys/time.h>
 #include <mysql/mysql.h>
 
+#include "../include/spdlog/spdlog.h"
+
 using namespace std;
 
 class C_ebus_message{
@@ -34,11 +36,13 @@ private:
                                 //get_timestamp_cstr()
 
     std::vector <C_item> item_vec;
+	
+    std::shared_ptr<spdlog::logger> log;
 
 	void check_items(void);
 
 public:
-	C_ebus_message(); //Default-Konstruktor
+	C_ebus_message(const std::shared_ptr<spdlog::logger>); //Default-Konstruktor
 	C_ebus_message(const unsigned char *);	//allg. Konstruktor
 	C_ebus_message(const C_ebus_message &);	//Kopierkonstruktor
 

@@ -20,6 +20,8 @@
 #include <termios.h>
 #include <fcntl.h>
 
+#include "../include/spdlog/spdlog.h"
+
 class C_serial_com{
 
 private:
@@ -27,12 +29,13 @@ private:
     int fd;                     //File descriptor
     struct termios *oldtio;
     struct termios *newtio;
+    std::shared_ptr<spdlog::logger> log;
     std::string port;
 
 public:
 
-    C_serial_com();     //Konstruktor
-    ~C_serial_com();    //Destruktor
+    C_serial_com(const std::shared_ptr<spdlog::logger>);  //Konstruktor
+    ~C_serial_com();               						  //Destruktor
 
     void set_port(std::string);
     int com_open(void);
