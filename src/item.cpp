@@ -13,7 +13,7 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "item.h"
+#include <ebusd/item.h>
 #include <stdio.h>
 
 
@@ -201,11 +201,11 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
 
 	switch (en_byteorder)
 	{
-		case LITTLE_ENDIAN:
+		case LE:
 			c_low_byte  = uc_byte[0];
 			c_high_byte = uc_byte[1];
 			break;
-		case BIG_ENDIAN:
+		case BE:
 			c_low_byte  = uc_byte[1];
 			c_high_byte = uc_byte[0];
 			break;
@@ -220,12 +220,12 @@ float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byte
 
 	switch (en_byteorder)
 	{
-		case LITTLE_ENDIAN:
+		case LE:
 			uc_low_nibble  = uc_byte[0] & 0x0f;
 			uc_high_nibble = uc_byte[0] & 0xf0;
 			c_high_byte    = uc_byte[1];
 			break;
-		case BIG_ENDIAN:
+		case BE:
 			uc_low_nibble  = uc_byte[1] & 0x0f;
 			uc_high_nibble = uc_byte[1] & 0xf0;
 			c_high_byte    = uc_byte[0];

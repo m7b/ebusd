@@ -13,8 +13,9 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "item.h"
-#include "msg.h"
+#include <ebusd/item.h>
+#include <ebusd/msg.h>
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

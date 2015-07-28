@@ -12,13 +12,16 @@
 /// deamon process and read out the data telegrams of an ebus system.
 ///
 //===----------------------------------------------------------------------===//
-#include "ebus.h"
-#include "serial.h"
-#include "msg.h"
+#include <ebusd/ebus.h>
+#include <ebusd/serial.h>
+#include <ebusd/msg.h>
 /////
-#include <sys/signal.h>
+#include <signal.h>
 #include <sys/types.h>
-//#include <mysql/mysql.h>
+
+
+#include <mysql.h>
+
 //#include <iostream>
 //#include <cstring>
 //#include <cstdlib>
@@ -34,7 +37,7 @@ std::shared_ptr<spdlog::logger> filelog;
 std::shared_ptr<spdlog::logger> console;
 
 //Serial port
-C_serial_com *rs232;
+C_serial2_com *rs232;
 
 //Database
 MYSQL        *mysql1;
@@ -90,9 +93,15 @@ int main(int argc, char* argv[])
 	while(true)
 	{
 
-		usleep(10000);
+        #ifdef _WIN32
+            Sleep(10);
+        #else
+            usleep(10000);  /* sleep for 10 milliSeconds */
+        #endif
 
-		res = read(fd, buf, 255);
+		//res = read(fd, buf, 255);
+        res = rs232->read(buf, 255);
+        
 		switch (res)
 		{
 			case -1:
@@ -180,33 +189,28 @@ void signal_handler(int signum)
 
 int rs232_open(deamon_settings *ds)
 {
-	std::string port = ds->ser_port;
-    int fd;
+	int port = ds->ser_port;
+    int ret_val;
 
     //Initialize C_serial_com object for connection
-    rs232 = new C_serial_com(filelog);
+    rs232 = new C_serial2_com(filelog);
     
     rs232->set_port(port);
 
-    fd = rs232->com_open();
-    if (fd < 0)
+    ret_val = rs232->com_open();
+    if (ret_val > 0)
     {
         delete rs232;
-        return fd;
+        return 0;
     }
 
-    rs232->set_async();
-    rs232->save_current_port_settings();
-    rs232->set_port_settings(1);
-
-    return fd;
+    return 1;
 }
 
 
 
 void rs232_close(void)
 {	
-    rs232->set_port_settings(0);
     delete rs232;
     
 	filelog->info("Serial port closed.");
@@ -355,7 +359,7 @@ int deamon_settings::load(const std::string &filename)
     }
     
     
-    ser_port         = pt.get<std::string>("ebusd.serial.port");
+    ser_port         = pt.get<int>("ebusd.serial.port");
 	
 	db_server        = pt.get<std::string>("ebusd.database.server");
 	db_name          = pt.get<std::string>("ebusd.database.name");
@@ -424,7 +428,7 @@ void save_example(deamon_settings *ds)
 {
 	C_item::param     par;
     
-    ds->ser_port         = "/dev/ttyAMA0";
+    ds->ser_port         = 22; //ttyAMA0
     
     
     ds->db_server        = "sammelplatz";

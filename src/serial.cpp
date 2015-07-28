@@ -13,82 +13,41 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "serial.h"
+#include <ebusd/serial.h>
 
-C_serial_com::C_serial_com(const std::shared_ptr<spdlog::logger> log)
-: fd(0), oldtio(new struct termios), newtio(new struct termios)
+C_serial2_com::C_serial2_com(const std::shared_ptr<spdlog::logger> log)
+: port(0), baudrate(2400), mode(new char [4])
 {
-    port = "";
-	
-	this->log  = log;
-
-	/* set new default port settings for canonical input processing */
-	newtio->c_cflag = B2400 | CS8 | CLOCAL | CREAD;
-	newtio->c_iflag = 0;
-	newtio->c_oflag = 0;
-	newtio->c_lflag = ~(ICANON | ECHO | ECHOE | ISIG);
-	newtio->c_cc[VMIN] = 1;
-	newtio->c_cc[VTIME] = 0;
+    strcpy(mode, "8N1\0");
+	this->log = log;
 }
 
-C_serial_com::~C_serial_com()
+C_serial2_com::~C_serial2_com()
 {
-	delete oldtio;
-	delete newtio;
+	delete mode;
 }
 
-void C_serial_com::set_port(const std::string port)
+void C_serial2_com::set_port(const int port)
 {
     this->port = port;
 }
 
-int C_serial_com::com_open(void)
+int C_serial2_com::com_open(void)
 {
-	fd = open(port.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
-    if (fd < 0)
-		log->error("Can not open port {}!", port.c_str());
-	
-    return fd;
+    int ret_val_fct;
+    int ret_val;
+    
+    ret_val_fct = RS232_OpenComport(port, baudrate, mode);
+
+    if (ret_val_fct > 0)
+		log->error("Can not open port {}!", port);
+    else
+        ret_val = 1;
+
+    return ret_val;
 }
 
-void C_serial_com::set_async(void)
+int C_serial2_com::read(unsigned char *buf, int size)
 {
-    /* Make the file descriptor asynchronous (the manual page says only
-	 * O_APPEND and O_NONBLOCK, will work with F_SETFL...) */
-    if (fd != 0)
-        fcntl(fd, F_SETFL, O_NONBLOCK);
+    return RS232_PollComport(port, buf, size);
 }
-
-void C_serial_com::save_current_port_settings(void)
-{
-	/* save current port settings */
-    if (fd != 0)
-        tcgetattr(fd, oldtio);
-}
-
-void C_serial_com::set_port_settings(int i_setting)
-{
-    struct termios param;
-
-    if (fd != 0)
-    {
-        //flush data received in buffer but not read.
-        tcflush(fd, TCIFLUSH);
-
-        //choose parameter to set
-        switch (i_setting)
-        {
-            case 0:
-                param = *oldtio;
-                break;
-
-            case 1:
-                param = *newtio;
-                break;
-        }
-
-        //set choosen parameter
-        tcsetattr(fd, TCSANOW, &param);
-    }
-}
-
