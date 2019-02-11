@@ -21,7 +21,7 @@
 #include <sys/time.h>
 #include <mysql/mysql.h>
 
-#include "../include/spdlog/spdlog.h"
+#include "../spdlog/spdlog.h"
 
 using namespace std;
 
@@ -46,7 +46,7 @@ public:
 	C_ebus_message(const unsigned char *);	//allg. Konstruktor
 	C_ebus_message(const C_ebus_message &);	//Kopierkonstruktor
 
-	//Überladene Operator-Funktion
+	//Ãœberladene Operator-Funktion
     C_ebus_message& operator= (const C_ebus_message& src);
 
 	~C_ebus_message();						//Destruktor
