@@ -20,7 +20,7 @@
 #include <termios.h>
 #include <fcntl.h>
 
-#include "../include/spdlog/spdlog.h"
+#include "../spdlog/spdlog.h"
 
 class C_serial_com{
 
