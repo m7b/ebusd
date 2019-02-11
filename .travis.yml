@@ -10,6 +10,7 @@ addons:
     packages:
       - gcc-7
       - g++-7
+      - libmariadbclient-dev
 
 before_script:
  # Link gcc-6 and g++-7 to their standard commands
