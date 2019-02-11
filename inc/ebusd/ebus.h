@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-#include "../include/spdlog/spdlog.h"
+#include "../spdlog/spdlog.h"
 
 struct deamon_settings
 {
