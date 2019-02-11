@@ -20,7 +20,7 @@
 #include <sys/types.h>
 
 
-#include <mysql.h>
+#include <mysql/mysql.h>
 
 //#include <iostream>
 //#include <cstring>
