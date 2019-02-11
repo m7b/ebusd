@@ -7,7 +7,7 @@ compiler:
 addons:
   apt:
     packages:
-      - cmake
+#      - cmake
 
 before_script:
   - mkdir build
@@ -16,6 +16,6 @@ before_script:
   
 script:
   # Check versions of gcc, g++ and cmake
-  - gcc -v && g++ -v && cmake --version
+  #- gcc -v && g++ -v && cmake --version
   # Run your build commands next
   - make
