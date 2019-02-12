@@ -11,7 +11,7 @@ addons:
       - gcc-7
       - g++-7
       - libboost-all-dev
-      - libmariadbclient-dev
+      - libmariadbd-dev
 
 before_script:
  # Link gcc-6 and g++-7 to their standard commands
