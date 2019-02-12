@@ -76,11 +76,12 @@ target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 target_link_libraries(
     ${CMAKE_PROJECT_NAME}
 	rs232
-	mariadbclient
-    -lssl
+	#mariadbclient
+	mariadb
+  -lssl
 	-lcrypto
 	-lws2_32
 	-lz
-    -static
-    $<$<CONFIG:Release>:-s>
+  -static
+  $<$<CONFIG:Release>:-s>
 )
