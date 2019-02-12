@@ -1,26 +1,15 @@
 @ECHO OFF
 
-REM Toolchains
-REM ==========
-REM nuwen-GCC-32_5.1
-REM TDM-GCC-32_4.4.1
-REM TDM-GCC-32_4.8.1
-REM TDM-GCC-64_4.9.2
-REM TDM-GCC-32_5.1.0
-REM TDM-GCC-64_5.1.0
-
-SET TOOLCHAIN=TDM-GCC-64_5.1.0
-
-SET CC=C:/Program Files (x86)/CodeBlocks/%TOOLCHAIN%/bin/gcc
-SET CXX=C:/Program Files (x86)/CodeBlocks/%TOOLCHAIN%/bin/g++
-SET PATH=%PATH%;C:\Program Files (x86)\CodeBlocks\%TOOLCHAIN%\bin
+SET PATH=%PATH%;C:\CPP\tools\cmake-3.13.3-win64-x64\bin
+SET PATH=%PATH%;C:\CPP\compiler\i686-8.1.0-release-posix-dwarf-rt_v6-rev0\mingw32\bin
 
 mkdir build
 cd build
 
-REM cmake -G "CodeBlocks - Unix Makefiles" ..
-cmake -G "Unix Makefiles" ..
+REM cmake -G "CodeBlocks - MinGW Makefiles" ..
+cmake -G "MinGW Makefiles" ..
 
-make VERBOSE=1
+cmake --build .
+REM cmake --build . -- VERBOSE=1
 
 cd ..

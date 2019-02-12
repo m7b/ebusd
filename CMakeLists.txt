@@ -1,55 +1,86 @@
-project("ebusd")
 cmake_minimum_required(VERSION 3.2)
+project("ebusd")
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+IF(WIN32)
+  set(MARIADB_INCLUDE_DIR C:/CPP/tools/msys64/mingw32/include)
+  set(MARIADB_LIBRARY_DIR C:/CPP/tools/msys64/mingw32/lib)
+ENDIF()
+find_package(MariaDB REQUIRED)
 
 
-set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -g -D_WIN32_WINNT=0x600 -pthread -pedantic")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++14 -D_WIN32_WINNT=0x600 -pthread -pedantic")
+# The version number.
+set (Tutorial_VERSION_MAJOR 1)
+set (Tutorial_VERSION_MINOR 0)
 
 
-################################################################################
-# - Find mysqlclient
-# Find the native MySQL includes and library
-#
-#  MYSQL_INCLUDE_DIR - where to find mysql.h, etc.
-#  MYSQL_LIBRARIES   - List of libraries when using MySQL.
-#  MYSQL_FOUND       - True if MySQL found.
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file (
+  ${CMAKE_CURRENT_SOURCE_DIR}/config/config.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/config/config.h
+)
 
-#set(MYSQL_FIND_REQUIRED  TRUE)
-#INCLUDE(cmake/FindMySqlLibs.cmake)
+  
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+include_directories(
+  ${CMAKE_SOURCE_DIR}/inc
+  ${CMAKE_SOURCE_DIR}/lib/RS-232
+  #MSYS2 libmariadbclient, libboost
+  # pacman -S mingw32/mingw-w64-i686-libmariadbclient
+  # pacman -S mingw32/mingw-w64-i686-boost
+  ${MARIADB_INCLUDE_DIR}
+  C:/CPP/tools/msys64/mingw32/include
+)
 
-################################################################################
+# add link directories
+link_directories(
+  ${MARIADB_LIBRARY_DIR}
+)
 
-INCLUDE(CheckIncludeFiles)
-CHECK_INCLUDE_FILES(malloc.h HAVE_MALLOC_H)
-CHECK_INCLUDE_FILES ("sys/param.h;sys/mount.h" HAVE_SYS_MOUNT_H)
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config/config.h)
-
-
-
-set(TODO_SOURCE_DIR    ${CMAKE_SOURCE_DIR}/src)
-set(RS232_SOURCE   ${CMAKE_SOURCE_DIR}/inc/rs232/rs232.c)
-
-set(TODO_INCLUDE_DIR   ${CMAKE_SOURCE_DIR}/inc)
-set(BOOST_INCLUDE_DIR C:/Temp/CPP/extlibs/boost_1_58_0)
-set(MYSQL_INCLUDE_DIR C:/Temp/CPP/extlibs/mysql-connector-c-6.1.6-winx64/include)
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/config
-                    ${TODO_INCLUDE_DIR}
-                    ${MYSQL_INCLUDE_DIR}
-                    ${BOOST_INCLUDE_DIR}
-                    )
-
-set(MYSQL_LIBRARY_DIR C:/Temp/CPP/extlibs/mysql-connector-c-6.1.6-winx64/lib)
-link_directories("${MYSQL_LIBRARY_DIR}")
-
-aux_source_directory(${TODO_SOURCE_DIR} TODO_SOURCE)
+add_library(
+  rs232
+  ${CMAKE_SOURCE_DIR}/lib/RS-232/rs232.c
+)
 
 
-add_executable(${PROJECT_NAME}  ${TODO_SOURCE} ${RS232_SOURCE})
+# add the executable
+add_executable(${CMAKE_PROJECT_NAME}
+  src/ebus.cpp
+  src/item.cpp
+  src/msg.cpp
+  #src/serial.cpp
+ )
+ 
+ 
 
-target_link_libraries(${PROJECT_NAME} mysql.a)
+# target compile options
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-g>)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-O0>)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:-O3>)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=gnu++17)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pthread)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pedantic)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "C:/Temp/CPP/extlibs/mysql-connector-c-6.1.6-winx64/lib/libmysql.dll"
-        libmysql.dll)
+# target compile definitions
+#-D_WIN32_WINNT=0x600
+#target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC -D__GNUWIN32__)
+
+
+
+# link libraries
+target_link_libraries(
+    ${CMAKE_PROJECT_NAME}
+	rs232
+	mariadbclient
+    -lssl
+	-lcrypto
+	-lws2_32
+	-lz
+    -static
+    $<$<CONFIG:Release>:-s>
+)

@@ -3,35 +3,31 @@
 *
 * Author: Teunis van Beelen
 *
-* Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015 Teunis van Beelen
+* Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 Teunis van Beelen
 *
 * Email: teuniz@gmail.com
 *
 ***************************************************************************
 *
-* This program is free software; you can redistribute it and/or modify
+* This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation version 2 of the License.
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc.,
-* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*
-***************************************************************************
-*
-* This version of GPL is at http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 ***************************************************************************
 */
 
-/* Last revision: January 10, 2015 */
+/* Last revision: August 5, 2017 */
 
-/* For more info and how to use this libray, visit: http://www.teuniz.net/RS-232/ */
+/* For more info and how to use this library, visit: http://www.teuniz.net/RS-232/ */
 
 
 #ifndef rs232_INCLUDED
@@ -55,6 +51,8 @@ extern "C" {
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <sys/file.h>
+#include <errno.h>
 
 #else
 
@@ -75,7 +73,10 @@ void RS232_enableDTR(int);
 void RS232_disableDTR(int);
 void RS232_enableRTS(int);
 void RS232_disableRTS(int);
-
+void RS232_flushRX(int);
+void RS232_flushTX(int);
+void RS232_flushRXTX(int);
+int RS232_GetPortnr(const char *);
 
 #ifdef __cplusplus
 } /* extern "C" */

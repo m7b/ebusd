@@ -13,9 +13,8 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include <ebusd/item.h>
-#include <ebusd/msg.h>
-
+#include "item.h"
+#include "msg.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,11 +46,10 @@ void C_ebus_message::check_items(void)
 }
 
 
-C_ebus_message::C_ebus_message(const std::shared_ptr<spdlog::logger> log)
+C_ebus_message::C_ebus_message()
 : len(0), start(new unsigned char[1]), strbuf(new char [1])
 {
 	*start     = 0x00;
-	this->log  = log;
 }
 
 C_ebus_message::C_ebus_message(const unsigned char *s)
@@ -160,7 +158,7 @@ void C_ebus_message::add(const unsigned char uch_val)
 
 void C_ebus_message::undo_subst(void)
 {
-	int i, j;
+	size_t i, j;
 	for (i=0; i<=len; i++)
 	{
 		if (start[i] == 0xA9)
@@ -232,7 +230,7 @@ void C_ebus_message::clear(void)
 
 void C_ebus_message::print(void)
 {
-	int i;
+	size_t i;
 
 	printf("%s| ", get_timestamp_cstr());
 
@@ -281,7 +279,7 @@ char *C_ebus_message::get_timestamp_cstr(void)
 	nowtm = localtime(&nowtime);
 
 	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", nowtm);
-	snprintf(buf, sizeof buf, "%s.%06d", tmbuf, timestamp.tv_usec);
+	snprintf(buf, sizeof buf, "%s.%06ld", tmbuf, timestamp.tv_usec);
 
 	//printf("start ::get_timestamp\n");
 	strbuf = (char *) realloc(strbuf, sizeof buf * sizeof(char));
