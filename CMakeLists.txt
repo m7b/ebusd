@@ -81,6 +81,7 @@ target_link_libraries(
   -lssl
 	-lcrypto
 	#-lws2_32
+  -ldl
   -pthread
 	-lz
   -static
