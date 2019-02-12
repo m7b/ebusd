@@ -80,7 +80,7 @@ target_link_libraries(
 	mariadb
   -lssl
 	-lcrypto
-	-lws2_32
+	#-lws2_32
 	-lz
   -static
   $<$<CONFIG:Release>:-s>
