@@ -26,7 +26,7 @@ static void copy(unsigned char *ziel, const unsigned char *quelle)
 	while((*ziel++ = *quelle++));
 }
 
-// Hilfsfunktion: Länge eines C-Strings ermitteln
+// Hilfsfunktion: Lï¿½nge eines C-Strings ermitteln
 static size_t laenge(const unsigned char *s)
 {
 	size_t sl = 0;
@@ -67,10 +67,10 @@ C_ebus_message::C_ebus_message(const C_ebus_message &m)
 
 
 
- // Überladener Zuweisungsoperator
+ // ï¿½berladener Zuweisungsoperator
  C_ebus_message& C_ebus_message::operator= (const C_ebus_message& src)
 {
-    // Zuweisung auf sich selbst abprüfen!
+    // Zuweisung auf sich selbst abprï¿½fen!
     if (this == &src)
         return *this;
 
@@ -272,7 +272,7 @@ char *C_ebus_message::get_timestamp_cstr(void)
 {
 	time_t nowtime;
 	char tmbuf[64];
-	char buf[64];
+	char buf[128];
 	struct tm *nowtm;
 
 	nowtime = timestamp.tv_sec;
