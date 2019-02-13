@@ -9,5 +9,5 @@ script:
   - cmake --version
   - mkdir build
   - cd build
-  - cmake -G 'MinGW Makefiles' ..
+  - cmake -G 'MinGW Makefiles' -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
