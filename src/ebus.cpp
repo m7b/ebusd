@@ -361,10 +361,10 @@ void save_example(deamon_settings *ds)
     ds->ser_port         = "/dev/ttyAMA0";
     
     
-    ds->db_server        = "sammelplatz";
-    ds->db_name          = "wolf";
-    ds->db_user_name     = "wolf";
-    ds->db_user_password = "Spacemanwolf";
+    ds->db_server        = "db-server";
+    ds->db_name          = "db-name";
+    ds->db_user_name     = "db-username";
+    ds->db_user_password = "db-username-password";
     
 
     par.name        = "Zustand LDW";
