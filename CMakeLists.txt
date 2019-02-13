@@ -71,7 +71,7 @@ target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 #target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC -D__GNUWIN32__)
 
 # link libraries
-IF(WIN32)#
+IF(WIN32)
   target_link_libraries(
     ${CMAKE_PROJECT_NAME}
     rs232
@@ -88,12 +88,9 @@ ELSE()
     ${CMAKE_PROJECT_NAME}
     rs232
     mariadb
-    -lssl
-    -lcrypto
     -ldl
     -pthread
     -lz
-    -static
     $<$<CONFIG:Release>:-s>
   )
 ENDIF()
