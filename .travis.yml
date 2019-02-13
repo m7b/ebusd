@@ -1,25 +1,8 @@
-dist: xenial
+sudo: required
 language:
   - cpp
-#compiler:
-#  - gcc
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-8
-      - g++-8
-      - libboost-all-dev
-      - libmariadb-client-lgpl-dev
-      - libmysqlclient-dev
-
-before_script:
-  - export CC=gcc-8
-  - export CXX=g++-8
+os:
+  - windows
 
 script:
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
+  - choco install cmake
