@@ -1,7 +1,9 @@
 <?php
+require_once ('setting.php');
+
 date_default_timezone_set('Europe/Berlin');
 
-$con = mysqli_connect("bierfass","wolf","Spacemanwolf", "wolf");
+$con = mysqli_connect($strHostName, $strUserName, $strPassword, $strDbName);
 
 /* check connection */
 if (mysqli_connect_errno()) {
