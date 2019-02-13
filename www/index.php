@@ -455,6 +455,94 @@ $(function () {
         }]
 
     });
+	
+	
+    $('#container2019').highcharts({
+
+        data: {
+            csv: document.getElementById('csv2019').innerHTML,
+            parsed: function () {
+                start = +new Date();
+            }
+        },
+
+        chart: {
+            type: 'heatmap',
+            margin: [60, 10, 80, 50]
+        },
+
+        title: {
+            text: 'Highcharts extended heat map',
+            align: 'left',
+            x: 40
+        },
+
+        subtitle: {
+            text: 'Temperature variation by day and hour through 2019',
+            align: 'left',
+            x: 40
+        },
+
+        xAxis: {
+            type: 'datetime',
+            min: Date.UTC(2019, 0, 1),
+            max: Date.UTC(2020, 0, 1),
+            labels: {
+                align: 'left',
+                x: 5,
+                y: 14,
+                format: '{value:%B}' // long month
+            },
+            showLastLabel: false,
+            tickLength: 16
+        },
+
+        yAxis: {
+            title: {
+                text: null
+            },
+            labels: {
+                format: '{value}:00'
+            },
+            minPadding: 0,
+            maxPadding: 0,
+            startOnTick: false,
+            endOnTick: false,
+            tickPositions: [0, 6, 12, 18, 24],
+            tickWidth: 1,
+            min: 0,
+            max: 23,
+            reversed: true
+        },
+
+        colorAxis: {
+            stops: [
+                [0, '#004dca'], /* 3060cf */
+                [0.5, '#fffbbc'],
+                [0.9, '#c4463a'],
+                [1, '#640000'] /* c4463a */
+            ],
+            min: -15,
+            max: 35, /*45,*/
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                format: '{value}℃'
+            }
+        },
+
+        series: [{
+            borderWidth: 0,
+            nullColor: '#EFEFEF',
+            colsize: 24 * 36e5, // one day
+            tooltip: {
+                headerFormat: 'Temperature<br/>',
+                pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value} ℃</b>'
+            },
+            turboThreshold: Number.MAX_VALUE // #3404, remove after 4.0.5 release
+        }]
+
+    });
 
     console.log('Rendered in ' + (new Date() - start) + ' ms'); // eslint-disable-line no-console
 
@@ -642,6 +730,9 @@ $(function () {
                 <a href="#chart" onclick=$("#menu-close").click();>BDE/MDE</a>
             </li>
             <li>
+                <a href="#temp2019" onclick=$("#menu-close").click();>Heatmap 2019</a>
+            </li>
+            <li>
                 <a href="#temp2018" onclick=$("#menu-close").click();>Heatmap 2018</a>
             </li>
             <li>
@@ -719,17 +810,30 @@ $(function () {
     </section>
   
 	
-    <!-- temp2018 -->
-    <section id="temp2018" class="temp2018">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                <div id="container2018" style="height: 320px; margin: 0 auto"></div></div>
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container -->
-    </section>
+  <!-- temp2019 -->
+  <section id="temp2019" class="temp2019">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center">
+              <div id="container2019" style="height: 320px; margin: 0 auto"></div></div>
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container -->
+  </section>
+  
+	
+  <!-- temp2018 -->
+  <section id="temp2018" class="temp2018">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center">
+              <div id="container2018" style="height: 320px; margin: 0 auto"></div></div>
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container -->
+  </section>
   
 	
     <!-- temp2017 -->
@@ -894,6 +998,10 @@ $(function () {
 
 
 <!-- Source: http://vikjavev.no/ver/highcharts-demos/heatmap.csv.php?year=2013 -->
+
+<pre id="csv2019" style="display: none">Date,Time,Temperature
+<?php include 'https://wolf.mjbsoft.de/wolf_data_temp.php?year=2019'; //need php-opt: allow_url_include = 1 ?>
+</pre>
 
 <pre id="csv2018" style="display: none">Date,Time,Temperature
 <?php include 'https://wolf.mjbsoft.de/wolf_data_temp.php?year=2018'; //need php-opt: allow_url_include = 1 ?>
