@@ -5,7 +5,8 @@ os:
   - windows
 
 script:
-#  - choco install cmake
+  - choco install -y msys2
+  - pacman -V
   - cmake --version
   - mkdir build
   - cd build
