@@ -5,7 +5,8 @@ os:
   - windows
 
 script:
-  - choco install cmake
+#  - choco install cmake
+  - cmake --version
   - mkdir build
   - cd build
   - cmake -G "MinGW Makefiles" ..
