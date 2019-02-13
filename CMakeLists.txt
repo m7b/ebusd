@@ -70,20 +70,32 @@ target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 #-D_WIN32_WINNT=0x600
 #target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC -D__GNUWIN32__)
 
-
-
 # link libraries
-target_link_libraries(
+IF(WIN32)#
+  target_link_libraries(
     ${CMAKE_PROJECT_NAME}
-	rs232
-	#mariadbclient
-	mariadb
-  -lssl
-	-lcrypto
-	#-lws2_32
-  -ldl
-  -pthread
-	-lz
-  -static
-  $<$<CONFIG:Release>:-s>
-)
+    rs232
+    mariadbclient
+    -lssl
+    -lcrypto
+    -lws2_32
+    -lz
+    -static
+    $<$<CONFIG:Release>:-s>
+  )
+ELSE()
+  target_link_libraries(
+    ${CMAKE_PROJECT_NAME}
+    rs232
+    mariadb
+    -lssl
+    -lcrypto
+    -ldl
+    -pthread
+    -lz
+    -static
+    $<$<CONFIG:Release>:-s>
+  )
+ENDIF()
+
+
