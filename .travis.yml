@@ -6,6 +6,9 @@ os:
 
 script:
 #  - choco install -y msys2
+  - mkdir C:\CPP
+  - cd C:\CPP
+  - dir
   - cd C:\\tools\\msys64\\usr\\bin
   - TREE C:\\tools
   - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -V\'"
