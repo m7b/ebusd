@@ -1,13 +1,23 @@
 cmake_minimum_required(VERSION 3.2)
 project("ebusd")
 
+OPTION(CI_BUILD "Build in CI" OFF)
+
+IF(CI_BUILD)
+  MESSAGE("-- CI_BUILD is ON")
+ELSE()
+  MESSAGE("-- CI_BUILD is OFF")
+ENDIF()
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 IF(WIN32)
-#  set(MARIADB_INCLUDE_DIR C:/CPP/tools/msys64/mingw32/include)
-#  set(MARIADB_LIBRARY_DIR C:/CPP/tools/msys64/mingw32/lib)
-  set(MARIADB_INCLUDE_DIR C:/msys64/mingw64/include)
-  set(MARIADB_LIBRARY_DIR C:/msys64/mingw64/lib)
+  set(MARIADB_INCLUDE_DIR C:/CPP/tools/msys64/mingw32/include)
+   set(MARIADB_LIBRARY_DIR C:/CPP/tools/msys64/mingw32/lib)
+  IF(CI_BUILD)
+    set(MARIADB_INCLUDE_DIR C:/msys64/mingw64/include)
+    set(MARIADB_LIBRARY_DIR C:/msys64/mingw64/lib)
+  ENDIF()
 ENDIF()
 find_package(MariaDB REQUIRED)
 
@@ -34,10 +44,8 @@ include_directories(
   # pacman -S mingw32/mingw-w64-i686-libmariadbclient
   # pacman -S mingw32/mingw-w64-i686-boost
   ${MARIADB_INCLUDE_DIR}
-  #C:/CPP/tools/msys64/mingw32/include
-  #C:/msys64/mingw32/include
-  C:/CPP/tools/msys64/mingw64/include
-  C:/msys64/mingw64/include
+  C:/CPP/tools/msys64/mingw32/include
+  C:/msys64/mingw32/include
 )
 
 # add link directories

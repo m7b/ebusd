@@ -9,6 +9,6 @@ export CXX=g++-8
 rm -r build
 mkdir build
 cd build
-cmake ..
+cmake -DCI_BUILD:BOOL=OFF ..
 make
 cd ..
