@@ -99,5 +99,3 @@ ELSE()
     $<$<CONFIG:Release>:-s>
   )
 ENDIF()
-
-
