@@ -5,13 +5,8 @@ os:
   - windows
 
 script:
-#  - choco install -y msys2
-  - mkdir C:\CPP
-  - cd C:\CPP
-  - dir
-  - cd C:\\tools\\msys64\\usr\\bin
-  - TREE C:\\tools
-  - C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -V\'
+  - choco install -y msys2
+  - C:\\tools\\msys64\\usr\\bin\\bash -l -c 'pacman -V'
   - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-libmariadbclient\'"
   - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-boost\'"
   - cmake --version
