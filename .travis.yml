@@ -1,17 +1,25 @@
-sudo: required
+dist: xenial
 language:
   - cpp
-os:
-  - windows
+#compiler:
+#  - gcc
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-8
+      - g++-8
+      - libboost-all-dev
+      - libmariadb-client-lgpl-dev
+      - libmysqlclient-dev
+
+before_script:
+  - export CC=gcc-8
+  - export CXX=g++-8
 
 script:
-  - choco install -y msys2
-  - start msys2_shell.bat
-  - pacman -V
-  - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-libmariadbclient\'"
-  - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-boost\'"
-  - cmake --version
   - mkdir build
   - cd build
-  - cmake -G 'MinGW Makefiles' -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
-  - cmake --build .
+  - cmake ..
+  - make

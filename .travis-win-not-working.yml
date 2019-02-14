@@ -1,0 +1,17 @@
+sudo: required
+language:
+  - cpp
+os:
+  - windows
+
+script:
+  - choco install -y msys2
+  - start msys2_shell.bat
+  - pacman -V
+  - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-libmariadbclient\'"
+  - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-boost\'"
+  - cmake --version
+  - mkdir build
+  - cd build
+  - cmake -G 'MinGW Makefiles' -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
+  - cmake --build .
