@@ -6,7 +6,8 @@ os:
 
 script:
   - choco install -y msys2
-  - C:\\tools\\msys64\\usr\\bin\\pacman -V
+  - start msys2_shell.bat
+  - pacman -V
   - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-libmariadbclient\'"
   - "C:\\tools\\msys64\\usr\\bin\\bash -l -c \'pacman -S --noconfirm mingw32/mingw-w64-i686-boost\'"
   - cmake --version
