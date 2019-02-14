@@ -16,8 +16,8 @@ shallow_clone: true
 
 init:
   - git config --global core.autocrlf true
-  - cmd set PATH=%MINGW_DIR%;%PATH%
+  - set PATH=%MINGW_DIR%;%PATH%
 #  - cmd: mkdir build
 #  - cmd: cd build
-  - cmd cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
-  - cmd cmake --build .
+  - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
+  - cmake --build .
