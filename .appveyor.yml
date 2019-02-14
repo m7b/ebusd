@@ -37,7 +37,7 @@ environment:
 install:
   - set PATH=%MINGW_DIR%;%PATH%
 #  - C:\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw32/mingw-w64-i686-libmariadbclient mingw32/mingw-w64-i686-boost 2>&1"
-  - C:\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-i686-libmariadbclient mingw64/mingw-w64-i686-boost 2>&1"
+  - C:\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86-64-libmariadbclient mingw64/mingw-w64-x86-64-boost 2>&1"
   - mkdir build
   - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
