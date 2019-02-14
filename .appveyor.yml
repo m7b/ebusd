@@ -42,3 +42,11 @@ install:
   - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
+
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# to disable automatic builds
+build: off
