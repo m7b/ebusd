@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/m7b/ebusd.svg?branch=master)](https://travis-ci.org/m7b/ebusd)
 
-[![Appveyor](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)
+[![Build status](https://ci.appveyor.com/api/projects/status/0ct4tlnm6rkxava0?svg=true)](https://ci.appveyor.com/project/m7b/ebusd)
 
 
 Build instructions

@@ -34,6 +34,7 @@ environment:
 # scripts that run after cloning repository
 install:
   - set PATH=%MINGW_DIR%;%PATH%
+  - choco install -y msys2 
   - mkdir build
   - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
