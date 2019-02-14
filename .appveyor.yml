@@ -11,8 +11,8 @@ branches:
 environment:
   MINGW_DIR: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
 
-clone_depth: 3
-shallow_clone: true
+#clone_depth: 3
+#shallow_clone: true
 
 init:
   - git config --global core.autocrlf true
