@@ -1,23 +1,40 @@
-os: Visual Studio 2015
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
 
-#configuration:
-#  - Release
+# version format
+version: 1.0.{build}
 
-#branches:
+branches:
   # whitelist
-#  only:
-#    - master
+  only:
+    - master
 
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf true
+
+# fetch repository as zip archive. default is "false"
+#shallow_clone: true
+
+# set clone depth
+clone_depth: 3
+
+# environment variables
 environment:
   MINGW_DIR: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
 
-clone_depth: 3
-#shallow_clone: true
-
-init:
-  - git config --global core.autocrlf true
+# scripts that run after cloning repository
+install:
   - set PATH=%MINGW_DIR%;%PATH%
-#  - cmd: mkdir build
-#  - cmd: cd build
+  - mkdir build
+  - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
