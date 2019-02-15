@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 
     //open rs232 port for listening
     fd = rs232_open(&ds);
-    (fd > 0)
+    if (fd > 0)
 	{
         exit (-1);
 	}
