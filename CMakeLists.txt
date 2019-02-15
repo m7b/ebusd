@@ -113,14 +113,22 @@ IF(WIN32)
     $<$<CONFIG:Release>:-s>
   )
 ELSE()
-  target_link_libraries(
-    ${CMAKE_PROJECT_NAME}
-    rs232
-    mariadb
-    -pthread
-    IF (COVERAGE)
+  IF (COVERAGE)
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      rs232
+      mariadb
+      -pthread
       --coverage
-    ENDIF()
-    $<$<CONFIG:Release>:-s>
-  )
+      $<$<CONFIG:Release>:-s>
+    )
+  ELSE()
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      rs232
+      mariadb
+      -pthread
+      $<$<CONFIG:Release>:-s>
+    )
+  ENDIF()
 ENDIF()
