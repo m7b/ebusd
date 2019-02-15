@@ -118,9 +118,9 @@ ELSE()
     rs232
     mariadb
     -pthread
+    IF (COVERAGE)
+      --coverage
+    ENDIF()
     $<$<CONFIG:Release>:-s>
   )
-  IF (COVERAGE)
-    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE --coverage)
-  ENDIF()
 ENDIF()
