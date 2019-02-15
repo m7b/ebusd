@@ -37,6 +37,7 @@ install:
   - mkdir C:\CPP\compiler
   - move C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0 C:\CPP\compiler
   - set PATH=%MINGW_DIR%;%PATH%
+  - set
   - move C:\msys64 C:\CPP\tools
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-libmariadbclient mingw64/mingw-w64-x86_64-boost 2>&1"
   - mkdir build
