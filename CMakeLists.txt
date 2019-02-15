@@ -72,14 +72,16 @@ add_executable(${CMAKE_PROJECT_NAME}
 # target compile options
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-g>)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-O0>)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-pedantic>)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:-O3>)
-target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=gnu++17)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
+#target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=gnu++17)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pthread)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 IF(WIN32)
   target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
 ENDIF()
-target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pthread)
-target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pedantic)
-target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 
 # target compile definitions
 #-D_WIN32_WINNT=0x600
@@ -103,9 +105,7 @@ ELSE()
     ${CMAKE_PROJECT_NAME}
     rs232
     mariadb
-    -ldl
     -pthread
-    -lz
     $<$<CONFIG:Release>:-s>
   )
 ENDIF()
