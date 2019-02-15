@@ -1,14 +1,11 @@
 #!/bin/bash
 
-#install gcc-8 and libs (boost, mariadb) and cmake, git
-sudo apt-get -yq --no-install-suggests --no-install-recommends install gcc-8 g++-8 libboost-all-dev libmariadb-client-lgpl-dev git cmake
-
-export CC=gcc-8
-export CXX=g++-8
+#install libs (boost, mariadb) and cmake
+sudo apt-get -yq --no-install-suggests --no-install-recommends install libboost-all-dev libmariadb-client-lgpl-dev cmake
 
 rm -r build
 mkdir build
 cd build
-cmake -DCI_BUILD:BOOL=OFF ..
+cmake ..
 make
 cd ..

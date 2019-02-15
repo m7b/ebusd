@@ -37,8 +37,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/inc
   ${CMAKE_SOURCE_DIR}/lib/RS-232
   #MSYS2 libmariadbclient, libboost
-  # pacman -S mingw32/mingw-w64-i686-libmariadbclient
-  # pacman -S mingw32/mingw-w64-i686-boost
+  # pacman -S mingw32/mingw-w64-x86_64-libmariadbclient
+  # pacman -S mingw32/mingw-w64-x86_64-boost
   ${MARIADB_INCLUDE_DIR}
   C:/CPP/tools/msys64/mingw32/include
   C:/msys64/mingw32/include

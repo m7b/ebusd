@@ -33,16 +33,16 @@ environment:
 
 # scripts that run after cloning repository
 install:
+  # begin prepare for simulate local dev environment
   - mkdir C:\CPP
   - mkdir C:\CPP\compiler
-  - move C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0 C:\CPP\compiler
-  - set PATH=%MINGW_DIR%;%PATH%
   - mkdir C:\CPP\tools
+  - move C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0 C:\CPP\compiler
   - move C:\msys64 C:\CPP\tools
+  - set PATH=%MINGW_DIR%;%PATH%
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-libmariadbclient mingw64/mingw-w64-x86_64-boost 2>&1"
-  - mkdir build
+  # end prepare for sim local env- mkdir build
   - cd build
-#  - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCI_BUILD:BOOL=ON ..
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
 
