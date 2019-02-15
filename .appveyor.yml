@@ -42,7 +42,8 @@ install:
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-libmariadbclient mingw64/mingw-w64-x86_64-boost 2>&1"
   - mkdir build
   - cd build
-  - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCI_BUILD:BOOL=ON ..
+#  - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCI_BUILD:BOOL=ON ..
+  - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
 
 
