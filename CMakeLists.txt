@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.2)
 project("ebusd")
 
 OPTION(CI_BUILD "Build in CI" OFF)
+OPTION(COVERAGE "Build with coverage" OFF)
 
 IF(CI_BUILD)
   MESSAGE("-- CI_BUILD is ON")
 ELSE()
   MESSAGE("-- CI_BUILD is OFF")
+ENDIF()
+
+IF(COVERAGE)
+  MESSAGE("-- COVERAGE is ON")
+ELSE()
+  MESSAGE("-- COVERAGE is OFF")
 ENDIF()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -80,6 +87,10 @@ target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 IF(WIN32)
   target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
+ELSE()
+  IF (COVERAGE)
+    target_compile_options(tests PRIVATE --coverage)
+  ENDIF()
 ENDIF()
 
 
@@ -109,4 +120,7 @@ ELSE()
     -pthread
     $<$<CONFIG:Release>:-s>
   )
+  IF (COVERAGE)
+    target_link_libraries(tests PRIVATE --coverage)
+  ENDIF()
 ENDIF()
