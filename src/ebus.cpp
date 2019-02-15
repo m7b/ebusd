@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 
     //open rs232 port for listening
     fd = rs232_open(&ds);
-    if (fd < 0)
+    (fd > 0)
 	{
         exit (-1);
 	}
@@ -128,10 +128,6 @@ int rs232_open(deamon_settings *ds)
 	char mode[]={'8','N','1',0};
 	
 	fd = RS232_OpenComport(comport_number, baudrate, mode);
-    if (fd > 0)
-    {
-        return fd;
-    }
 
     return fd;
 }
@@ -142,7 +138,6 @@ void rs232_close(void)
 {	
 	int comport_number = 22;
     RS232_CloseComport(comport_number);
-	
     printf("Serial port closed.\n");
 }
 
@@ -171,7 +166,7 @@ void mysql_connect(deamon_settings *ds)
 	//Connect to the database
 	if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
 	{
-		printf("%s", mysql_error(mysql1));
+		printf("%s\n", mysql_error(mysql1));
 		printf("    server: %s\n",  db_server.c_str());
 		printf("    db name: %s\n", db_name.c_str());
 		printf("    db user: %s\n", db_user_name.c_str());
@@ -195,7 +190,6 @@ void mysql_disconnect(void)
 
 void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
 {
-	
 	char create_table[1024];
 	
     BOOST_FOREACH(const C_item::param &it, ds->other_item)
@@ -231,9 +225,7 @@ void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
                 break;
 							
 		}
-						
 		mysql_query(db, create_table);
-        
     }   
 }
 
@@ -314,7 +306,7 @@ int deamon_settings::load(const std::string &filename)
         
         other_item.push_back(item);
 	}
-    
+
     return 0;
 }
 
@@ -750,5 +742,4 @@ void save_example(deamon_settings *ds)
     ds->other_item.push_back(par);
     
     ds->save("settings_example.xml");
-
 }

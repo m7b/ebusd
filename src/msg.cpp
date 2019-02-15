@@ -26,7 +26,7 @@ static void copy(unsigned char *ziel, const unsigned char *quelle)
 	while((*ziel++ = *quelle++));
 }
 
-// Hilfsfunktion: L�nge eines C-Strings ermitteln
+// Hilfsfunktion: Länge eines C-Strings ermitteln
 static size_t laenge(const unsigned char *s)
 {
 	size_t sl = 0;
@@ -49,7 +49,7 @@ void C_ebus_message::check_items(void)
 C_ebus_message::C_ebus_message()
 : len(0), start(new unsigned char[1]), strbuf(new char [1])
 {
-	*start     = 0x00;
+	*start = 0x00;
 }
 
 C_ebus_message::C_ebus_message(const unsigned char *s)
@@ -67,10 +67,10 @@ C_ebus_message::C_ebus_message(const C_ebus_message &m)
 
 
 
- // �berladener Zuweisungsoperator
+ // Überladener Zuweisungsoperator
  C_ebus_message& C_ebus_message::operator= (const C_ebus_message& src)
 {
-    // Zuweisung auf sich selbst abpr�fen!
+    // Zuweisung auf sich selbst abprüfen!
     if (this == &src)
         return *this;
 
@@ -301,7 +301,4 @@ void C_ebus_message::register_item(C_item::param par)
 	
 	//printf("pushback %s\n", par.name.c_str());
 	item_vec.push_back(item);
-    
 }
-
-

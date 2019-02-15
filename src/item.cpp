@@ -161,7 +161,6 @@ bool C_item::is_filtered(const unsigned char *start)
 		return false;
 	else
 		return true;
-		
 }
 
 
