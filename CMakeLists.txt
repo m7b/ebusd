@@ -66,16 +66,20 @@ add_executable(${CMAKE_PROJECT_NAME}
   src/msg.cpp
   #src/serial.cpp
  )
- 
- SET(CMAKE_AR "gcc-ar")
+
+# set "gcc-ar" because of warning by compilling with flag -flto in windows gcc 8.1 compiler 
+IF(WIN32)
+  MESSAGE("-- Set CMAKE_AR to gcc-ar in WIN32 build because of flag -flto")
+  SET(CMAKE_AR "gcc-ar")
+ENDIF()
+
 
 # target compile options
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-g>)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-O0>)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-pedantic>)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:-O3>)
-target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)
-#target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=gnu++17)
+target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -std=c++11)  #-std=gnu++17
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -pthread)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
@@ -83,11 +87,13 @@ IF(WIN32)
   target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
 ENDIF()
 
+
 # target compile definitions
 #-D_WIN32_WINNT=0x600
 #target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC -D__GNUWIN32__)
 
-# link libraries
+
+# target link libraries
 IF(WIN32)
   target_link_libraries(
     ${CMAKE_PROJECT_NAME}
