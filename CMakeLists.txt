@@ -67,7 +67,7 @@ add_executable(${CMAKE_PROJECT_NAME}
   #src/serial.cpp
  )
  
- 
+ SET(CMAKE_AR "gcc-ar")
 
 # target compile options
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:-g>)
