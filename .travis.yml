@@ -9,15 +9,6 @@ dist: xenial
 #
 # Build Dependencies
 #
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - libboost-all-dev
-      - libmariadb-client-lgpl-dev
-      - libmysqlclient-dev
-
 before_script:
 - mkdir build
 - cd build
@@ -35,6 +26,15 @@ matrix:
     env:
       - TEST="Build Release"
 
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
+
     compiler: gcc
     
     script:
@@ -47,6 +47,15 @@ matrix:
   - os: linux
     env:
       - TEST="Build Debug"
+
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
@@ -68,6 +77,9 @@ matrix:
         packages:
           - gcc-8
           - g++-8
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
