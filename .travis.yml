@@ -1,25 +1,58 @@
-dist: xenial
+#
+# Configuration
+#
 language: cpp
-compiler: gcc
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - libboost-all-dev
-      - libmariadb-client-lgpl-dev
-      - libmysqlclient-dev
-before_install:
-  - pip install --user cpp-coveralls
-before_script:
-#  - export CC=gcc-8
-#  - export CXX=g++-8
-script:
-  - mkdir build
-  - cd build
-  - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
-  - make
-  - make coveralls
+dist: xenial
 
-after_success:
-  #- coveralls --exclude lib --exclude tests --gcov-options '\-lp'
+#
+# Build Dependencies
+#
+before_script:
+- mkdir build
+- cd build
+
+#
+# Build Matrix
+#
+matrix:
+  include:
+
+  #
+  # Build Release
+  #
+  - os: linux
+
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
+
+    compiler: gcc
+    
+    script:
+      - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release ..
+      - make
+
+  #
+  # Build Debug
+  #
+  - os: linux
+
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
+
+    compiler: gcc
+    
+    script:
+      - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug ..
+      - make
