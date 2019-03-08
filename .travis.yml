@@ -64,7 +64,7 @@ matrix:
       - make
 
   #
-  # Build Release GCC8
+  # Build Release G++ 8
   #
   - os: linux
     env:
@@ -87,4 +87,31 @@ matrix:
       - export CC=gcc-8
       - export CXX=g++-8
       - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release ..
+      - make
+
+
+  #
+  # Build Debug G++ 8
+  #
+  - os: linux
+    env:
+      - TEST="Build Debug G++ 8"
+
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - gcc-8
+          - g++-8
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
+
+    compiler: gcc
+    
+    script:
+      - export CC=gcc-8
+      - export CXX=g++-8
+      - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug ..
       - make
