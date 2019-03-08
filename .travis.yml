@@ -21,6 +21,8 @@ matrix:
   # Build Release
   #
   - os: linux
+    env:
+      - TEST="Build Release"
 
     addons:
       apt:
@@ -41,6 +43,8 @@ matrix:
   # Build Debug
   #
   - os: linux
+    env:
+      - TEST="Build Debug"
 
     addons:
       apt:
