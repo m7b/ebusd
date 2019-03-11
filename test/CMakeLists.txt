@@ -4,6 +4,9 @@
 #Setup CMake to run tests
 ENABLE_TESTING()
 
+IF(WIN32)
+  set(BOOST_INCLUDEDIR C:/CPP/tools/msys64/mingw64/include)
+ENDIF()
 
 FIND_PACKAGE(Boost REQUIRED unit_test_framework)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
@@ -23,9 +26,7 @@ FOREACH(testSrc ${TEST_SRCS})
         target_link_libraries(
 			${testName}
 			${Boost_LIBRARIES}
-			helpers
-			prjprops
-			ws2_32
+			item
 			-static
 		)
 

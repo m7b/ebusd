@@ -60,11 +60,15 @@ add_library(
   ${CMAKE_SOURCE_DIR}/lib/RS-232/rs232.c
 )
 
+add_library(
+  item
+  src/item.cpp
+)
+
 
 # add the executable
 add_executable(${CMAKE_PROJECT_NAME}
   src/ebus.cpp
-  src/item.cpp
   src/msg.cpp
   #src/serial.cpp
  )
@@ -103,6 +107,7 @@ ENDIF()
 IF(WIN32)
   target_link_libraries(
     ${CMAKE_PROJECT_NAME}
+	  item
     rs232
     mariadbclient
     -lssl
@@ -116,6 +121,7 @@ ELSE()
   IF (COVERAGE)
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
+	    item
       rs232
       mariadb
       -pthread
@@ -125,6 +131,7 @@ ELSE()
   ELSE()
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
+	    item
       rs232
       mariadb
       -pthread
@@ -133,4 +140,4 @@ ELSE()
   ENDIF()
 ENDIF()
 
-#add_subdirectory(test)
+add_subdirectory(test)
