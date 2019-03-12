@@ -136,6 +136,7 @@ ELSE()
       -pthread
       $<$<CONFIG:Release>:-s>
     )
+  ENDIF()
 ENDIF()
 
 add_subdirectory(test)
