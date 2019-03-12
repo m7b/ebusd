@@ -131,3 +131,58 @@ BOOST_AUTO_TEST_CASE(Datatype_UNSIGNED_CHAR)
     BOOST_CHECK_EQUAL(255.0f, val);
     BOOST_CHECK_EQUAL(.0f, last_val);
 }
+
+BOOST_AUTO_TEST_CASE(Datatype_SIGNED_CHAR)
+{
+	unsigned char cval0[10] = "\x03\xfe\x05\x03iii\x0i";  // 7. Element = 0d
+	unsigned char cval1[10] = "\x03\xfe\x05\x03hhh\x7fi"; // 7. Element = 127d
+	unsigned char cval2[10] = "\x03\xfe\x05\x03iii\x80i"; // 7. Element = 128d
+	unsigned char cval3[10] = "\x03\xfe\x05\x03iii\xffi"; // 7. Element = 255d
+	
+	float val      = .0f;
+    float last_val = .0f;
+	
+	C_item item;
+	C_item::param par;
+
+    par.name        = "Zustand LDW";
+    par.unit        = "an/aus";
+    par.uc_QQ       = 0x03;          //Source filter
+    par.uc_ZZ       = 0xfe;          //Destination filter
+    par.uc_PB       = 0x05;          //Primary Order filter
+    par.uc_SB       = 0x03;          //Secondary Order filter
+    par.ui_pos      = 7;             //Position (M8)
+    par.ui_bit_pos  = 0;             //Bit Position
+    par.en_dt       = C_item::SIGNED_CHAR;    //Data type
+    par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
+    par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
+    par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
+    par.s_db_table  = "0503_zustand_ldw"; //table of db
+	
+	item.set_par(par);
+
+	
+	item.set_val(cval0);
+    val      = item.get_val(); // 0d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(.0f, last_val);
+	
+	item.set_val(cval1);
+    val      = item.get_val(); // 127d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(127.0f, val);
+    BOOST_CHECK_EQUAL(.0f, last_val);
+	
+	item.set_val(cval2);
+    val      = item.get_val(); //  128d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(-128.0f, val);
+    BOOST_CHECK_EQUAL(127.0f, last_val);
+	
+	item.set_val(cval3);
+    val      = item.get_val(); //  255d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(-1.0f, val);
+    BOOST_CHECK_EQUAL(-128.0f, last_val);
+}
