@@ -17,7 +17,7 @@ before_script:
 # Build Matrix
 #
 matrix:
-  include:
+  exclude:
 
   #
   # Build Release
@@ -115,3 +115,32 @@ matrix:
       - export CXX=g++-8
       - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug ..
       - make
+
+  include:
+  #
+  # Test coverage
+  #
+  - os: linux
+    env:
+      - TEST="Test coverage"
+
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - libboost-all-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
+
+    compiler: gcc
+    
+    script:
+      - pip install --user cpp-coveralls
+      - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
+      - make
+      - cd test
+      - ctest
+
+    after_success:
+      - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
