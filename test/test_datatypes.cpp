@@ -56,4 +56,11 @@ BOOST_AUTO_TEST_CASE(Datatype_BIT)
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(.0f, val);
     BOOST_CHECK_EQUAL(1.0f, last_val);
+
+    C_item item2;
+    item2 = item;
+    val      = item2.get_val(); // B = 0 false
+    last_val = item2.get_last_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(1.0f, last_val);
 }
