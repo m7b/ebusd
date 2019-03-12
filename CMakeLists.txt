@@ -92,6 +92,10 @@ IF(WIN32)
   target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
 ENDIF()
 
+IF(COVERAGE)
+  target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC $<$<CONFIG:Debug>:--coverage>)
+ENDIF()
+
 
 # target compile definitions
 #-D_WIN32_WINNT=0x600
@@ -102,7 +106,7 @@ ENDIF()
 IF(WIN32)
   target_link_libraries(
     ${CMAKE_PROJECT_NAME}
-	  item
+    item
     rs232
     mariadbclient
     -lssl
@@ -113,14 +117,25 @@ IF(WIN32)
     $<$<CONFIG:Release>:-s>
   )
 ELSE()
-  target_link_libraries(
-    ${CMAKE_PROJECT_NAME}
-    item
-    rs232
-    mariadb
-    -pthread
-    $<$<CONFIG:Release>:-s>
-  )
+  IF(COVERAGE)
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      item
+      rs232
+      mariadb
+      -pthread
+      $<$<CONFIG:Release>:-s>
+      --coverage
+    )
+  ELSE()
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      item
+      rs232
+      mariadb
+      -pthread
+      $<$<CONFIG:Release>:-s>
+    )
 ENDIF()
 
 add_subdirectory(test)
