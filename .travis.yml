@@ -139,12 +139,13 @@ matrix:
       - pip install --user cpp-coveralls
       - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
       - make
+      - cd test
+      - ctest
       - cd ..
-#     - cd test
-#     - ctest
+      - cd ..
 
     after_success:
     #  - coveralls --root . -E ".*CMakeFiles.*" --gcov-options '\--long-file-names --preserve-paths'
       - |
         coveralls --build-root build --gcov-options '\-lp' \
-          -e build/CMakeFiles
+#         -e build/CMakeFiles
