@@ -141,11 +141,12 @@ matrix:
       - make
       - cd test
       - ctest
-      - cd ..
-      - cd ..
+#     - cd ..
+#     - cd ..
 
     after_success:
     #  - coveralls --root . -E ".*CMakeFiles.*" --gcov-options '\--long-file-names --preserve-paths'
       - |
-        coveralls --build-root build/test --gcov-options '\-lp' \
+#       coveralls --build-root build --gcov-options '\-lp' \
+        coveralls --gcov-options '\-lp' \
           -E ".*CMakeFiles.*"
