@@ -65,7 +65,10 @@ add_library(
   src/item.cpp
 )
 target_compile_options(item PUBLIC $<$<CONFIG:Debug>:-g>)
-target_compile_options(item PUBLIC $<$<CONFIG:Debug>:--coverage>)
+target_compile_options(item PUBLIC $<$<CONFIG:Debug>:-O0>)
+IF(COVERAGE)
+  target_compile_options(item PUBLIC $<$<CONFIG:Debug>:--coverage>)
+ENDIF()
 
 # add the executable
 add_executable(${CMAKE_PROJECT_NAME}
