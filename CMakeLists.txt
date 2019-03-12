@@ -65,13 +65,12 @@ add_library(
   src/item.cpp
 )
 
-
 # add the executable
 add_executable(${CMAKE_PROJECT_NAME}
   src/ebus.cpp
   src/msg.cpp
   #src/serial.cpp
- )
+)
 
 # set "gcc-ar" because of warning by compilling with flag -flto in windows gcc 8.1 compiler 
 IF(WIN32)
@@ -91,10 +90,6 @@ target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -flto)
 target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -Wall)
 IF(WIN32)
   target_compile_options(${CMAKE_PROJECT_NAME} PUBLIC -static)
-ELSE()
-  IF (COVERAGE)
-    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE --coverage)
-  ENDIF()
 ENDIF()
 
 
@@ -118,26 +113,14 @@ IF(WIN32)
     $<$<CONFIG:Release>:-s>
   )
 ELSE()
-  IF (COVERAGE)
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-	    item
-      rs232
-      mariadb
-      -pthread
-      --coverage
-      $<$<CONFIG:Release>:-s>
-    )
-  ELSE()
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-	    item
-      rs232
-      mariadb
-      -pthread
-      $<$<CONFIG:Release>:-s>
-    )
-  ENDIF()
+  target_link_libraries(
+    ${CMAKE_PROJECT_NAME}
+    item
+    rs232
+    mariadb
+    -pthread
+    $<$<CONFIG:Release>:-s>
+  )
 ENDIF()
 
 add_subdirectory(test)

@@ -22,13 +22,23 @@ FOREACH(testSrc ${TEST_SRCS})
         #Add compile target
         add_executable(${testName} ${testSrc})
 
-        #link to Boost libraries AND your targets and dependencies
-        target_link_libraries(
-			${testName}
-			${Boost_LIBRARIES}
-			item
-			-static
-		)
+        IF (COVERAGE)
+          target_compile_options(${testName} PRIVATE --coverage)
+          target_link_libraries(
+            ${testName}
+            ${Boost_LIBRARIES}
+            item
+            -static
+            --coverage
+          )
+        ELSE()
+          target_link_libraries(
+            ${testName}
+            ${Boost_LIBRARIES}
+            item
+            -static
+          )
+        ENDIF()
 
         #Finally add it to test execution - 
         #Notice the WORKING_DIRECTORY and COMMAND

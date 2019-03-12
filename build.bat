@@ -11,7 +11,8 @@ mkdir build
 cd build
 
 REM cmake -G "CodeBlocks - MinGW Makefiles" ..
-cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF ..
+REM cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF ..
+cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
 
 cmake --build .
 REM cmake --build . -- VERBOSE=1
