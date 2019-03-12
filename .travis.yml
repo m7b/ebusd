@@ -17,7 +17,7 @@ before_script:
 # Build Matrix
 #
 matrix:
-  exclude:
+  include:
 
   #
   # Build Release
@@ -116,7 +116,7 @@ matrix:
       - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug ..
       - make
 
-  include:
+
   #
   # Test coverage
   #
@@ -141,13 +141,12 @@ matrix:
       - make
       - cd test
       - ctest
-      - cd ..
-      - cd ..
 
     after_success:
-    #  - coveralls --root . -E ".*CMakeFiles.*" --gcov-options '\--long-file-names --preserve-paths'
+      - cd ..
+      - cd ..
       - |
-        coveralls --build-root build --gcov-options '\-lp' \
+        coveralls --build-root build --gcov-options '\--long-file-names --preserve-paths' \
           -E ".*CMakeFiles.*" \
           -E ".+/config/" \
           -E ".+/lib/" \
