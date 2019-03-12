@@ -104,18 +104,34 @@ ENDIF()
 
 # target link libraries
 IF(WIN32)
-  target_link_libraries(
-    ${CMAKE_PROJECT_NAME}
-    item
-    rs232
-    mariadbclient
-    -lssl
-    -lcrypto
-    -lws2_32
-    -lz
-    -static
-    $<$<CONFIG:Release>:-s>
-  )
+  IF(COVERAGE)
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      item
+      rs232
+      mariadbclient
+      -lssl
+      -lcrypto
+      -lws2_32
+      -lz
+      -static
+      $<$<CONFIG:Release>:-s>
+      --coverage
+    )
+  ELSE()
+    target_link_libraries(
+      ${CMAKE_PROJECT_NAME}
+      item
+      rs232
+      mariadbclient
+      -lssl
+      -lcrypto
+      -lws2_32
+      -lz
+      -static
+      $<$<CONFIG:Release>:-s>
+    )
+  ENDIF()
 ELSE()
   IF(COVERAGE)
     target_link_libraries(
