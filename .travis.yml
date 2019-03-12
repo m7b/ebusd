@@ -146,7 +146,8 @@ matrix:
 
     after_success:
     #  - coveralls --root . -E ".*CMakeFiles.*" --gcov-options '\--long-file-names --preserve-paths'
-      - |
+#     - |
 #       coveralls --build-root build --gcov-options '\-lp' \
+      - |
         coveralls --gcov-options '\-lp' \
           -E ".*CMakeFiles.*"
