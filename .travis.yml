@@ -143,4 +143,4 @@ matrix:
       - ctest
 
     after_success:
-      - coveralls --root . -E ".*CMakeFiles.*" '\-lp'
+      - coveralls --root . -E ".*CMakeFiles.*"
