@@ -149,5 +149,5 @@ matrix:
       - |
         coveralls --build-root build --gcov-options '\-lp' \
           -E ".*CMakeFiles.*"
-          -E "*.lib.*"
-          -E "*.test*."
+          -E ".*lib.*"
+          -E ".*test.*"
