@@ -142,12 +142,14 @@ bool C_item::is_filtered(const unsigned char *start)
     unsigned char uc_ZZ = start[1];   //Destination
     unsigned char uc_PB = start[2];   //Primary Order
     unsigned char uc_SB = start[3];   //Secondary Order
-    
+
     bool b_condition_1 = false;
     bool b_condition_2 = false;
     bool b_condition_3 = false;
     bool b_condition_4 = false;
-    
+
+    bool rc = true;
+
     if ((par.uc_QQ == 0x00) || (uc_QQ == par.uc_QQ))
         b_condition_1 = true;
 
@@ -161,9 +163,9 @@ bool C_item::is_filtered(const unsigned char *start)
         b_condition_4 = true;
 
     if (b_condition_1 && b_condition_2 && b_condition_3 && b_condition_4)
-        return false;
+        rc = false;
 
-    return true;
+    return rc;
 }
 
 
