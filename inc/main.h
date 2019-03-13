@@ -13,11 +13,12 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#ifndef _ebus_h_
-#define _ebus_h_
+#ifndef _main_h_
+#define _main_h_
 
-#include "item.h"
 #include "msg.h"
+#include "item.h"
+
 #include <string>
 #include <vector>
 
@@ -53,5 +54,5 @@ void save_example(deamon_settings *);
 
 
 
-#endif
+#endif //_main_h_
 

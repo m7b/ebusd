@@ -61,20 +61,19 @@ add_library(
 )
 
 add_library(
-  item
+  ebus
   src/item.cpp
+  src/msg.cpp
 )
-target_compile_options(item PUBLIC $<$<CONFIG:Debug>:-g>)
-target_compile_options(item PUBLIC $<$<CONFIG:Debug>:-O0>)
+target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:-g>)
+target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:-O0>)
 IF(COVERAGE)
-  target_compile_options(item PUBLIC $<$<CONFIG:Debug>:--coverage>)
+  target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:--coverage>)
 ENDIF()
 
 # add the executable
 add_executable(${CMAKE_PROJECT_NAME}
-  src/ebus.cpp
-  src/msg.cpp
-  #src/serial.cpp
+  src/main.cpp
 )
 
 # set "gcc-ar" because of warning by compilling with flag -flto in windows gcc 8.1 compiler 
@@ -112,7 +111,7 @@ IF(WIN32)
   IF(COVERAGE)
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
-      item
+      ebus
       rs232
       mariadbclient
       -lssl
@@ -126,7 +125,7 @@ IF(WIN32)
   ELSE()
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
-      item
+      ebus
       rs232
       mariadbclient
       -lssl
@@ -141,7 +140,7 @@ ELSE()
   IF(COVERAGE)
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
-      item
+      ebus
       rs232
       mariadb
       -pthread
@@ -151,7 +150,7 @@ ELSE()
   ELSE()
     target_link_libraries(
       ${CMAKE_PROJECT_NAME}
-      item
+      ebus
       rs232
       mariadb
       -pthread

@@ -27,7 +27,7 @@ FOREACH(testSrc ${TEST_SRCS})
           target_link_libraries(
             ${testName}
             ${Boost_LIBRARIES}
-            item
+            ebus
             -static
             --coverage
           )
@@ -35,7 +35,7 @@ FOREACH(testSrc ${TEST_SRCS})
           target_link_libraries(
             ${testName}
             ${Boost_LIBRARIES}
-            item
+            ebus
             -static
           )
         ENDIF()
