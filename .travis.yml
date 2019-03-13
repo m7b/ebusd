@@ -168,6 +168,7 @@ matrix:
           - libboost-all-dev
           - libmariadb-client-lgpl-dev
           - libmysqlclient-dev
+          - valgrind
 
     compiler: gcc
     
