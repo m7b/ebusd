@@ -1,3 +1,6 @@
+// Definition datatypes:
+// https://ebus-wiki.org/lib/exe/fetch.php/ebus/spec_prot_7_v1_6_3_d.pdf
+
 #define BOOST_TEST_MODULE datatypes
 #include <boost/test/included/unit_test.hpp>
 
