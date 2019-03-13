@@ -149,21 +149,21 @@ bool C_item::is_filtered(const unsigned char *start)
     bool b_condition_4 = false;
     
     if ((par.uc_QQ == 0x00) || (uc_QQ == par.uc_QQ))
-		b_condition_1 = true;
-		
-	if ((par.uc_ZZ == 0x00) || (uc_ZZ == par.uc_ZZ))
-		b_condition_2 = true;
-		
-	if ((par.uc_PB == 0x00) || (uc_PB == par.uc_PB))
-		b_condition_3 = true;
+        b_condition_1 = true;
 
-	if ((par.uc_SB == 0x00) || (uc_SB == par.uc_SB))
-		b_condition_4 = true;
-		
-	if (b_condition_1 && b_condition_2 && b_condition_3 && b_condition_4)
-		return false;
-	else
-		return true;
+    if ((par.uc_ZZ == 0x00) || (uc_ZZ == par.uc_ZZ))
+        b_condition_2 = true;
+
+    if ((par.uc_PB == 0x00) || (uc_PB == par.uc_PB))
+        b_condition_3 = true;
+
+    if ((par.uc_SB == 0x00) || (uc_SB == par.uc_SB))
+        b_condition_4 = true;
+
+    if (b_condition_1 && b_condition_2 && b_condition_3 && b_condition_4)
+        return false;
+
+    return true;
 }
 
 
