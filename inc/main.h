@@ -18,8 +18,15 @@
 #include "msg.h"
 #include "item.h"
 
-#include <string>
-#include <vector>
+#include <rs232.h>
+
+#include <signal.h>
+#include <sys/types.h>
+
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <boost/foreach.hpp>
 
 struct deamon_settings
 {
@@ -40,7 +47,6 @@ struct deamon_settings
 	void save(const std::string &filename);
 };
 
-
 void close_logger(void);
 void signal_handler(int);
 int rs232_open(deamon_settings *);
@@ -51,7 +57,4 @@ void register_items(C_ebus_message *, deamon_settings *, MYSQL *);
 void check_bus_state(C_ebus_message *, unsigned char *, int);
 void save_example(deamon_settings *);
 
-
-
 #endif //_main_h_
-

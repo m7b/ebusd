@@ -14,13 +14,12 @@
 //===----------------------------------------------------------------------===//
 #include "item.h"
 
-#include <stdio.h>
-
 
 C_item::C_item()
 : f_act_val(0.0), f_last_val(0.0)
 {
 }
+
 
 C_item::~C_item()
 {
@@ -38,11 +37,11 @@ C_item::C_item(const C_item &m)
 }
 
 
-
 float C_item::get_val(void)
 {
     return f_act_val;
 }
+
 
 float C_item::get_last_val(void)
 {
@@ -55,12 +54,14 @@ void C_item::set_par(const param p)
     par = p;
 }
 
+
 void C_item::set_val(float f_new_val)
 {
     f_last_val = f_act_val;
     f_act_val = f_new_val;
     b_new = true;
 }
+
 
 void C_item::set_val(const unsigned char *start)
 {
@@ -123,6 +124,7 @@ void C_item::set_val(const unsigned char *start)
 	}
 }
 
+
 bool C_item::check_limit(float f_new_val)
 {
     bool b_ret_val = false;
@@ -132,6 +134,7 @@ bool C_item::check_limit(float f_new_val)
     
     return b_ret_val;
 }
+
 
 bool C_item::is_filtered(const unsigned char *start)
 {
@@ -184,15 +187,18 @@ char C_item::byte_to_bcd(const unsigned char *uc_byte)
 	return (uc_high_nibble * 10) + uc_low_nibble;
 }
 
+
 char C_item::byte_to_DATA1b(const unsigned char *uc_byte)
 {
 	return *uc_byte;
 }
 
+
 float C_item::byte_to_DATA1c(const unsigned char *uc_byte)
 {
 	return (float) *uc_byte / 2;
 }
+
 
 float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
@@ -213,6 +219,7 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
 	}
 	return c_high_byte + (float) c_low_byte / 256;
 }
+
 
 float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
@@ -256,6 +263,7 @@ string C_item::get_name(void)
 {
 		return par.name;
 }
+
 
 string C_item::get_db_table(void)
 {

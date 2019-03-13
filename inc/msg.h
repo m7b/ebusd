@@ -17,6 +17,10 @@
 
 #include "item.h"
 
+#include <cstring>
+#include <stdlib.h>
+#include <cstdarg>
+
 #include <vector>
 #include <sys/time.h>
 #include <mysql/mysql.h>
@@ -26,14 +30,14 @@ using namespace std;
 class C_ebus_message{
 
 private:
-	std::size_t len;            //Length of message
-	unsigned char *start;       //Pointer to message
-	timeval timestamp;          //Timestamp of message at receiving time
+	size_t len;            //Length of message
+	unsigned char *start;  //Pointer to message
+	timeval timestamp;     //Timestamp of message at receiving time
 
-	char *strbuf;               //Pointer to string. Return value of function
-                                //get_timestamp_cstr()
+	char *strbuf;          //Pointer to string. Return value of function
+                           //get_timestamp_cstr()
 
-    std::vector <C_item> item_vec;
+    vector <C_item> item_vec;
 
 	void check_items(void);
 
@@ -42,7 +46,7 @@ public:
 	C_ebus_message(const unsigned char *);	//allg. Konstruktor
 	C_ebus_message(const C_ebus_message &);	//Kopierkonstruktor
 
-	//�berladene Operator-Funktion
+	//Überladene Operator-Funktion
     C_ebus_message& operator= (const C_ebus_message& src);
 
 	~C_ebus_message();						//Destruktor
@@ -71,4 +75,4 @@ public:
 	void register_item(C_item::param);
 };
 
-#endif
+#endif //_msg_h_

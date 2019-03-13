@@ -13,21 +13,10 @@
 ///
 //===----------------------------------------------------------------------===//
 #include "main.h"
-#include "msg.h"
-
-#include <rs232.h>
-/////
-#include <signal.h>
-#include <sys/types.h>
-
-
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/foreach.hpp>
 
 
 //Database
-MYSQL        *mysql1;
+MYSQL *mysql1;
 
 
 int main(int argc, char* argv[])
@@ -116,7 +105,6 @@ void signal_handler(int signum)
 }
 
 
-
 int rs232_open(deamon_settings *ds)
 {
     int fd;
@@ -132,14 +120,12 @@ int rs232_open(deamon_settings *ds)
 }
 
 
-
 void rs232_close(void)
 {	
 	int comport_number = 22;
     RS232_CloseComport(comport_number);
     printf("Serial port closed.\n");
 }
-
 
 
 void mysql_connect(deamon_settings *ds)
@@ -177,7 +163,6 @@ void mysql_connect(deamon_settings *ds)
 	}
 
 }
-
 
 
 void mysql_disconnect(void)
@@ -229,7 +214,6 @@ void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
 }
 
 
-
 void check_bus_state(C_ebus_message *msg, unsigned char *buf, int length)
 {
 	int i;
@@ -259,7 +243,6 @@ void check_bus_state(C_ebus_message *msg, unsigned char *buf, int length)
 		}
 	}
 }
-
 
 
 int deamon_settings::load(const std::string &filename)
@@ -308,6 +291,7 @@ int deamon_settings::load(const std::string &filename)
 
     return 0;
 }
+
 
 void deamon_settings::save(const std::string &filename)
 {	

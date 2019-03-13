@@ -15,6 +15,7 @@
 #ifndef _item_h_
 #define _item_h_
 
+#include <stdio.h>
 #include <string>
 
 using namespace std;
@@ -103,4 +104,4 @@ public:
 
 };
 
-#endif
+#endif //_item_h_

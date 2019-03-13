@@ -13,18 +13,14 @@
 ///
 //===----------------------------------------------------------------------===//
 #include "msg.h"
-#include "item.h"
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <cstdarg>
 
 // Hilfsfunktion: String kopieren (um #include<cstring> zu vermeiden)
 static void copy(unsigned char *ziel, const unsigned char *quelle)
 {
 	while((*ziel++ = *quelle++));
 }
+
 
 // Hilfsfunktion: Länge eines C-Strings ermitteln
 static size_t laenge(const unsigned char *s)
@@ -52,11 +48,13 @@ C_ebus_message::C_ebus_message()
 	*start = 0x00;
 }
 
+
 C_ebus_message::C_ebus_message(const unsigned char *s)
 : len(laenge(s)), start(new unsigned char[len+1])
 {
 	copy(start, s);
 }
+
 
 C_ebus_message::C_ebus_message(const C_ebus_message &m)
 : len(m.len), start(new unsigned char[len+1])
@@ -65,10 +63,8 @@ C_ebus_message::C_ebus_message(const C_ebus_message &m)
 }
 
 
-
-
- // Überladener Zuweisungsoperator
- C_ebus_message& C_ebus_message::operator= (const C_ebus_message& src)
+// Überladener Zuweisungsoperator
+C_ebus_message& C_ebus_message::operator= (const C_ebus_message& src)
 {
     // Zuweisung auf sich selbst abprüfen!
     if (this == &src)
@@ -80,7 +76,6 @@ C_ebus_message::C_ebus_message(const C_ebus_message &m)
 	len = src.len;
     return *this;
 }
-
 
 
 C_ebus_message::~C_ebus_message()
@@ -143,7 +138,6 @@ void C_ebus_message::assign(const int amount, ...)
 }
 
 
-
 void C_ebus_message::add(const unsigned char uch_val)
 {
     //Save timestamp at beginnig of message
@@ -155,6 +149,7 @@ void C_ebus_message::add(const unsigned char uch_val)
 	//printf("end ::add\n");
 	start[len-1] = uch_val;
 }
+
 
 void C_ebus_message::undo_subst(void)
 {
@@ -175,10 +170,12 @@ void C_ebus_message::undo_subst(void)
 	}
 }
 
+
 void C_ebus_message::analyse(void)
 {
     check_items();
 }
+
 
 void C_ebus_message::write_db(MYSQL *db)
 {
@@ -214,10 +211,12 @@ void C_ebus_message::write_db(MYSQL *db)
 	}
 }
 
+
 size_t C_ebus_message::get_len(void)
 {
 	return len;
 }
+
 
 void C_ebus_message::clear(void)
 {
@@ -244,29 +243,29 @@ void C_ebus_message::print(void)
 }
 
 
-
-
-
-
 unsigned char C_ebus_message::get_N(void)
 {
 	return start[4];
 }
+
 
 unsigned char C_ebus_message::get_CRC(void)
 {
 	return 0;
 }
 
+
 unsigned char C_ebus_message::calc_CRC(void)
 {
 	return 0;
 }
 
+
 bool C_ebus_message::get_CRC_Ok(void)
 {
 	return 0;
 }
+
 
 char *C_ebus_message::get_timestamp_cstr(void)
 {
@@ -292,7 +291,6 @@ char *C_ebus_message::get_timestamp_cstr(void)
 
 void C_ebus_message::register_item(C_item::param par)
 {
-	
 	//printf("register item %s\n", par.name.c_str());
 	C_item item;
 	
