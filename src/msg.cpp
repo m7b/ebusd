@@ -12,9 +12,9 @@
 /// deamon process and read out the data telegrams of an ebus system.
 ///
 //===----------------------------------------------------------------------===//
-
-#include "item.h"
 #include "msg.h"
+#include "item.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

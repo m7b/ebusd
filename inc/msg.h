@@ -12,11 +12,11 @@
 /// deamon process and read out the data telegrams of an ebus system.
 ///
 //===----------------------------------------------------------------------===//
-
 #ifndef _msg_h_
 #define _msg_h_
 
 #include "item.h"
+
 #include <vector>
 #include <sys/time.h>
 #include <mysql/mysql.h>
@@ -42,7 +42,7 @@ public:
 	C_ebus_message(const unsigned char *);	//allg. Konstruktor
 	C_ebus_message(const C_ebus_message &);	//Kopierkonstruktor
 
-	//Überladene Operator-Funktion
+	//ï¿½berladene Operator-Funktion
     C_ebus_message& operator= (const C_ebus_message& src);
 
 	~C_ebus_message();						//Destruktor

@@ -12,7 +12,6 @@
 /// deamon process and read out the data telegrams of an ebus system.
 ///
 //===----------------------------------------------------------------------===//
-
 #ifndef _item_h_
 #define _item_h_
 

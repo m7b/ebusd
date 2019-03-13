@@ -13,9 +13,9 @@
 ///
 //===----------------------------------------------------------------------===//
 #include "main.h"
+#include "msg.h"
 
 #include <rs232.h>
-#include "msg.h"
 /////
 #include <signal.h>
 #include <sys/types.h>
