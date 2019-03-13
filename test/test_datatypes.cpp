@@ -190,13 +190,15 @@ BOOST_AUTO_TEST_CASE(Datatype_SIGNED_CHAR)
 
 BOOST_AUTO_TEST_CASE(Datatype_BCD)
 {
-	unsigned char cval0[10] = "\x03\xfe\x05\x03iii\x00i"; // 7. Element = 0d
-	unsigned char cval1[10] = "\x03\xfe\x05\x03hhh\x01i"; // 7. Element = 1d
-	unsigned char cval2[10] = "\x03\xfe\x05\x03iii\x09i"; // 7. Element = 9d
-	unsigned char cval3[10] = "\x03\xfe\x05\x03iii\x10i"; // 7. Element = 10d
-	unsigned char cval4[10] = "\x03\xfe\x05\x03iii\x20i"; // 7. Element = 20d
-	unsigned char cval5[10] = "\x03\xfe\x05\x03iii\x90i"; // 7. Element = 90d
-	unsigned char cval6[10] = "\x03\xfe\x05\x03iii\x99i"; // 7. Element = 99d
+	unsigned char cval0[10] = "\x03\xfe\x05\x03iii\x00i"; // 7. Element = 0x00
+	unsigned char cval1[10] = "\x03\xfe\x05\x03hhh\x01i"; // 7. Element = 0x01
+	unsigned char cval2[10] = "\x03\xfe\x05\x03iii\x09i"; // 7. Element = 0x09
+	unsigned char cval3[10] = "\x03\xfe\x05\x03iii\x10i"; // 7. Element = 0x10
+	unsigned char cval4[10] = "\x03\xfe\x05\x03iii\x20i"; // 7. Element = 0x20
+	unsigned char cval5[10] = "\x03\xfe\x05\x03iii\x90i"; // 7. Element = 0x90
+	unsigned char cval6[10] = "\x03\xfe\x05\x03iii\x99i"; // 7. Element = 0x99
+	unsigned char cval7[10] = "\x03\xfe\x05\x03iii\x0ai"; // 7. Element = 0x0a
+	unsigned char cval8[10] = "\x03\xfe\x05\x03iii\xa0i"; // 7. Element = 0xa0
 	
 	float val      = .0f;
     float last_val = .0f;
@@ -222,44 +224,56 @@ BOOST_AUTO_TEST_CASE(Datatype_BCD)
 
 	
 	item.set_val(cval0);
-    val      = item.get_val(); // 0d
+    val      = item.get_val(); // 0x00
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(.0f, val);
     BOOST_CHECK_EQUAL(.0f, last_val);
 	
 	item.set_val(cval1);
-    val      = item.get_val(); // 1d
+    val      = item.get_val(); // 0x01
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(1.0f, val);
     BOOST_CHECK_EQUAL(.0f, last_val);
 	
 	item.set_val(cval2);
-    val      = item.get_val(); //  9d
+    val      = item.get_val(); //  0x09
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(9.0f, val);
     BOOST_CHECK_EQUAL(1.0f, last_val);
 	
 	item.set_val(cval3);
-    val      = item.get_val(); //  10d
+    val      = item.get_val(); //  0x10
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(10.0f, val);
     BOOST_CHECK_EQUAL(9.0f, last_val);
 	
 	item.set_val(cval4);
-    val      = item.get_val(); //  20d
+    val      = item.get_val(); //  0x20
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(20.0f, val);
     BOOST_CHECK_EQUAL(10.0f, last_val);
 	
 	item.set_val(cval5);
-    val      = item.get_val(); //  90d
+    val      = item.get_val(); //  0x90
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(90.0f, val);
     BOOST_CHECK_EQUAL(20.0f, last_val);
 	
 	item.set_val(cval6);
-    val      = item.get_val(); //  99d
+    val      = item.get_val(); //  0x99
     last_val = item.get_last_val();
     BOOST_CHECK_EQUAL(99.0f, val);
     BOOST_CHECK_EQUAL(90.0f, last_val);
+	
+  	item.set_val(cval7);
+    val      = item.get_val(); //  0x0a
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(99.0f, last_val);
+	
+	item.set_val(cval8);
+    val      = item.get_val(); //  0xa0
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(.0f, last_val);
 }

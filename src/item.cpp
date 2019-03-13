@@ -129,7 +129,7 @@ bool C_item::check_limit(float f_new_val)
 {
     bool b_ret_val = false;
     
-    if ((f_new_val > (f_act_val + par.f_pos_tol)) || (f_new_val < (f_act_val - par.f_neg_tol)))
+    if ((f_new_val >= (f_act_val + par.f_pos_tol)) || (f_new_val < (f_act_val - par.f_neg_tol)))
         b_ret_val = true;
     
     return b_ret_val;
@@ -184,6 +184,10 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
     unsigned char uc_low_nibble  = *uc_byte & 0x0f;
 
     uc_high_nibble = uc_high_nibble >> 4;
+    
+    if (uc_high_nibble > 9 || uc_low_nibble > 9)
+        return 0;
+
     return (uc_high_nibble * 10) + uc_low_nibble;
 }
 
