@@ -177,4 +177,4 @@ matrix:
       - cmake -DCI_BUILD:BOOL=ON -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
       - make
       - cd test
-      - ctest - T MemCheck
+      - ctest -T MemCheck
