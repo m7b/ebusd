@@ -28,11 +28,11 @@ C_item::~C_item()
 
 C_item::C_item(const C_item &m)
 {
-	//printf("kopierer\n");
-	par = m.par;
-	
-	f_act_val  = m.f_act_val;            //Actual value
-	f_last_val = m.f_last_val;           //Last value
+    //printf("kopierer\n");
+    par = m.par;
+
+    f_act_val  = m.f_act_val;            //Actual value
+    f_last_val = m.f_last_val;           //Last value
     b_new      = m.b_new;
 }
 
@@ -68,70 +68,70 @@ void C_item::set_val(const unsigned char *start)
     unsigned int pos = par.ui_pos;
     unsigned int bit_pos = par.ui_bit_pos;
     en_byte_order en_bo = par.en_bo;
-    
+
     float f_new_val;
-    
+
     if (!is_filtered(start))
-	{	
-		
-		switch (par.en_dt)
-		{
+    {
+
+        switch (par.en_dt)
+        {
             case BIT:
                 f_new_val = (float) byte_to_bool(&start[pos], bit_pos);
                 break;
-                
-			case UNSIGNED_CHAR:
-				f_new_val = (float) ((unsigned char) start[pos]);
-				break;
 
-			case SIGNED_CHAR:
-				f_new_val = (float) ((signed char) start[pos]);
-				break;
-				
-			case BCD:
-				f_new_val = (float) byte_to_bcd(&start[pos]);
-				break;
+            case UNSIGNED_CHAR:
+                f_new_val = (float) ((unsigned char) start[pos]);
+                break;
 
-			case DATA1B:
-				f_new_val = (float) byte_to_DATA1b(&start[pos]);
-				break;
+            case SIGNED_CHAR:
+                f_new_val = (float) ((signed char) start[pos]);
+                break;
 
-			case DATA1C:
-				f_new_val = byte_to_DATA1c(&start[pos]);
-				break;
+            case BCD:
+                f_new_val = (float) byte_to_bcd(&start[pos]);
+                break;
 
-			case DATA2B:
-				f_new_val = byte_to_DATA2b(&start[pos], en_bo);
-				break;
+            case DATA1B:
+                f_new_val = (float) byte_to_DATA1b(&start[pos]);
+                break;
 
-			case DATA2C:
-				f_new_val = byte_to_DATA2c(&start[pos], en_bo);
-				break;
+            case DATA1C:
+                f_new_val = byte_to_DATA1c(&start[pos]);
+                break;
 
-			default:
-				break;
+            case DATA2B:
+                f_new_val = byte_to_DATA2b(&start[pos], en_bo);
+                break;
 
-		}
-		
-		if (check_limit(f_new_val))
-		{
-			f_last_val = f_act_val;
-			f_act_val = f_new_val;
-			b_new = true;
-			
-			printf("%s new %.1f, old %.1f [%s]\n", par.name.c_str(), f_act_val, f_last_val, par.unit.c_str());
-		}
-	}
+            case DATA2C:
+                f_new_val = byte_to_DATA2c(&start[pos], en_bo);
+                break;
+
+            default:
+                break;
+
+        }
+
+        if (check_limit(f_new_val))
+        {
+            f_last_val = f_act_val;
+            f_act_val = f_new_val;
+            b_new = true;
+
+            printf("%s new %.1f, old %.1f [%s]\n", par.name.c_str(), f_act_val, f_last_val, par.unit.c_str());
+        }
+    }
 }
 
 
 bool C_item::check_limit(float f_new_val)
 {
     bool b_ret_val = false;
-    
+
     if ((f_new_val > (f_act_val + par.f_pos_tol)) || (f_new_val < (f_act_val - par.f_neg_tol)))
         b_ret_val = true;
-    
+
     return b_ret_val;
 }
 
@@ -172,13 +172,13 @@ bool C_item::is_filtered(const unsigned char *start)
 bool  C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos)
 {
     unsigned char uc_temp = *uc_byte;
-    
+
     uc_temp >>= ui_bit_pos;
     uc_temp &= (unsigned char) 0b00000001;
 
     return (bool) uc_temp;
 }
-    
+
 
 unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
 {
@@ -186,7 +186,7 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
     unsigned char uc_low_nibble  = *uc_byte & 0x0f;
 
     uc_high_nibble = uc_high_nibble >> 4;
-    
+
     if (uc_high_nibble > 9 || uc_low_nibble > 9)
         return 0;
 
@@ -196,82 +196,82 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
 
 char C_item::byte_to_DATA1b(const unsigned char *uc_byte)
 {
-	return *uc_byte;
+    return *uc_byte;
 }
 
 
 float C_item::byte_to_DATA1c(const unsigned char *uc_byte)
 {
-	return (float) *uc_byte / 2;
+    return (float) *uc_byte / 2;
 }
 
 
 float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
-	char c_low_byte, c_high_byte;
+    char c_low_byte, c_high_byte;
 
-	switch (en_byteorder)
-	{
-		case NOT_RELEVANT:
-			break;
-		case LE:
-			c_low_byte  = uc_byte[0];
-			c_high_byte = uc_byte[1];
-			break;
-		case BE:
-			c_low_byte  = uc_byte[1];
-			c_high_byte = uc_byte[0];
-			break;
-	}
-	return c_high_byte + (float) c_low_byte / 256;
+    switch (en_byteorder)
+    {
+        case NOT_RELEVANT:
+            break;
+        case LE:
+            c_low_byte  = uc_byte[0];
+            c_high_byte = uc_byte[1];
+            break;
+        case BE:
+            c_low_byte  = uc_byte[1];
+            c_high_byte = uc_byte[0];
+            break;
+    }
+    return c_high_byte + (float) c_low_byte / 256;
 }
 
 
 float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
-	unsigned char uc_low_nibble, uc_high_nibble;
-	char c_high_byte;
+    unsigned char uc_low_nibble, uc_high_nibble;
+    char c_high_byte;
 
-	switch (en_byteorder)
-	{
-		case NOT_RELEVANT:
-			break;
-		case LE:
-			uc_low_nibble  = uc_byte[0] & 0x0f;
-			uc_high_nibble = uc_byte[0] & 0xf0;
-			c_high_byte    = uc_byte[1];
-			break;
-		case BE:
-			uc_low_nibble  = uc_byte[1] & 0x0f;
-			uc_high_nibble = uc_byte[1] & 0xf0;
-			c_high_byte    = uc_byte[0];
-			break;
-	}
+    switch (en_byteorder)
+    {
+        case NOT_RELEVANT:
+            break;
+        case LE:
+            uc_low_nibble  = uc_byte[0] & 0x0f;
+            uc_high_nibble = uc_byte[0] & 0xf0;
+            c_high_byte    = uc_byte[1];
+            break;
+        case BE:
+            uc_low_nibble  = uc_byte[1] & 0x0f;
+            uc_high_nibble = uc_byte[1] & 0xf0;
+            c_high_byte    = uc_byte[0];
+            break;
+    }
 
-	uc_high_nibble = uc_high_nibble >> 4;
-	return c_high_byte * 16 + uc_high_nibble + (float) uc_low_nibble / 16;
+    uc_high_nibble = uc_high_nibble >> 4;
+    return c_high_byte * 16 + uc_high_nibble + (float) uc_low_nibble / 16;
 }
 
 
 bool C_item::check_new_val(void)
 {
-	return b_new;
+    return b_new;
 }
 
-    
+
 void C_item::reset_new_val(void)
 {
-	b_new = false;
+    b_new = false;
 }
 
 
 string C_item::get_name(void)
 {
-		return par.name;
+    return par.name;
 }
 
 
 string C_item::get_db_table(void)
 {
-	return par.s_db_table;
+    return par.s_db_table;
 }
