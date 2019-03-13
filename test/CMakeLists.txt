@@ -4,6 +4,9 @@
 #Setup CMake to run tests
 ENABLE_TESTING()
 
+#This is for valgrind
+INCLUDE(CTest)
+
 IF(WIN32)
   set(BOOST_INCLUDEDIR C:/CPP/tools/msys64/mingw64/include)
 ENDIF()
