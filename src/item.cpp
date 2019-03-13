@@ -178,13 +178,13 @@ bool  C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos
 }
     
 
-char C_item::byte_to_bcd(const unsigned char *uc_byte)
+unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
 {
-	unsigned char uc_high_nibble = *uc_byte & 0xf0;
-	unsigned char uc_low_nibble  = *uc_byte & 0x0f;
+    unsigned char uc_high_nibble = *uc_byte & 0xf0;
+    unsigned char uc_low_nibble  = *uc_byte & 0x0f;
 
-	uc_high_nibble = uc_high_nibble >> 4;
-	return (uc_high_nibble * 10) + uc_low_nibble;
+    uc_high_nibble = uc_high_nibble >> 4;
+    return (uc_high_nibble * 10) + uc_low_nibble;
 }
 
 

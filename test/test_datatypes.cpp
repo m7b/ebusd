@@ -186,3 +186,80 @@ BOOST_AUTO_TEST_CASE(Datatype_SIGNED_CHAR)
     BOOST_CHECK_EQUAL(-1.0f, val);
     BOOST_CHECK_EQUAL(-128.0f, last_val);
 }
+
+
+BOOST_AUTO_TEST_CASE(Datatype_BCD)
+{
+	unsigned char cval0[10] = "\x03\xfe\x05\x03iii\x00i"; // 7. Element = 0d
+	unsigned char cval1[10] = "\x03\xfe\x05\x03hhh\x01i"; // 7. Element = 1d
+	unsigned char cval2[10] = "\x03\xfe\x05\x03iii\x09i"; // 7. Element = 9d
+	unsigned char cval3[10] = "\x03\xfe\x05\x03iii\x10i"; // 7. Element = 10d
+	unsigned char cval4[10] = "\x03\xfe\x05\x03iii\x20i"; // 7. Element = 20d
+	unsigned char cval5[10] = "\x03\xfe\x05\x03iii\x90i"; // 7. Element = 90d
+	unsigned char cval6[10] = "\x03\xfe\x05\x03iii\x99i"; // 7. Element = 99d
+	
+	float val      = .0f;
+    float last_val = .0f;
+	
+	C_item item;
+	C_item::param par;
+
+    par.name        = "Zustand LDW";
+    par.unit        = "an/aus";
+    par.uc_QQ       = 0x03;          //Source filter
+    par.uc_ZZ       = 0xfe;          //Destination filter
+    par.uc_PB       = 0x05;          //Primary Order filter
+    par.uc_SB       = 0x03;          //Secondary Order filter
+    par.ui_pos      = 7;             //Position (M8)
+    par.ui_bit_pos  = 0;             //Bit Position
+    par.en_dt       = C_item::BCD;    //Data type
+    par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
+    par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
+    par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
+    par.s_db_table  = "0503_zustand_ldw"; //table of db
+	
+	item.set_par(par);
+
+	
+	item.set_val(cval0);
+    val      = item.get_val(); // 0d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(.0f, last_val);
+	
+	item.set_val(cval1);
+    val      = item.get_val(); // 1d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(1.0f, val);
+    BOOST_CHECK_EQUAL(.0f, last_val);
+	
+	item.set_val(cval2);
+    val      = item.get_val(); //  9d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(9.0f, val);
+    BOOST_CHECK_EQUAL(1.0f, last_val);
+	
+	item.set_val(cval3);
+    val      = item.get_val(); //  10d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(10.0f, val);
+    BOOST_CHECK_EQUAL(9.0f, last_val);
+	
+	item.set_val(cval4);
+    val      = item.get_val(); //  20d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(20.0f, val);
+    BOOST_CHECK_EQUAL(10.0f, last_val);
+	
+	item.set_val(cval5);
+    val      = item.get_val(); //  90d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(90.0f, val);
+    BOOST_CHECK_EQUAL(20.0f, last_val);
+	
+	item.set_val(cval6);
+    val      = item.get_val(); //  99d
+    last_val = item.get_last_val();
+    BOOST_CHECK_EQUAL(99.0f, val);
+    BOOST_CHECK_EQUAL(90.0f, last_val);
+}
