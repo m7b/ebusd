@@ -17,6 +17,7 @@
 
 //Database
 MYSQL *mysql1;
+bool reconnect = true;
 
 
 int main(int argc, char* argv[])
@@ -64,18 +65,37 @@ int main(int argc, char* argv[])
 
 	while(true)
 	{
+        //Ping MySQL server
+        res = mysql_ping(mysql1);
+        if (res != 0)
+        {
+            printf("MySQL-Ping error: %s\n", mysql_error(mysql1));
+
+            /* sleep for 2000 milliSeconds */
+            #ifdef _WIN32
+                Sleep(2000);
+            #else
+                usleep(2000000);
+            #endif
+
+            goto while_end;
+        }
+
+        //Read COM port
 		res = RS232_PollComport(comport_number, buf, 255);
 		if (res > 0)
 		{
 			check_bus_state(&msg, buf, res);
 		}
-		
+
 		/* sleep for 100 milliSeconds */
         #ifdef _WIN32
             Sleep(100);
         #else
             usleep(100000);
         #endif
+
+        while_end:
 	}
 
     return 0;
@@ -147,6 +167,9 @@ void mysql_connect(deamon_settings *ds)
 		printf("    db user: %s\n", db_user_name.c_str());
 		return;
 	}
+
+    //Set option to reconnect
+    mysql_options(mysql1, MYSQL_OPT_RECONNECT, &reconnect);
 
 	//Connect to the database
 	if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
