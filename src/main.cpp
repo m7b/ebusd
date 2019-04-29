@@ -161,7 +161,16 @@ void mysql_connect(deamon_settings *ds)
 	}
 
     //Set option to reconnect
-    mysql_options(mysql1, MYSQL_OPT_RECONNECT, &reconnect);
+    if (mysql_options(mysql1, MYSQL_OPT_RECONNECT, &reconnect))
+    {
+        printf("MySQL Options failed: %s\n", mysql_error(mysql1));
+		return;
+    }
+    else
+    {
+        printf("MySQL Options OK\n");
+    }
+    
 
 	//Connect to the database
 	if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
