@@ -56,5 +56,6 @@ void mysql_disconnect(void);
 void register_items(C_ebus_message *, deamon_settings *, MYSQL *);
 void check_bus_state(C_ebus_message *, unsigned char *, int);
 void save_example(deamon_settings *);
+void my_sleep_ms(unsigned int);
 
 #endif //_main_h_

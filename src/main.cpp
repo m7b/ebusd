@@ -72,11 +72,7 @@ int main(int argc, char* argv[])
             printf("MySQL-Ping error: %s\n", mysql_error(mysql1));
 
             /* sleep for 2000 milliSeconds */
-            #ifdef _WIN32
-                Sleep(2000);
-            #else
-                usleep(2000000);
-            #endif
+            my_sleep_ms(2000);
 
             goto while_end;
         }
@@ -89,11 +85,7 @@ int main(int argc, char* argv[])
 		}
 
 		/* sleep for 100 milliSeconds */
-        #ifdef _WIN32
-            Sleep(100);
-        #else
-            usleep(100000);
-        #endif
+        my_sleep_ms(100);
 
         while_end: ;
 	}
@@ -748,4 +740,14 @@ void save_example(deamon_settings *ds)
     ds->other_item.push_back(par);
     
     ds->save("settings_example.xml");
+}
+
+void my_sleep_ms(unsigned int sleep_time_ms)
+{
+    /* sleep for 100 milliSeconds */
+    #ifdef _WIN32
+        Sleep(sleep_time_ms);
+    #else
+        usleep(sleep_time_ms * 1000);
+    #endif
 }
