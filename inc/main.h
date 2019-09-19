@@ -28,6 +28,8 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
 
+#define FLOW_CTRL 0
+
 struct deamon_settings
 {
     //serial port settings

@@ -126,7 +126,7 @@ int rs232_open(deamon_settings *ds)
     int baudrate = 2400;
     char mode[]={'8','N','1',0};
 
-    fd = RS232_OpenComport(comport_number, baudrate, mode);
+    fd = RS232_OpenComport(comport_number, baudrate, mode, FLOW_CTRL);
 
     return fd;
 }

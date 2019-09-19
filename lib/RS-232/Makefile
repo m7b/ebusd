@@ -2,12 +2,12 @@
 #
 # Author: Teunis van Beelen
 #
-# email: teuniz@gmail.com
+# email: teuniz@protonmail.com
 #
 #
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -Wtype-limits -o2
+CFLAGS = -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -Wtype-limits -O2
 
 objects = rs232.o
 
