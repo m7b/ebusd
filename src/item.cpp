@@ -37,6 +37,19 @@ C_item::C_item(const C_item &m)
 }
 
 
+C_item& C_item::operator=(const C_item& rhs)
+{
+    //printf("zuweisen\n");
+    par = rhs.par;
+
+    f_act_val  = rhs.f_act_val;            //Actual value
+    f_last_val = rhs.f_last_val;           //Last value
+    b_new      = rhs.b_new;
+
+    return *this;
+}
+
+
 float C_item::get_val(void)
 {
     return f_act_val;
