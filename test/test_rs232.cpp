@@ -51,6 +51,8 @@ BOOST_AUTO_TEST_CASE(Serial_Port)
     comport_number     = RS232_GetPortnr(str_comport_number.c_str());  //should be 15 for "\\\\.\\COM16"
     BOOST_CHECK_EQUAL(comport_number, 15);
 
+    //Ab hier wird es seltsam
+
     str_comport_number = "COM17";
     comport_number     = RS232_GetPortnr(str_comport_number.c_str());  //should be 16 for "\\\\.\\COM17"
     BOOST_CHECK_EQUAL(comport_number, 16);

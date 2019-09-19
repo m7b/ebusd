@@ -10,7 +10,7 @@ CALL C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm --needed min
 mkdir build
 cd build
 
-REM cmake -G "CodeBlocks - MinGW Makefiles" ..
+REM cmake -G "CodeBlocks - MinGW Makefiles" -DCI_BUILD:BOOL=OFF -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
 REM cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF ..
 cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
 
