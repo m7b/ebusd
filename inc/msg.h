@@ -27,6 +27,8 @@
 
 using namespace std;
 
+inline std::tm localtime_xp(std::time_t timer);
+
 class C_ebus_message{
 
 private:
