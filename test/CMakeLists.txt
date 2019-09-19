@@ -28,6 +28,7 @@ FOREACH(testSrc ${TEST_SRCS})
             ${testName}
             ${Boost_LIBRARIES}
             ebus
+            rs232
             -static
             --coverage
           )
@@ -36,6 +37,7 @@ FOREACH(testSrc ${TEST_SRCS})
             ${testName}
             ${Boost_LIBRARIES}
             ebus
+            rs232
             -static
           )
         ENDIF()
