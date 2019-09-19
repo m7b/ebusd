@@ -67,6 +67,7 @@ add_library(
 )
 target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:-g>)
 target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:-O0>)
+target_compile_options(ebus PUBLIC -std=c++11)  #-std=gnu++17
 IF(COVERAGE)
   target_compile_options(ebus PUBLIC $<$<CONFIG:Debug>:--coverage>)
 ENDIF()
