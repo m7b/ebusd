@@ -90,7 +90,7 @@ public:
 	C_item(const C_item &);                //Kopierkonstruktor
     C_item& operator=(const C_item& rhs);  //Assignment operator
     
-    void set_par(const param);
+    void set_par(const param &p);
     void set_val(float);
     void set_val(const unsigned char *);
 
