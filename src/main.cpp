@@ -23,18 +23,18 @@ bool reconnect = true;
 int main(int argc, char* argv[])
 {
     int comport_number = 22;
-	int fd, res, retval;
-	unsigned char buf[255];
-	deamon_settings ds;
-	
-	switch (argc)
-	{
+    int fd, res, retval;
+    unsigned char buf[255];
+    deamon_settings ds;
+
+    switch (argc)
+    {
         case 1:
             printf("Usage: ebusd settings.xml\n");
             save_example(&ds);
             exit (-1);
         case 2:
-			retval = ds.load(argv[1]);
+            retval = ds.load(argv[1]);
             if (retval < 0)
                 exit (-1);
             break;
@@ -46,25 +46,25 @@ int main(int argc, char* argv[])
     //open rs232 port for listening
     fd = rs232_open(&ds);
     if (fd > 0)
-	{
+    {
         exit (-1);
-	}
+    }
 
     //connect to database
-	mysql_connect(&ds);
+    mysql_connect(&ds);
 
     //Object to analyze the ebus messages
-	C_ebus_message msg;
+    C_ebus_message msg;
 
-	//register items for analyzing
-	register_items(&msg, &ds, mysql1);
+    //register items for analyzing
+    register_items(&msg, &ds, mysql1);
 
-	/* loop while waiting for input. normally we would do something
-	 * useful here. */
+    /* loop while waiting for input. normally we would do something
+     * useful here. */
     printf("Start main loop!");
 
-	while(true)
-	{
+    while(true)
+    {
         //Ping MySQL server
         res = mysql_ping(mysql1);
         if (res != 0)
@@ -78,17 +78,17 @@ int main(int argc, char* argv[])
         }
 
         //Read COM port
-		res = RS232_PollComport(comport_number, buf, 255);
-		if (res > 0)
-		{
-			check_bus_state(&msg, buf, res);
-		}
+        res = RS232_PollComport(comport_number, buf, 255);
+        if (res > 0)
+        {
+            check_bus_state(&msg, buf, res);
+        }
 
-		/* sleep for 100 milliSeconds */
+        /* sleep for 100 milliSeconds */
         my_sleep_ms(100);
 
         while_end: ;
-	}
+    }
 
     return 0;
 }
@@ -96,45 +96,45 @@ int main(int argc, char* argv[])
 
 void signal_handler(int signum)
 {
-	switch (signum)
-	{
-		case SIGINT:
+    switch (signum)
+    {
+        case SIGINT:
                         printf("Signal SIGINT received %d\n", signum);
-			break;
+            break;
 
-		default:
-        		printf("Signal received %d\n", signum);
-			break;
-	}
+        default:
+                printf("Signal received %d\n", signum);
+            break;
+    }
 
-	/* restore old settings and close port */
+    /* restore old settings and close port */
     rs232_close();
 
     /* disconnect from database */
-	mysql_disconnect();
+    mysql_disconnect();
 
-	exit(signum);
+    exit(signum);
 }
 
 
 int rs232_open(deamon_settings *ds)
 {
     int fd;
-	
-	std::string port = ds->ser_port;
-	int comport_number = 22;
-	int baudrate = 2400;
-	char mode[]={'8','N','1',0};
-	
-	fd = RS232_OpenComport(comport_number, baudrate, mode);
+
+    std::string port = ds->ser_port;
+    int comport_number = 22;
+    int baudrate = 2400;
+    char mode[]={'8','N','1',0};
+
+    fd = RS232_OpenComport(comport_number, baudrate, mode);
 
     return fd;
 }
 
 
 void rs232_close(void)
-{	
-	int comport_number = 22;
+{
+    int comport_number = 22;
     RS232_CloseComport(comport_number);
     printf("Serial port closed.\n");
 }
@@ -142,72 +142,72 @@ void rs232_close(void)
 
 void mysql_connect(deamon_settings *ds)
 {
-	
-	std::string db_server        = ds->db_server;
-	std::string db_name          = ds->db_name;
-	std::string db_user_name     = ds->db_user_name;
-	std::string db_user_password = ds->db_user_password;
 
-	//Initialize MYSQL object for connections
-	mysql1 = mysql_init(NULL);
+    std::string db_server        = ds->db_server;
+    std::string db_name          = ds->db_name;
+    std::string db_user_name     = ds->db_user_name;
+    std::string db_user_password = ds->db_user_password;
 
-	if (mysql1 == NULL)
-	{
-		printf("%s\n", mysql_error(mysql1));
-		printf("    server: %s\n",  db_server.c_str());
-		printf("    db name: %s\n", db_name.c_str());
-		printf("    db user: %s\n", db_user_name.c_str());
-		return;
-	}
+    //Initialize MYSQL object for connections
+    mysql1 = mysql_init(NULL);
+
+    if (mysql1 == NULL)
+    {
+        printf("%s\n", mysql_error(mysql1));
+        printf("    server: %s\n",  db_server.c_str());
+        printf("    db name: %s\n", db_name.c_str());
+        printf("    db user: %s\n", db_user_name.c_str());
+        return;
+    }
 
     //Set option to reconnect
     if (mysql_options(mysql1, MYSQL_OPT_RECONNECT, &reconnect))
     {
         printf("MySQL Options failed: %s\n", mysql_error(mysql1));
-		return;
+        return;
     }
     else
     {
         printf("MySQL Options OK\n");
     }
-    
 
-	//Connect to the database
-	if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
-	{
-		printf("%s\n", mysql_error(mysql1));
-		printf("    server: %s\n",  db_server.c_str());
-		printf("    db name: %s\n", db_name.c_str());
-		printf("    db user: %s\n", db_user_name.c_str());
-		return;
-	}
-	else
-	{
-		printf("Database connection successful.\n");
-	}
+
+    //Connect to the database
+    if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
+    {
+        printf("%s\n", mysql_error(mysql1));
+        printf("    server: %s\n",  db_server.c_str());
+        printf("    db name: %s\n", db_name.c_str());
+        printf("    db user: %s\n", db_user_name.c_str());
+        return;
+    }
+    else
+    {
+        printf("Database connection successful.\n");
+    }
 
 }
 
 
 void mysql_disconnect(void)
 {
-	mysql_close(mysql1);
-	printf("Disconnected from database.\n");
+    mysql_close(mysql1);
+    printf("Disconnected from database.\n");
 }
 
 
 void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
 {
-	char create_table[1024];
-	
+    char create_table[1024];
+
     BOOST_FOREACH(const C_item::param &it, ds->other_item)
     {
         msg->register_item(it);
-        
+
         switch (it.en_dt)
         {
-        	case C_item::BIT:
-        
+            case C_item::BIT:
+
                 sprintf(create_table, "CREATE TABLE IF NOT EXISTS `%s` ( \
                     `lfd` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT, \
                     `date` DATETIME NOT NULL, \
@@ -218,9 +218,9 @@ void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
                     ENGINE=InnoDB \
                     ROW_FORMAT=COMPACT;", it.s_db_table.c_str());
                 break;
-						
-			default:
-        
+
+            default:
+
                 sprintf(create_table, "CREATE TABLE IF NOT EXISTS `%s` ( \
                     `lfd` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT, \
                     `date` DATETIME NOT NULL, \
@@ -231,51 +231,51 @@ void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
                     ENGINE=InnoDB \
                     ROW_FORMAT=COMPACT;", it.s_db_table.c_str());
                 break;
-							
-		}
-		mysql_query(db, create_table);
-    }   
+
+        }
+        mysql_query(db, create_table);
+    }
 }
 
 
 void check_bus_state(C_ebus_message *msg, unsigned char *buf, int length)
 {
-	int i;
+    int i;
 
-	for(i=0; i<length; i++)
-	{
-		switch (buf[i])
-		{
+    for(i=0; i<length; i++)
+    {
+        switch (buf[i])
+        {
             // bus is in idle state [0xaa]
-			case 0xaa:
+            case 0xaa:
 
                 // a message has been built
-				if (msg->get_len() > 0)
-				{
-					msg->undo_subst();
-				//	msg->print();
-					msg->analyse();
-					msg->write_db(mysql1);
-					msg->clear();
-				}
-				break;
+                if (msg->get_len() > 0)
+                {
+                    msg->undo_subst();
+                //  msg->print();
+                    msg->analyse();
+                    msg->write_db(mysql1);
+                    msg->clear();
+                }
+                break;
 
             // there is a message data [!= 0xaa]
-			default:
-				msg->add(buf[i]);
-				break;
-		}
-	}
+            default:
+                msg->add(buf[i]);
+                break;
+        }
+    }
 }
 
 
 int deamon_settings::load(const std::string &filename)
 {
-	using boost::property_tree::ptree;
-	ptree pt;
-    
+    using boost::property_tree::ptree;
+    ptree pt;
+
     C_item::param item;
-	
+
     try
     {
         read_xml(filename, pt);
@@ -285,17 +285,17 @@ int deamon_settings::load(const std::string &filename)
         printf("Can't init settings.\n");
         return -1;
     }
-    
-    
+
+
     ser_port         = pt.get<std::string>("ebusd.serial.port");
-	
-	db_server        = pt.get<std::string>("ebusd.database.server");
-	db_name          = pt.get<std::string>("ebusd.database.name");
-	db_user_name     = pt.get<std::string>("ebusd.database.user_name");
-	db_user_password = pt.get<std::string>("ebusd.database.user_password");
-	
-	BOOST_FOREACH(ptree::value_type &v, pt.get_child("ebusd.elements"))
-	{
+
+    db_server        = pt.get<std::string>("ebusd.database.server");
+    db_name          = pt.get<std::string>("ebusd.database.name");
+    db_user_name     = pt.get<std::string>("ebusd.database.user_name");
+    db_user_password = pt.get<std::string>("ebusd.database.user_password");
+
+    BOOST_FOREACH(ptree::value_type &v, pt.get_child("ebusd.elements"))
+    {
         item.name       = v.second.get<std::string>("name");
         item.unit       = v.second.get<std::string>("unit");
         item.uc_QQ      = v.second.get<unsigned char>("QQ");
@@ -309,27 +309,27 @@ int deamon_settings::load(const std::string &filename)
         item.f_pos_tol  = v.second.get<float>("pos_tol");
         item.f_neg_tol  = v.second.get<float>("neg_tol");
         item.s_db_table = v.second.get<std::string>("db_table");
-        
+
         other_item.push_back(item);
-	}
+    }
 
     return 0;
 }
 
 
 void deamon_settings::save(const std::string &filename)
-{	
-	using boost::property_tree::ptree;
-	ptree pt;
-	ptree element;
-    
-	pt.put("ebusd.serial.port", ser_port);
-    
-	pt.put("ebusd.database.server",        db_server);
-	pt.put("ebusd.database.name",          db_name);
-	pt.put("ebusd.database.user_name",     db_user_name);
-	pt.put("ebusd.database.user_password", db_user_password);
-    
+{
+    using boost::property_tree::ptree;
+    ptree pt;
+    ptree element;
+
+    pt.put("ebusd.serial.port", ser_port);
+
+    pt.put("ebusd.database.server",        db_server);
+    pt.put("ebusd.database.name",          db_name);
+    pt.put("ebusd.database.user_name",     db_user_name);
+    pt.put("ebusd.database.user_password", db_user_password);
+
     BOOST_FOREACH(const C_item::param &it, other_item)
     {
         element.put("name",       it.name);
@@ -345,25 +345,25 @@ void deamon_settings::save(const std::string &filename)
         element.put("pos_tol",    it.f_pos_tol);
         element.put("neg_tol",    it.f_neg_tol);
         element.put("db_table",   it.s_db_table);
-        
+
         pt.add_child("ebusd.elements.element", element);
     }
 
-	write_xml(filename, pt);
+    write_xml(filename, pt);
 }
 
 
 void save_example(deamon_settings *ds)
 {
-	C_item::param     par;
-    
+    C_item::param     par;
+
     ds->ser_port         = "ttyAMA0";
-    
+
     ds->db_server        = "db-server";
     ds->db_name          = "db-name";
     ds->db_user_name     = "db-username";
     ds->db_user_password = "db-username-password";
-    
+
     par.name        = "Zustand LDW";
     par.unit        = "an/aus";
     par.uc_QQ       = 0x03;          //Source filter
@@ -377,7 +377,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand GDW";
@@ -393,7 +393,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_gdw"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand WS";
@@ -409,7 +409,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ws "; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand Flamme";
@@ -425,7 +425,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_flamme"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand Ventil 1";
@@ -441,7 +441,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ventil_1"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand Ventil 2";
@@ -457,7 +457,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ventil_2"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand UWP";
@@ -473,7 +473,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_uwp"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Zustand Alarm";
@@ -489,7 +489,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_alarm"; //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Kessel Temperatur";
@@ -505,7 +505,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.5;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.5;           //negative tolerance for entry new value
     par.s_db_table  = "0503_kessel_temp";   //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Ruecklauftemperatur";
@@ -521,7 +521,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.5;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.5;           //negative tolerance for entry new value
     par.s_db_table  = "0503_ruecklauf_temp";   //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Boiler Temperatur";
@@ -537,7 +537,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.5;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.5;           //negative tolerance for entry new value
     par.s_db_table  = "0503_boiler_temp";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Aussentemperatur";
@@ -553,7 +553,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.5;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.5;           //negative tolerance for entry new value
     par.s_db_table  = "0503_aussen_temp";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Statuswaermeanforderung";
@@ -569,7 +569,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0507_statuswaermeanforderung";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Kesselsollwert-Temperatur";
@@ -585,7 +585,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0507_kesselsollwert_temp";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Kessel Sollwert";
@@ -601,7 +601,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_kessel_sollwert";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Aussentemperatur Modul";
@@ -617,7 +617,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_aussentemp_modul";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status BWR";
@@ -633,7 +633,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bwr";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Heizkreis";
@@ -649,7 +649,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_heizkreis";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 2";
@@ -665,7 +665,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit2";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 3";
@@ -681,7 +681,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit3";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 4";
@@ -697,7 +697,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit4";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 5";
@@ -713,7 +713,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit5";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 6";
@@ -729,7 +729,7 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit6";  //table of db
-    
+
     ds->other_item.push_back(par);
 
     par.name        = "Status Bit 7";
@@ -745,9 +745,9 @@ void save_example(deamon_settings *ds)
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0800_status_bit7";  //table of db
-    
+
     ds->other_item.push_back(par);
-    
+
     ds->save("settings_example.xml");
 }
 

@@ -67,8 +67,8 @@ private:
 
     param     par;              //Parameter of the item
 
-	float f_act_val;            //Actual value
-	float f_last_val;           //Last value
+    float f_act_val;            //Actual value
+    float f_last_val;           //Last value
     bool  b_new;                //Flag for act value has changed
 
     bool check_limit(float);    //check new value against limits, returns true
@@ -81,15 +81,15 @@ private:
     char  byte_to_DATA1b(const unsigned char *);
     float byte_to_DATA1c(const unsigned char *);
     float byte_to_DATA2b(const unsigned char *, en_byte_order);
-	float byte_to_DATA2c(const unsigned char *, en_byte_order);
+    float byte_to_DATA2c(const unsigned char *, en_byte_order);
 
 public:
 
     C_item();                              //Konsturktor
     ~C_item();                             //Destruktor
-	C_item(const C_item &);                //Kopierkonstruktor
+    C_item(const C_item &);                //Kopierkonstruktor
     C_item& operator=(const C_item& rhs);  //Assignment operator
-    
+
     void set_par(const param &p);
     void set_val(float);
     void set_val(const unsigned char *);

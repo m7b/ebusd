@@ -34,17 +34,17 @@ struct deamon_settings
     std::string ser_port;
 
     //database settings
-	std::string db_server;
-	std::string db_name;
-	std::string db_user_name;
-	std::string db_user_password;
-    
+    std::string db_server;
+    std::string db_name;
+    std::string db_user_name;
+    std::string db_user_password;
+
     //parameter of relevant items to fetch
     std::vector<C_item::param> other_item;
-    
+
     //methods to load and save
-	int load(const std::string &filename);
-	void save(const std::string &filename);
+    int load(const std::string &filename);
+    void save(const std::string &filename);
 };
 
 void close_logger(void);
