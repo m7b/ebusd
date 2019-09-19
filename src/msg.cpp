@@ -30,6 +30,8 @@ static size_t laenge(const unsigned char *s)
 	return sl;
 }
 
+
+// Hilfsfunktion: Sichere Zeitermittlung
 inline std::tm localtime_xp(std::time_t timer)
 {
     std::tm bt {};
@@ -287,12 +289,12 @@ char *C_ebus_message::get_timestamp_cstr(void)
 	time_t nowtime;
 	char tmbuf[64];
 	char buf[128];
-	struct tm *nowtm;
+	tm nowtm;
 
 	nowtime = timestamp.tv_sec;
-	nowtm = localtime(&nowtime);
+	nowtm = localtime_xp(nowtime);
 
-	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", nowtm);
+	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", &nowtm);
 	snprintf(buf, sizeof buf, "%s.%06ld", tmbuf, timestamp.tv_usec);
 
 	//printf("start ::get_timestamp\n");

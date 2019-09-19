@@ -1,6 +1,6 @@
 @ECHO OFF
 
-SET PATH=%PATH%;C:\CPP\tools\cmake-3.13.3-win64-x64\bin
+SET PATH=%PATH%;C:\CPP\tools\cmake-3.15.2-win64-x64\bin
 SET PATH=%PATH%;C:\Program Files\CMake\bin
 SET PATH=%PATH%;C:\CPP\compiler\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\mingw64\bin
 

@@ -23,10 +23,14 @@
 
 #include <vector>
 #include <sys/time.h>
+#include <ctime>
+#include <mutex>
 #include <mysql/mysql.h>
 
 using namespace std;
 
+static void copy(unsigned char *ziel, const unsigned char *quelle);
+static size_t laenge(const unsigned char *s);
 inline std::tm localtime_xp(std::time_t timer);
 
 class C_ebus_message{
