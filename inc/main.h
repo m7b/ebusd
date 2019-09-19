@@ -52,7 +52,7 @@ struct deamon_settings
 void close_logger(void);
 void signal_handler(int);
 int rs232_open(deamon_settings *);
-void rs232_close(void);
+void rs232_close(deamon_settings *);
 void mysql_connect(deamon_settings *);
 void mysql_disconnect(void);
 void register_items(C_ebus_message *, deamon_settings *, MYSQL *);

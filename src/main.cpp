@@ -19,13 +19,13 @@
 MYSQL *mysql1;
 bool reconnect = true;
 
+deamon_settings ds;
+
 
 int main(int argc, char* argv[])
 {
-    int comport_number = 22;
     int fd, res, retval;
     unsigned char buf[255];
-    deamon_settings ds;
 
     switch (argc)
     {
@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
     /* loop while waiting for input. normally we would do something
      * useful here. */
     printf("Start main loop!");
+    int comport_number = RS232_GetPortnr(ds.ser_port.c_str());  //should be 22 for "/dev/ttyAMA0"
 
     while(true)
     {
@@ -108,7 +109,7 @@ void signal_handler(int signum)
     }
 
     /* restore old settings and close port */
-    rs232_close();
+    rs232_close(&ds);
 
     /* disconnect from database */
     mysql_disconnect();
@@ -122,7 +123,7 @@ int rs232_open(deamon_settings *ds)
     int fd;
 
     std::string port = ds->ser_port;
-    int comport_number = 22;
+    int comport_number = RS232_GetPortnr(port.c_str());  //should be 22 for "/dev/ttyAMA0"
     int baudrate = 2400;
     char mode[]={'8','N','1',0};
 
@@ -132,9 +133,10 @@ int rs232_open(deamon_settings *ds)
 }
 
 
-void rs232_close(void)
+void rs232_close(deamon_settings *ds)
 {
-    int comport_number = 22;
+    std::string port = ds->ser_port;
+    int comport_number = RS232_GetPortnr(port.c_str());  //should be 22 for "/dev/ttyAMA0"
     RS232_CloseComport(comport_number);
     printf("Serial port closed.\n");
 }
