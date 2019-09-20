@@ -741,3 +741,35 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     val = item.get_val(); // xff, x7f => 2047.9375
     BOOST_CHECK_EQUAL(2047.9375f, val);
 }
+
+
+
+BOOST_AUTO_TEST_CASE(Datatype_not_set)
+{
+	unsigned char cval0[10] = "\x03\xfe\x05\x03xxx\x00\x00"; // x00, x00 => 0.0
+	
+	float val      = .0f;
+	
+	C_item item;
+	C_item::param par;
+
+    par.name        = "Zustand LDW";
+    par.unit        = "an/aus";
+    par.uc_QQ       = 0x03;          //Source filter
+    par.uc_ZZ       = 0xfe;          //Destination filter
+    par.uc_PB       = 0x05;          //Primary Order filter
+    par.uc_SB       = 0x03;          //Secondary Order filter
+    par.ui_pos      = 7;             //Position (M8)
+    par.ui_bit_pos  = 0;             //Bit Position
+    //par.en_dt       = C_item::DATA2C;         //Data type
+    par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
+    par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
+    par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
+    par.s_db_table  = "0503_zustand_ldw"; //table of db
+	
+	item.set_par(par);
+
+	item.set_val(cval0);
+    val = item.get_val();
+    BOOST_CHECK_EQUAL(.0f, val);
+}

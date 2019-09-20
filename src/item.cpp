@@ -122,7 +122,7 @@ void C_item::set_val(const unsigned char *start)
                 break;
 
             default:
-                break;
+                return;
 
         }
 
