@@ -501,7 +501,6 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
 	unsigned char cval8[10] = "\x03\xfe\x05\x03iii\x7f\xff"; // ab 7. Element: x7f, xff => 127.996
 	
 	float val      = .0f;
-    float last_val = .0f;
 	
 	C_item item;
 	C_item::param par;
@@ -624,4 +623,121 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
 	item.set_val(cval18);
     val = item.get_val(); //  xff, x7f => 127.996
     BOOST_REQUIRE_CLOSE(127.996f, val, 0.0001);
+}
+
+BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
+{
+	unsigned char cval0[10] = "\x00\x00xxxxxxx"; // x00, x00 => 0.0
+	unsigned char cval1[10] = "\x00\x01xxxxxxx"; // x00, x01 => 0.0625 (1/16)
+	unsigned char cval2[10] = "\xff\xffxxxxxxx"; // xff, xff => -0.0625 (-1/16)
+	unsigned char cval3[10] = "\xff\xf0xxxxxxx"; // xff, xf0 => -1.0
+	unsigned char cval4[10] = "\x80\x00xxxxxxx"; // x80, x00 => -2048.0 (Ersatzwert)
+	unsigned char cval5[10] = "\x80\x01xxxxxxx"; // x80, x01 => -2047.9
+	unsigned char cval6[10] = "\x7f\xffxxxxxxx"; // x7f, xff => 2047.9
+	
+	float val      = .0f;
+	
+	C_item item;
+	C_item::param par;
+
+    par.name        = "Zustand LDW";
+    par.unit        = "an/aus";
+    par.uc_QQ       = 0x03;          //Source filter
+    par.uc_ZZ       = 0xfe;          //Destination filter
+    par.uc_PB       = 0x05;          //Primary Order filter
+    par.uc_SB       = 0x03;          //Secondary Order filter
+    par.ui_pos      = 0;             //Position (M8)
+    par.ui_bit_pos  = 0;             //Bit Position
+    par.en_dt       = C_item::DATA2C;         //Data type
+    par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
+    par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
+    par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
+    par.s_db_table  = "0503_zustand_ldw"; //table of db
+	
+	item.set_par(par);
+
+
+    // ************************************************************************
+    // NOT_RELEVANT endian cases
+    // ************************************************************************
+	item.set_val(cval0);
+    val = item.get_val(); // x00, x00 => 0.0
+    BOOST_CHECK_EQUAL(-1.0f, val);
+
+    // ************************************************************************
+    // LITTLE_ENDIAN cases
+    // ************************************************************************
+    par.en_bo = C_item::LE;   //Byte order
+	item.set_par(par);
+
+	item.set_val(cval0);
+    val = item.get_val(); // x00, x00 => 0.0
+    BOOST_CHECK_EQUAL(.0f, val);
+
+	item.set_val(cval1);
+    val = item.get_val(); // x00, x01 => 0.0625 (1/16)
+    BOOST_CHECK_EQUAL(0.0625f, val);
+
+	item.set_val(cval2);
+    val = item.get_val(); // xff, xff => -0.0625 (-1/16)
+    BOOST_CHECK_EQUAL(-0.0625f, val);
+
+	item.set_val(cval3);
+    val = item.get_val(); // xff, xf0 => -1.0
+    BOOST_CHECK_EQUAL(-1.0f, val);
+
+	item.set_val(cval4);
+    val = item.get_val(); // x80, x00 => -2048.0 (Ersatzwert)
+    BOOST_CHECK_EQUAL(-2048.0f, val);
+
+	item.set_val(cval5);
+    val = item.get_val(); // x80, x01 => -2047.9
+    BOOST_CHECK_EQUAL(-2047.9f, val);
+
+	item.set_val(cval6);
+    val = item.get_val(); // x7f, xff => 2047.9
+    BOOST_CHECK_EQUAL(2047.9f, val);
+    
+
+    // ************************************************************************
+    // BIG_ENDIAN cases
+    // ************************************************************************
+    par.en_bo = C_item::BE;   //Byte order
+	item.set_par(par);
+    
+	unsigned char cval10[10] = "\x00\x00xxxxxxx"; // x00, x00 => 0.0
+	unsigned char cval11[10] = "\x01\x00xxxxxxx"; // x01, x00 => 0.0625 (1/16)
+	unsigned char cval12[10] = "\xff\xffxxxxxxx"; // xff, xff => -0.0625 (-1/16)
+	unsigned char cval13[10] = "\xf0\xffxxxxxxx"; // xf0, xff => -1.0
+	unsigned char cval14[10] = "\x00\x80xxxxxxx"; // x00, x80 => -2048.0 (Ersatzwert)
+	unsigned char cval15[10] = "\x01\x80xxxxxxx"; // x01, x80 => -2047.9
+	unsigned char cval16[10] = "\xff\x7fxxxxxxx"; // xff, x7f => 2047.9
+
+	item.set_val(cval10);
+    val = item.get_val(); // x00, x00 => 0.0
+    BOOST_CHECK_EQUAL(.0f, val);
+
+	item.set_val(cval11);
+    val = item.get_val(); // x01, x00 => 0.0625 (1/16)
+    BOOST_CHECK_EQUAL(0.0625f, val);
+
+	item.set_val(cval12);
+    val = item.get_val(); // xff, xff => -0.0625 (-1/16)
+    BOOST_CHECK_EQUAL(-0.0625f, val);
+
+	item.set_val(cval13);
+    val = item.get_val(); // xf0, xff => -1.0
+    BOOST_CHECK_EQUAL(-1.0f, val);
+
+	item.set_val(cval14);
+    val = item.get_val(); // x00, x80 => -2048.0 (Ersatzwert)
+    BOOST_CHECK_EQUAL(-2048.0f, val);
+
+	item.set_val(cval15);
+    val = item.get_val(); // x01, x80 => -2047.9
+    BOOST_CHECK_EQUAL(-2047.9f, val);
+
+	item.set_val(cval16);
+    val = item.get_val(); // xff, x7f => 2047.9
+    BOOST_CHECK_EQUAL(2047.9f, val);
 }

@@ -259,7 +259,7 @@ float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byte
     switch (en_byteorder)
     {
         case NOT_RELEVANT:
-            break;
+            return -1.0f;
         case LE:
             uc_low_nibble  = uc_byte[0] & 0x0f;
             uc_high_nibble = uc_byte[0] & 0xf0;
