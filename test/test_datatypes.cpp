@@ -70,14 +70,14 @@ BOOST_AUTO_TEST_CASE(parameters)
     std::string ist;
     
     par.name = soll;
-	item.set_par(par);
+	item.set_par(&par);
 
     ist = item.get_name();
     BOOST_CHECK_EQUAL(soll, ist);
 
     soll = "tTestTable";
     par.s_db_table = soll;
-	item.set_par(par);
+	item.set_par(&par);
 
     ist = item.get_db_table();
     BOOST_CHECK_EQUAL(soll, ist);
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(Datatype_BIT)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 	
 	
 	item.set_val(cval0);
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(Datatype_UNSIGNED_CHAR)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 	
 	
 	item.set_val(cval0);
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE(Datatype_SIGNED_CHAR)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 	
 	item.set_val(cval0);
@@ -292,7 +292,7 @@ BOOST_AUTO_TEST_CASE(Datatype_BCD)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 	
 	item.set_val(cval0);
@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA1B)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 
 	item.set_val(cval0);
@@ -454,7 +454,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA1C)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 
 	item.set_val(cval0);
@@ -519,7 +519,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 
     // ************************************************************************
@@ -533,7 +533,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
     // LITTLE_ENDIAN cases
     // ************************************************************************
     par.en_bo = C_item::LE;   //Byte order
-	item.set_par(par);
+	item.set_par(&par);
 
 	item.set_val(cval0);
     val = item.get_val(); // h = 104d, i = 105d => 104.41015625f
@@ -576,7 +576,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
     // BIG_ENDIAN cases
     // ************************************************************************
     par.en_bo = C_item::BE;   //Byte order
-	item.set_par(par);
+	item.set_par(&par);
     
 	unsigned char cval10[10] = "\x03\xfe\x05\x03iiiih"; // ab 7. Element: h = 104d, i = 105d => 104.41015625f
 	unsigned char cval11[10] = "\x03\xfe\x05\x03hhhhi"; // ab 7. Element: i = 105d, h = 104d => 105.40625f
@@ -654,7 +654,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 
     // ************************************************************************
@@ -668,7 +668,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     // LITTLE_ENDIAN cases
     // ************************************************************************
     par.en_bo = C_item::LE;   //Byte order
-	item.set_par(par);
+	item.set_par(&par);
 
 	item.set_val(cval0);
     val = item.get_val(); // x00, x00 => 0.0
@@ -703,7 +703,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     // BIG_ENDIAN cases
     // ************************************************************************
     par.en_bo = C_item::BE;   //Byte order
-	item.set_par(par);
+	item.set_par(&par);
     
 	unsigned char cval10[10] = "\x03\xfe\x05\x03xxx\x00\x00"; // x00, x00 => 0.0
 	unsigned char cval11[10] = "\x03\xfe\x05\x03xxx\x01\x00"; // x01, x00 => 0.0625 (1/16)
@@ -748,7 +748,7 @@ BOOST_AUTO_TEST_CASE(Datatype_not_set)
 {
 	unsigned char cval0[10] = "\x03\xfe\x05\x03xxx\x00\x00"; // x00, x00 => 0.0
 	
-	float val      = .0f;
+	float val = .0f;
 	
 	C_item item;
 	C_item::param par;
@@ -767,7 +767,7 @@ BOOST_AUTO_TEST_CASE(Datatype_not_set)
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
     par.s_db_table  = "0503_zustand_ldw"; //table of db
 	
-	item.set_par(par);
+	item.set_par(&par);
 
 	item.set_val(cval0);
     val = item.get_val();

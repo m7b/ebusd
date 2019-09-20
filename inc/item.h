@@ -62,6 +62,24 @@ public:
         float f_pos_tol;            //positive tolerance for entry new value
         float f_neg_tol;            //negative tolerance for entry new value
         string s_db_table;          //table of db
+        param& operator=(const param *rhs)  //Assignment operator
+        {
+            name = rhs->name;
+            unit = rhs->unit;
+            uc_QQ = rhs->uc_QQ;
+            uc_ZZ = rhs->uc_ZZ;
+            uc_PB = rhs->uc_PB;
+            uc_SB = rhs->uc_SB;
+            ui_pos = rhs->ui_pos;
+            ui_bit_pos = rhs->ui_bit_pos;
+            en_dt = rhs->en_dt;
+            en_bo = rhs->en_bo;
+            f_pos_tol = rhs->f_pos_tol;
+            f_neg_tol = rhs->f_neg_tol;
+            s_db_table = rhs->s_db_table;
+
+            return *this;
+        }
     };
 
 private:
@@ -91,7 +109,7 @@ public:
     C_item(const C_item &);                //Kopierkonstruktor
     C_item& operator=(const C_item& rhs);  //Assignment operator
 
-    void set_par(const param &p);
+    void set_par(const param *p);
     void set_val(float);
     void set_val(const unsigned char *);
 

@@ -76,7 +76,7 @@ public:
 
     char *get_timestamp_cstr(void );
 
-    void register_item(C_item::param);
+    void register_item(const C_item::param *);
 };
 
 #endif //_msg_h_

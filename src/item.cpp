@@ -62,7 +62,7 @@ float C_item::get_last_val(void)
 }
 
 
-void C_item::set_par(const param &p)
+void C_item::set_par(const param *p)
 {
     par = p;
 }

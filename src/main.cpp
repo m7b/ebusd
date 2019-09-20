@@ -19,7 +19,7 @@
 MYSQL *mysql1;
 bool reconnect = true;
 
-deamon_settings ds;
+deamon_settings ebusd_settings;
 
 
 int main(int argc, char* argv[])
@@ -31,10 +31,10 @@ int main(int argc, char* argv[])
     {
         case 1:
             printf("Usage: ebusd settings.xml\n");
-            save_example(&ds);
+            save_example(&ebusd_settings);
             exit (-1);
         case 2:
-            retval = ds.load(argv[1]);
+            retval = ebusd_settings.load(argv[1]);
             if (retval < 0)
                 exit (-1);
             break;
@@ -44,25 +44,25 @@ int main(int argc, char* argv[])
     signal(SIGINT, signal_handler);
 
     //open rs232 port for listening
-    fd = rs232_open(&ds);
+    fd = rs232_open(&ebusd_settings);
     if (fd > 0)
     {
         exit (-1);
     }
 
     //connect to database
-    mysql_connect(&ds);
+    mysql_connect(&ebusd_settings);
 
     //Object to analyze the ebus messages
     C_ebus_message msg;
 
     //register items for analyzing
-    register_items(&msg, &ds, mysql1);
+    register_items(&msg, &ebusd_settings, mysql1);
 
     /* loop while waiting for input. normally we would do something
      * useful here. */
     printf("Start main loop!");
-    int comport_number = RS232_GetPortnr(ds.ser_port.c_str());  //should be 22 for "/dev/ttyAMA0"
+    int comport_number = RS232_GetPortnr(ebusd_settings.ser_port.c_str());  //should be 22 for "/dev/ttyAMA0"
 
     while(true)
     {
@@ -109,7 +109,7 @@ void signal_handler(int signum)
     }
 
     /* restore old settings and close port */
-    rs232_close(&ds);
+    rs232_close(&ebusd_settings);
 
     /* disconnect from database */
     mysql_disconnect();
@@ -118,11 +118,11 @@ void signal_handler(int signum)
 }
 
 
-int rs232_open(deamon_settings *ds)
+int rs232_open(deamon_settings *p_ds)
 {
     int fd;
 
-    std::string port = ds->ser_port;
+    std::string port = p_ds->ser_port;
     int comport_number = RS232_GetPortnr(port.c_str());  //should be 22 for "/dev/ttyAMA0"
     int baudrate = 2400;
     char mode[]={'8','N','1',0};
@@ -133,22 +133,22 @@ int rs232_open(deamon_settings *ds)
 }
 
 
-void rs232_close(deamon_settings *ds)
+void rs232_close(deamon_settings *p_ds)
 {
-    std::string port = ds->ser_port;
+    std::string port = p_ds->ser_port;
     int comport_number = RS232_GetPortnr(port.c_str());  //should be 22 for "/dev/ttyAMA0"
     RS232_CloseComport(comport_number);
     printf("Serial port closed.\n");
 }
 
 
-void mysql_connect(deamon_settings *ds)
+void mysql_connect(deamon_settings *p_ds)
 {
 
-    std::string db_server        = ds->db_server;
-    std::string db_name          = ds->db_name;
-    std::string db_user_name     = ds->db_user_name;
-    std::string db_user_password = ds->db_user_password;
+    std::string db_server        = p_ds->db_server;
+    std::string db_name          = p_ds->db_name;
+    std::string db_user_name     = p_ds->db_user_name;
+    std::string db_user_password = p_ds->db_user_password;
 
     //Initialize MYSQL object for connections
     mysql1 = mysql_init(NULL);
@@ -198,13 +198,13 @@ void mysql_disconnect(void)
 }
 
 
-void register_items(C_ebus_message *msg, deamon_settings *ds, MYSQL *db)
+void register_items(C_ebus_message *msg, deamon_settings *p_ds, MYSQL *db)
 {
     char create_table[1024];
 
-    BOOST_FOREACH(const C_item::param &it, ds->other_item)
+    BOOST_FOREACH(const C_item::param &it, p_ds->other_item)
     {
-        msg->register_item(it);
+        msg->register_item(&it);
 
         switch (it.en_dt)
         {

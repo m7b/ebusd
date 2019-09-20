@@ -306,7 +306,7 @@ char *C_ebus_message::get_timestamp_cstr(void)
 }
 
 
-void C_ebus_message::register_item(C_item::param par)
+void C_ebus_message::register_item(const C_item::param *par)
 {
     //printf("register item %s\n", par.name.c_str());
     C_item item;
