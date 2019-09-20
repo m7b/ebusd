@@ -14,6 +14,21 @@ BOOST_AUTO_TEST_CASE(FloatBoolConversionTest)
     BOOST_CHECK_EQUAL(true, (bool) 1.0f);	
 }
 
+BOOST_AUTO_TEST_CASE(EndianTest)
+{
+    //https://stackoverflow.com/questions/1001307/detecting-endianness-programmatically-in-a-c-program
+
+    int num = 1;
+    if(*(char *)&num == 1)
+    {
+        printf("\nLittle-Endian\n");
+    }
+    else
+    {
+        printf("Big-Endian\n");
+    }
+}
+
 BOOST_AUTO_TEST_CASE(Copy_Assign)
 {
 	C_item A;
@@ -32,6 +47,18 @@ BOOST_AUTO_TEST_CASE(Copy_Assign)
 
     act = C.get_val();
     BOOST_CHECK_EQUAL(soll, act);	
+}
+
+BOOST_AUTO_TEST_CASE(got_new_val)
+{
+    float val = 3.14;
+
+	C_item A;
+    BOOST_CHECK_EQUAL(A.check_new_val(), false);	
+    A.set_val(val);
+    BOOST_CHECK_EQUAL(A.check_new_val(), true);	
+    A.reset_new_val();
+    BOOST_CHECK_EQUAL(A.check_new_val(), false);	
 }
 
 BOOST_AUTO_TEST_CASE(Datatype_BIT)
