@@ -59,6 +59,12 @@ add_library(
   rs232
   ${CMAKE_SOURCE_DIR}/lib/RS-232/rs232.c
 )
+target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:-g>)
+target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:-O0>)
+target_compile_options(rs232 PUBLIC -std=c++11)  #-std=gnu++17
+IF(COVERAGE)
+  target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:--coverage>)
+ENDIF()
 
 add_library(
   ebus
