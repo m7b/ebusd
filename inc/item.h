@@ -42,7 +42,8 @@ public:
         DATA1B,         //Value is to interpret as DATA1B
         DATA1C,         //Value is to interpret as DATA1C
         DATA2B,         //Value is to interpret as DATA2B
-        DATA2C          //Value is to interpret as DATA2C
+        DATA2C,         //Value is to interpret as DATA2C
+        UNKNOWN         //Value is an unknown type
     };
 
     //Struct for item parameter

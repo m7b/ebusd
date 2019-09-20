@@ -761,7 +761,7 @@ BOOST_AUTO_TEST_CASE(Datatype_not_set)
     par.uc_SB       = 0x03;          //Secondary Order filter
     par.ui_pos      = 7;             //Position (M8)
     par.ui_bit_pos  = 0;             //Bit Position
-    //par.en_dt       = C_item::DATA2C;         //Data type
+    par.en_dt       = C_item::UNKNOWN;        //Data type
     par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
     par.f_pos_tol   = 0.0;           //positive tolerance for entry new value
     par.f_neg_tol   = 0.0;           //negative tolerance for entry new value
