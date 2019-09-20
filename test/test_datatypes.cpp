@@ -14,6 +14,26 @@ BOOST_AUTO_TEST_CASE(FloatBoolConversionTest)
     BOOST_CHECK_EQUAL(true, (bool) 1.0f);	
 }
 
+BOOST_AUTO_TEST_CASE(Copy_Assign)
+{
+	C_item A;
+
+    float soll = 3.14, act;
+    A.set_val(soll);
+
+    //Test copy constructor
+	C_item B(A);
+    act = B.get_val();
+    BOOST_CHECK_EQUAL(soll, act);	
+
+    //Test assign operator
+	C_item C;
+    C = B;
+
+    act = C.get_val();
+    BOOST_CHECK_EQUAL(soll, act);	
+}
+
 BOOST_AUTO_TEST_CASE(Datatype_BIT)
 {
 	unsigned char cval0[10] = "\x03\xfe\x05\x03iiihi"; // 7. Element = h = 104d = 0
