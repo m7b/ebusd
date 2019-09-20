@@ -236,10 +236,10 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
             c_low_byte = uc_byte[0];
             break;
     }
-     // xff, xff => -0.00390625 (-1/256)
 
     if ((c_high_byte & 0x80) == 0x80)
     {
+        //We have a negative number
         char sc_high_byte = c_high_byte;
         return sc_high_byte + (c_low_byte / 256.0f);
     }
@@ -253,27 +253,37 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
 
 float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
-    unsigned char uc_low_nibble, uc_high_nibble;
-    char c_high_byte;
+    unsigned char uc_high_byte, uc_low_nibble, uc_high_nibble;
 
     switch (en_byteorder)
     {
         case NOT_RELEVANT:
             return -1.0f;
         case LE:
-            uc_low_nibble  = uc_byte[0] & 0x0f;
-            uc_high_nibble = uc_byte[0] & 0xf0;
-            c_high_byte    = uc_byte[1];
-            break;
-        case BE:
+            uc_high_byte   = uc_byte[0];
             uc_low_nibble  = uc_byte[1] & 0x0f;
             uc_high_nibble = uc_byte[1] & 0xf0;
-            c_high_byte    = uc_byte[0];
+            uc_high_nibble >>= 4;
+            break;
+        case BE:
+            uc_high_byte   = uc_byte[1];
+            uc_low_nibble  = uc_byte[0] & 0x0f;
+            uc_high_nibble = uc_byte[0] & 0xf0;
+            uc_high_nibble >>= 4;
             break;
     }
 
-    uc_high_nibble = uc_high_nibble >> 4;
-    return c_high_byte * 16 + uc_high_nibble + (float) uc_low_nibble / 16;
+    if ((uc_high_byte & 0x80) == 0x80)
+    {
+        //We have a negative number
+        char sc_high_byte = uc_high_byte;
+        return (sc_high_byte * 16.0f) + uc_high_nibble + (uc_low_nibble / 16.0f);
+    }
+    else
+    {
+        //We have a positive number
+        return (uc_high_byte * 16.0f) + uc_high_nibble + (uc_low_nibble / 16.0f);
+    }
 }
 
 

@@ -627,13 +627,13 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
 
 BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
 {
-	unsigned char cval0[10] = "\x00\x00xxxxxxx"; // x00, x00 => 0.0
-	unsigned char cval1[10] = "\x00\x01xxxxxxx"; // x00, x01 => 0.0625 (1/16)
-	unsigned char cval2[10] = "\xff\xffxxxxxxx"; // xff, xff => -0.0625 (-1/16)
-	unsigned char cval3[10] = "\xff\xf0xxxxxxx"; // xff, xf0 => -1.0
-	unsigned char cval4[10] = "\x80\x00xxxxxxx"; // x80, x00 => -2048.0 (Ersatzwert)
-	unsigned char cval5[10] = "\x80\x01xxxxxxx"; // x80, x01 => -2047.9
-	unsigned char cval6[10] = "\x7f\xffxxxxxxx"; // x7f, xff => 2047.9
+	unsigned char cval0[10] = "\x03\xfe\x05\x03xxx\x00\x00"; // x00, x00 => 0.0
+	unsigned char cval1[10] = "\x03\xfe\x05\x03xxx\x00\x01"; // x00, x01 => 0.0625 (1/16)
+	unsigned char cval2[10] = "\x03\xfe\x05\x03xxx\xff\xff"; // xff, xff => -0.0625 (-1/16)
+	unsigned char cval3[10] = "\x03\xfe\x05\x03xxx\xff\xf0"; // xff, xf0 => -1.0
+	unsigned char cval4[10] = "\x03\xfe\x05\x03xxx\x80\x00"; // x80, x00 => -2048.0 (Ersatzwert)
+	unsigned char cval5[10] = "\x03\xfe\x05\x03xxx\x80\x01"; // x80, x01 => -2047.9
+	unsigned char cval6[10] = "\x03\xfe\x05\x03xxx\x7f\xff"; // x7f, xff => 2047.9
 	
 	float val      = .0f;
 	
@@ -646,7 +646,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     par.uc_ZZ       = 0xfe;          //Destination filter
     par.uc_PB       = 0x05;          //Primary Order filter
     par.uc_SB       = 0x03;          //Secondary Order filter
-    par.ui_pos      = 0;             //Position (M8)
+    par.ui_pos      = 7;             //Position (M8)
     par.ui_bit_pos  = 0;             //Bit Position
     par.en_dt       = C_item::DATA2C;         //Data type
     par.en_bo       = C_item::NOT_RELEVANT;   //Byte order
@@ -691,12 +691,12 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     BOOST_CHECK_EQUAL(-2048.0f, val);
 
 	item.set_val(cval5);
-    val = item.get_val(); // x80, x01 => -2047.9
-    BOOST_CHECK_EQUAL(-2047.9f, val);
+    val = item.get_val(); // x80, x01 => -2047.9375
+    BOOST_CHECK_EQUAL(-2047.9375f, val);
 
 	item.set_val(cval6);
-    val = item.get_val(); // x7f, xff => 2047.9
-    BOOST_CHECK_EQUAL(2047.9f, val);
+    val = item.get_val(); // x7f, xff => 2047.9375
+    BOOST_CHECK_EQUAL(2047.9375f, val);
     
 
     // ************************************************************************
@@ -705,13 +705,13 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     par.en_bo = C_item::BE;   //Byte order
 	item.set_par(par);
     
-	unsigned char cval10[10] = "\x00\x00xxxxxxx"; // x00, x00 => 0.0
-	unsigned char cval11[10] = "\x01\x00xxxxxxx"; // x01, x00 => 0.0625 (1/16)
-	unsigned char cval12[10] = "\xff\xffxxxxxxx"; // xff, xff => -0.0625 (-1/16)
-	unsigned char cval13[10] = "\xf0\xffxxxxxxx"; // xf0, xff => -1.0
-	unsigned char cval14[10] = "\x00\x80xxxxxxx"; // x00, x80 => -2048.0 (Ersatzwert)
-	unsigned char cval15[10] = "\x01\x80xxxxxxx"; // x01, x80 => -2047.9
-	unsigned char cval16[10] = "\xff\x7fxxxxxxx"; // xff, x7f => 2047.9
+	unsigned char cval10[10] = "\x03\xfe\x05\x03xxx\x00\x00"; // x00, x00 => 0.0
+	unsigned char cval11[10] = "\x03\xfe\x05\x03xxx\x01\x00"; // x01, x00 => 0.0625 (1/16)
+	unsigned char cval12[10] = "\x03\xfe\x05\x03xxx\xff\xff"; // xff, xff => -0.0625 (-1/16)
+	unsigned char cval13[10] = "\x03\xfe\x05\x03xxx\xf0\xff"; // xf0, xff => -1.0
+	unsigned char cval14[10] = "\x03\xfe\x05\x03xxx\x00\x80"; // x00, x80 => -2048.0 (Ersatzwert)
+	unsigned char cval15[10] = "\x03\xfe\x05\x03xxx\x01\x80"; // x01, x80 => -2047.9
+	unsigned char cval16[10] = "\x03\xfe\x05\x03xxx\xff\x7f"; // xff, x7f => 2047.9
 
 	item.set_val(cval10);
     val = item.get_val(); // x00, x00 => 0.0
@@ -734,10 +734,10 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2C)
     BOOST_CHECK_EQUAL(-2048.0f, val);
 
 	item.set_val(cval15);
-    val = item.get_val(); // x01, x80 => -2047.9
-    BOOST_CHECK_EQUAL(-2047.9f, val);
+    val = item.get_val(); // x01, x80 => -2047.9375
+    BOOST_CHECK_EQUAL(-2047.9375f, val);
 
 	item.set_val(cval16);
-    val = item.get_val(); // xff, x7f => 2047.9
-    BOOST_CHECK_EQUAL(2047.9f, val);
+    val = item.get_val(); // xff, x7f => 2047.9375
+    BOOST_CHECK_EQUAL(2047.9375f, val);
 }
