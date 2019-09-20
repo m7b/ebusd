@@ -16,7 +16,7 @@
 
 
 C_item::C_item()
-: f_act_val(0.0), f_last_val(0.0)
+: f_act_val(0.0), f_last_val(0.0), b_new(false)
 {
 }
 

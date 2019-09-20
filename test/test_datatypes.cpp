@@ -27,6 +27,7 @@ BOOST_AUTO_TEST_CASE(EndianTest)
     {
         printf("Big-Endian\n");
     }
+    BOOST_CHECK_EQUAL(true, true);	
 }
 
 BOOST_AUTO_TEST_CASE(Copy_Assign)
