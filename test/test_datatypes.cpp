@@ -61,6 +61,28 @@ BOOST_AUTO_TEST_CASE(got_new_val)
     BOOST_CHECK_EQUAL(A.check_new_val(), false);	
 }
 
+BOOST_AUTO_TEST_CASE(parameters)
+{
+	C_item item;
+	C_item::param par;
+
+    std::string soll = "Zustand LDW";
+    std::string ist;
+    
+    par.name = soll;
+	item.set_par(par);
+
+    ist = item.get_name();
+    BOOST_CHECK_EQUAL(soll, ist);
+
+    soll = "tTestTable";
+    par.s_db_table = soll;
+	item.set_par(par);
+
+    ist = item.get_db_table();
+    BOOST_CHECK_EQUAL(soll, ist);
+}
+
 BOOST_AUTO_TEST_CASE(Datatype_BIT)
 {
 	unsigned char cval0[10] = "\x03\xfe\x05\x03iiihi"; // 7. Element = h = 104d = 0
