@@ -488,7 +488,7 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA1C)
     BOOST_CHECK_EQUAL(.0f, last_val);
 }
 
-BOOST_AUTO_TEST_CASE(Datatype_DATA2B, * boost::unit_test::tolerance(0.0001f))
+BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
 {
 	unsigned char cval0[10] = "\x03\xfe\x05\x03iiihi"; // ab 7. Element: h = 104d, i = 105d => 104.41015625f
 	unsigned char cval1[10] = "\x03\xfe\x05\x03hhhih"; // ab 7. Element: i = 105d, h = 104d => 105.40625f
@@ -559,11 +559,13 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B, * boost::unit_test::tolerance(0.0001f))
     val = item.get_val(); // x80, x00 => -128.0 (Ersatzwert)
     BOOST_CHECK_EQUAL(-128.0f, val);
 
+    //, * boost::unit_test::tolerance(0.0001f)
+
 	item.set_val(cval7);
     val = item.get_val(); // x80, x01 => -127.996
-    BOOST_TEST(-127.996f == val);
+    BOOST_REQUIRE_CLOSE(-127.996f, val, 0.0001);
 
 	item.set_val(cval8);
     val = item.get_val(); //  x7f, xff => 127.996
-    BOOST_TEST(127.996f == val);
+    BOOST_REQUIRE_CLOSE(127.996f, val, 0.0001);
 }
