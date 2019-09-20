@@ -523,11 +523,16 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
 	item.set_par(par);
 
 
+    // ************************************************************************
+    // NOT_RELEVANT endian cases
+    // ************************************************************************
 	item.set_val(cval0);
     val = item.get_val(); // h = 104d / 105d
     BOOST_CHECK_EQUAL(-1.0f, val);
 
+    // ************************************************************************
     // LITTLE_ENDIAN cases
+    // ************************************************************************
     par.en_bo = C_item::LE;   //Byte order
 	item.set_par(par);
 
@@ -559,13 +564,64 @@ BOOST_AUTO_TEST_CASE(Datatype_DATA2B)
     val = item.get_val(); // x80, x00 => -128.0 (Ersatzwert)
     BOOST_CHECK_EQUAL(-128.0f, val);
 
-    //, * boost::unit_test::tolerance(0.0001f)
-
 	item.set_val(cval7);
     val = item.get_val(); // x80, x01 => -127.996
     BOOST_REQUIRE_CLOSE(-127.996f, val, 0.0001);
 
 	item.set_val(cval8);
     val = item.get_val(); //  x7f, xff => 127.996
+    BOOST_REQUIRE_CLOSE(127.996f, val, 0.0001);
+    
+
+    // ************************************************************************
+    // BIG_ENDIAN cases
+    // ************************************************************************
+    par.en_bo = C_item::BE;   //Byte order
+	item.set_par(par);
+    
+	unsigned char cval10[10] = "\x03\xfe\x05\x03iiiih"; // ab 7. Element: h = 104d, i = 105d => 104.41015625f
+	unsigned char cval11[10] = "\x03\xfe\x05\x03hhhhi"; // ab 7. Element: i = 105d, h = 104d => 105.40625f
+	unsigned char cval12[10] = "\x03\xfe\x05\x03iii\x00\x00"; // ab 7. Element: x00, x00 => 0.0
+	unsigned char cval13[10] = "\x03\xfe\x05\x03iii\x01\x00"; // ab 7. Element: x01, x00 => 0.00390625 (1/256)
+	unsigned char cval14[10] = "\x03\xfe\x05\x03iii\xff\xff"; // ab 7. Element: xff, xff => -0.00390625 (-1/256)
+	unsigned char cval15[10] = "\x03\xfe\x05\x03iii\x00\xff"; // ab 7. Element: x00, xff => -1.0
+	unsigned char cval16[10] = "\x03\xfe\x05\x03iii\x00\x80"; // ab 7. Element: x00, x80 => -128.0 (Ersatzwert)
+	unsigned char cval17[10] = "\x03\xfe\x05\x03iii\x01\x80"; // ab 7. Element: x01, x80 => -127.996
+	unsigned char cval18[10] = "\x03\xfe\x05\x03iii\xff\x7f"; // ab 7. Element: xff, x7f => 127.996
+
+	item.set_val(cval10);
+    val = item.get_val(); // h = 105d, i = 104d => 104.41015625f
+    BOOST_CHECK_EQUAL(104.41015625f, val);
+
+	item.set_val(cval11);
+    val = item.get_val(); // i = 104d, h = 105d => 105.40625f
+    BOOST_CHECK_EQUAL(105.40625f, val);
+
+	item.set_val(cval12);
+    val = item.get_val(); // x00, x00 => 0.0
+    BOOST_CHECK_EQUAL(.0f, val);
+
+	item.set_val(cval13);
+    val = item.get_val(); // x01, x00 => 0.00390625 (1/256)
+    BOOST_CHECK_EQUAL(0.00390625f, val);
+
+	item.set_val(cval14);
+    val = item.get_val(); // xff, xff => -0.00390625 (-1/256)
+    BOOST_CHECK_EQUAL(-0.00390625f, val);
+
+	item.set_val(cval15);
+    val = item.get_val(); // x00, xff => -1.0
+    BOOST_CHECK_EQUAL(-1.0f, val);
+
+	item.set_val(cval16);
+    val = item.get_val(); // x00, x80 => -128.0 (Ersatzwert)
+    BOOST_CHECK_EQUAL(-128.0f, val);
+
+	item.set_val(cval17);
+    val = item.get_val(); // x01, x80 => -127.996
+    BOOST_REQUIRE_CLOSE(-127.996f, val, 0.0001);
+
+	item.set_val(cval18);
+    val = item.get_val(); //  xff, x7f => 127.996
     BOOST_REQUIRE_CLOSE(127.996f, val, 0.0001);
 }
