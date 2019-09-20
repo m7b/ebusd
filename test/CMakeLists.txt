@@ -45,5 +45,5 @@ FOREACH(testSrc ${TEST_SRCS})
         #Finally add it to test execution - 
         #Notice the WORKING_DIRECTORY and COMMAND
         add_test(NAME ${testName}
-                 COMMAND ${testName} --report_level=detailed)
+                 COMMAND ${testName} --report_level=detailed --log_level=message)
 ENDFOREACH(testSrc)

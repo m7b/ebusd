@@ -21,13 +21,12 @@ BOOST_AUTO_TEST_CASE(EndianTest)
     int num = 1;
     if(*(char *)&num == 1)
     {
-        printf("\nLittle-Endian\n");
+        BOOST_TEST_MESSAGE("Little-Endian");
     }
     else
     {
-        printf("Big-Endian\n");
+        BOOST_TEST_MESSAGE("Big-Endian");
     }
-    BOOST_CHECK_EQUAL(true, true);	
 }
 
 BOOST_AUTO_TEST_CASE(Copy_Assign)
