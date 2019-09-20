@@ -17,4 +17,7 @@ cmake -G "MinGW Makefiles" -DCI_BUILD:BOOL=OFF -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_
 cmake --build .
 REM cmake --build . -- VERBOSE=1
 
-cd ..
+cd test
+ctest -V
+
+cd ..\..

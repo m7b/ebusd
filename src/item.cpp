@@ -221,22 +221,33 @@ float C_item::byte_to_DATA1c(const unsigned char *uc_byte)
 
 float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byteorder)
 {
-    char c_low_byte, c_high_byte;
+    unsigned char c_low_byte, c_high_byte;
 
     switch (en_byteorder)
     {
         case NOT_RELEVANT:
-            break;
+            return -1.0f;
         case LE:
-            c_low_byte  = uc_byte[0];
-            c_high_byte = uc_byte[1];
+            c_high_byte = uc_byte[0];
+            c_low_byte = uc_byte[1];
             break;
         case BE:
-            c_low_byte  = uc_byte[1];
-            c_high_byte = uc_byte[0];
+            c_high_byte = uc_byte[1];
+            c_low_byte = uc_byte[0];
             break;
     }
-    return c_high_byte + (float) c_low_byte / 256;
+     // xff, xff => -0.00390625 (-1/256)
+
+    if ((c_high_byte & 0x80) == 0x80)
+    {
+        char sc_high_byte = c_high_byte;
+        return sc_high_byte + (c_low_byte / 256.0f);
+    }
+    else
+    {
+        //We have a positive number
+        return c_high_byte + (c_low_byte / 256.0f);
+    }
 }
 
 
