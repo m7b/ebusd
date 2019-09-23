@@ -90,7 +90,7 @@ void C_item::set_val(const unsigned char *start)
         switch (par.en_dt)
         {
             case BIT:
-                f_new_val = (float) byte_to_bool(&start[pos], bit_pos);
+                f_new_val = byte_to_bool_f(&start[pos], bit_pos);
                 break;
 
             case UNSIGNED_CHAR:
@@ -102,11 +102,11 @@ void C_item::set_val(const unsigned char *start)
                 break;
 
             case BCD:
-                f_new_val = (float) byte_to_bcd(&start[pos]);
+                f_new_val = byte_to_bcd_f(&start[pos]);
                 break;
 
             case DATA1B:
-                f_new_val = (float) byte_to_DATA1b(&start[pos]);
+                f_new_val = byte_to_DATA1b_f(&start[pos]);
                 break;
 
             case DATA1C:
@@ -182,14 +182,25 @@ bool C_item::is_filtered(const unsigned char *start)
 }
 
 
-bool  C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos)
+bool C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos)
 {
     unsigned char uc_temp = *uc_byte;
 
     uc_temp >>= ui_bit_pos;
     uc_temp &= (unsigned char) 0b00000001;
 
-    return (bool) uc_temp;
+    return (bool)(uc_temp);
+}
+
+
+float C_item::byte_to_bool_f(const unsigned char *uc_byte, unsigned int ui_bit_pos)
+{
+    unsigned char uc_temp = *uc_byte;
+
+    uc_temp >>= ui_bit_pos;
+    uc_temp &= (unsigned char) 0b00000001;
+
+    return (float)(uc_temp);
 }
 
 
@@ -207,9 +218,29 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
 }
 
 
+float byte_to_bcd_f(const unsigned char *uc_byte)
+{
+    unsigned char uc_high_nibble = *uc_byte & 0xf0;
+    unsigned char uc_low_nibble  = *uc_byte & 0x0f;
+
+    uc_high_nibble = uc_high_nibble >> 4;
+
+    if (uc_high_nibble > 9 || uc_low_nibble > 9)
+        return -1.0f;
+
+    return (float) (uc_high_nibble * 10.0f) + uc_low_nibble;
+}
+
+
 char C_item::byte_to_DATA1b(const unsigned char *uc_byte)
 {
     return *uc_byte;
+}
+
+
+float C_item::byte_to_DATA1b_f(const unsigned char *uc_byte)
+{
+    return (float)(*uc_byte);
 }
 
 

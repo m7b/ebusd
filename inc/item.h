@@ -95,9 +95,12 @@ private:
 
     bool is_filtered(const unsigned char *);  //check message is filtered
 
-    bool  byte_to_bool(const unsigned char *, unsigned int);
+    bool byte_to_bool(const unsigned char *, unsigned int);
+    float byte_to_bool_f(const unsigned char *, unsigned int);
     unsigned char  byte_to_bcd(const unsigned char *);
+    float byte_to_bcd_f(const unsigned char *);
     char  byte_to_DATA1b(const unsigned char *);
+    float byte_to_DATA1b_f(const unsigned char *);
     float byte_to_DATA1c(const unsigned char *);
     float byte_to_DATA2b(const unsigned char *, en_byte_order);
     float byte_to_DATA2c(const unsigned char *, en_byte_order);
