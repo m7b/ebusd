@@ -241,7 +241,7 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
     if ((c_high_byte & 0x80) == 0x80)
     {
         //We have a negative number
-        char sc_high_byte = c_high_byte;
+        signed char sc_high_byte = c_high_byte;
         return sc_high_byte + (c_low_byte / 256.0f);
     }
     else
@@ -277,7 +277,7 @@ float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byte
     if ((uc_high_byte & 0x80) == 0x80)
     {
         //We have a negative number
-        char sc_high_byte = uc_high_byte;
+        signed char sc_high_byte = uc_high_byte;
         return (sc_high_byte * 16.0f) + uc_high_nibble + (uc_low_nibble / 16.0f);
     }
     else
