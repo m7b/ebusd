@@ -218,7 +218,7 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
 }
 
 
-float byte_to_bcd_f(const unsigned char *uc_byte)
+float C_item::byte_to_bcd_f(const unsigned char *uc_byte)
 {
     unsigned char uc_high_nibble = *uc_byte & 0xf0;
     unsigned char uc_low_nibble  = *uc_byte & 0x0f;
