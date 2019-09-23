@@ -240,7 +240,8 @@ char C_item::byte_to_DATA1b(const unsigned char *uc_byte)
 
 float C_item::byte_to_DATA1b_f(const unsigned char *uc_byte)
 {
-    return (float)(*uc_byte);
+    char ch_val = *uc_byte;
+    return (float)(ch_val);
 }
 
 
