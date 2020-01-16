@@ -340,13 +340,13 @@ BOOST_AUTO_TEST_CASE(Datatype_BCD)
   	item.set_val(cval7);
     val      = item.get_val(); //  0x0a
     last_val = item.get_last_val();
-    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(-1.0f, val);
     BOOST_CHECK_EQUAL(99.0f, last_val);
 	
 	item.set_val(cval8);
     val      = item.get_val(); //  0xa0
     last_val = item.get_last_val();
-    BOOST_CHECK_EQUAL(.0f, val);
+    BOOST_CHECK_EQUAL(-1.0f, val);
     BOOST_CHECK_EQUAL(99.0f, last_val);
 }
 

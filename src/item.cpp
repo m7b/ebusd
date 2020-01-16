@@ -90,7 +90,7 @@ void C_item::set_val(const unsigned char *start)
         switch (par.en_dt)
         {
             case BIT:
-                f_new_val = (float) byte_to_bool(&start[pos], bit_pos);
+                f_new_val = byte_to_bool(&start[pos], bit_pos);
                 break;
 
             case UNSIGNED_CHAR:
@@ -102,11 +102,11 @@ void C_item::set_val(const unsigned char *start)
                 break;
 
             case BCD:
-                f_new_val = (float) byte_to_bcd(&start[pos]);
+                f_new_val = byte_to_bcd(&start[pos]);
                 break;
 
             case DATA1B:
-                f_new_val = (float) byte_to_DATA1b(&start[pos]);
+                f_new_val = byte_to_DATA1b(&start[pos]);
                 break;
 
             case DATA1C:
@@ -182,18 +182,18 @@ bool C_item::is_filtered(const unsigned char *start)
 }
 
 
-bool  C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos)
+float C_item::byte_to_bool(const unsigned char *uc_byte, unsigned int ui_bit_pos)
 {
     unsigned char uc_temp = *uc_byte;
 
     uc_temp >>= ui_bit_pos;
     uc_temp &= (unsigned char) 0b00000001;
 
-    return (bool) uc_temp;
+    return (float)(uc_temp);
 }
 
 
-unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
+float C_item::byte_to_bcd(const unsigned char *uc_byte)
 {
     unsigned char uc_high_nibble = *uc_byte & 0xf0;
     unsigned char uc_low_nibble  = *uc_byte & 0x0f;
@@ -201,21 +201,22 @@ unsigned char C_item::byte_to_bcd(const unsigned char *uc_byte)
     uc_high_nibble = uc_high_nibble >> 4;
 
     if (uc_high_nibble > 9 || uc_low_nibble > 9)
-        return 0;
+        return -1.0f;
 
-    return (uc_high_nibble * 10) + uc_low_nibble;
+    return (float) (uc_high_nibble * 10.0f) + uc_low_nibble;
 }
 
 
-char C_item::byte_to_DATA1b(const unsigned char *uc_byte)
+float C_item::byte_to_DATA1b(const unsigned char *uc_byte)
 {
-    return *uc_byte;
+    signed char ch_val = *uc_byte;
+    return (float)(ch_val);
 }
 
 
 float C_item::byte_to_DATA1c(const unsigned char *uc_byte)
 {
-    return (float) *uc_byte / 2;
+    return (float) *uc_byte / 2.0f;
 }
 
 
@@ -240,7 +241,7 @@ float C_item::byte_to_DATA2b(const unsigned char *uc_byte, en_byte_order en_byte
     if ((c_high_byte & 0x80) == 0x80)
     {
         //We have a negative number
-        char sc_high_byte = c_high_byte;
+        signed char sc_high_byte = c_high_byte;
         return sc_high_byte + (c_low_byte / 256.0f);
     }
     else
@@ -276,7 +277,7 @@ float C_item::byte_to_DATA2c(const unsigned char *uc_byte, en_byte_order en_byte
     if ((uc_high_byte & 0x80) == 0x80)
     {
         //We have a negative number
-        char sc_high_byte = uc_high_byte;
+        signed char sc_high_byte = uc_high_byte;
         return (sc_high_byte * 16.0f) + uc_high_nibble + (uc_low_nibble / 16.0f);
     }
     else

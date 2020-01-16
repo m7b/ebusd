@@ -61,7 +61,6 @@ add_library(
 )
 target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:-g>)
 target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:-O0>)
-target_compile_options(rs232 PUBLIC -std=c++11)  #-std=gnu++17
 IF(COVERAGE)
   target_compile_options(rs232 PUBLIC $<$<CONFIG:Debug>:--coverage>)
 ENDIF()
