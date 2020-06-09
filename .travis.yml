@@ -32,7 +32,8 @@ matrix:
           - ubuntu-toolchain-r-test
         packages:
           - libboost-all-dev
-          - libmariadb-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
@@ -53,7 +54,8 @@ matrix:
           - ubuntu-toolchain-r-test
         packages:
           - libboost-all-dev
-          - libmariadb-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
@@ -76,7 +78,8 @@ matrix:
           - gcc-8
           - g++-8
           - libboost-all-dev
-          - libmariadb-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
@@ -102,7 +105,8 @@ matrix:
           - gcc-8
           - g++-8
           - libboost-all-dev
-          - libmariadb-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
@@ -126,7 +130,8 @@ matrix:
           - ubuntu-toolchain-r-test
         packages:
           - libboost-all-dev
-          - libmariadb-dev
+          - libmariadb-client-lgpl-dev
+          - libmysqlclient-dev
 
     compiler: gcc
     
