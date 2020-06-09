@@ -4,7 +4,7 @@
 # Configuration
 #
 language: cpp
-dist: bionic
+dist: xenial
 
 #
 # Build Dependencies
