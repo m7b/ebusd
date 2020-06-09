@@ -25,7 +25,7 @@
 #include <sys/time.h>
 #include <ctime>
 #include <mutex>
-#include <mysql/mysql.h>
+#include <mariadb/mysql.h>
 
 using namespace std;
 
