@@ -9,7 +9,7 @@
  
   
   <!-- jQuery -->
-  <script src="js/jquery.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
 
   <style type="text/css"></style>
 
