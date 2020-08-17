@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
