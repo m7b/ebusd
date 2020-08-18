@@ -43,6 +43,7 @@ install:
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -U msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-libmariadbclient mingw64/mingw-w64-x86_64-boost 2>&1"
   # end prepare for sim local env
   - mkdir build
