@@ -123,6 +123,7 @@ IF(WIN32)
       -lssl
       -lSecur32
       -lcrypto
+      -lcrypt32
       -lws2_32
       -lz
       -static
@@ -138,6 +139,7 @@ IF(WIN32)
       -lssl
       -lSecur32
       -lcrypto
+      -lcrypt32
       -lws2_32
       -lz
       -static
