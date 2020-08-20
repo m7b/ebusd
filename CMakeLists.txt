@@ -114,61 +114,32 @@ ENDIF()
 
 # target link libraries
 IF(WIN32)
-  IF(COVERAGE)
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-      ebus
-      rs232
-      mariadbclient
-      -lssl
-      -lSecur32
-      -lcrypto
-      -lcrypt32
-      -lshlwapi
-      -lws2_32
-      -lz
-      -static
-      $<$<CONFIG:Release>:-s>
-      --coverage
-    )
-  ELSE()
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-      ebus
-      rs232
-      mariadbclient
-      -lssl
-      -lSecur32
-      -lcrypto
-      -lcrypt32
-      -lshlwapi
-      -lws2_32
-      -lz
-      -static
-      $<$<CONFIG:Release>:-s>
-    )
-  ENDIF()
+  target_link_libraries(
+    ${CMAKE_PROJECT_NAME}
+    ebus
+    rs232
+    mariadbclient
+    -lssl
+    -lSecur32
+    -lcrypto
+    -lcrypt32
+    -lshlwapi
+    -lws2_32
+    -lz
+    -static
+    $<$<CONFIG:Release>:-s>
+    $<$<BOOL:${COVERAGE}>:--coverage>
+  )
 ELSE()
-  IF(COVERAGE)
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-      ebus
-      rs232
-      mariadb
-      -pthread
-      $<$<CONFIG:Release>:-s>
-      --coverage
-    )
-  ELSE()
-    target_link_libraries(
-      ${CMAKE_PROJECT_NAME}
-      ebus
-      rs232
-      mariadb
-      -pthread
-      $<$<CONFIG:Release>:-s>
-    )
-  ENDIF()
+  target_link_libraries(
+    ${CMAKE_PROJECT_NAME}
+    ebus
+    rs232
+    mariadb
+    -pthread
+    $<$<CONFIG:Release>:-s>
+    $<$<BOOL:${COVERAGE}>:--coverage>
+  )
 ENDIF()
 
 add_subdirectory(test)
