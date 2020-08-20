@@ -121,9 +121,9 @@ IF(WIN32)
       rs232
       mariadbclient
       -lssl
+      -lSecur32
       -lcrypto
       -lws2_32
-      -lSecur32
       -lz
       -static
       $<$<CONFIG:Release>:-s>
@@ -136,9 +136,9 @@ IF(WIN32)
       rs232
       mariadbclient
       -lssl
+      -lSecur32
       -lcrypto
       -lws2_32
-      -lSecur32
       -lz
       -static
       $<$<CONFIG:Release>:-s>
