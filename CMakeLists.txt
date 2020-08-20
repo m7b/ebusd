@@ -123,6 +123,7 @@ IF(WIN32)
       -lssl
       -lcrypto
       -lws2_32
+      -lSecur32
       -lz
       -static
       $<$<CONFIG:Release>:-s>
@@ -137,6 +138,7 @@ IF(WIN32)
       -lssl
       -lcrypto
       -lws2_32
+      -lSecur32
       -lz
       -static
       $<$<CONFIG:Release>:-s>
