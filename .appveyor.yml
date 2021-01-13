@@ -20,28 +20,27 @@ image: Visual Studio 2019
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf true
-  # begin prepare for simulate local dev environment
+  # prepare for simulate local dev environment
   - mkdir C:\CPP
   - mkdir C:\CPP\compiler
   - mkdir C:\CPP\tools
   - move C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0 C:\CPP\compiler
-  # Update keyring
-  - C:\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-  - C:\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-  - C:\msys64\usr\bin\bash -l -c "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-  - C:\msys64\usr\bin\bash -l -c "pacman --noconfirm -U msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-  # Update MSYS2
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Core update
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Normal update
   - move C:\msys64 C:\CPP\tools
   - set PATH=%MINGW_DIR%;%PATH%
-  # end prepare for sim local env
+  # Update keyring
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "pacman --noconfirm -U msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  # Update MSYS2
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Core update
+  - C:\CPP\tools\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Normal update
 
 # fetch repository as zip archive. default is "false"
-#shallow_clone: true
+shallow_clone: true
 
 # set clone depth
-clone_depth: 3
+clone_depth: 1
 
 # environment variables
 environment:
