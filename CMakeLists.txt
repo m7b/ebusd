@@ -126,6 +126,7 @@ IF(WIN32)
     -lshlwapi
     -lws2_32
     -lz
+    -lbcrypt
     -static
     $<$<CONFIG:Release>:-s>
     $<$<BOOL:${COVERAGE}>:--coverage>
