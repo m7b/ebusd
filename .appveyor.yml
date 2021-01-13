@@ -54,11 +54,11 @@ build_script:
   - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
+ # - cd test
+ # - ctest
 
 test_script:
   - cd test
-  - ctest -D help
-  - ctest --help
   - ctest -D Continous
 
 
