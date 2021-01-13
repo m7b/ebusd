@@ -38,11 +38,11 @@ install:
   - mkdir C:\CPP\compiler
   - mkdir C:\CPP\tools
   - move C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0 C:\CPP\compiler
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sydd pacman"  # Pacman update
   - C:\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
   - C:\msys64\usr\bin\bash -l -c "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - C:\msys64\usr\bin\bash -l -c "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - C:\msys64\usr\bin\bash -l -c "pacman --noconfirm -U msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sydd pacman"  # Pacman update
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Core update
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Normal update
   - move C:\msys64 C:\CPP\tools
