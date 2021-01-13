@@ -46,13 +46,17 @@ install:
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syuu"  # Normal update
   - move C:\msys64 C:\CPP\tools
   - set PATH=%MINGW_DIR%;%PATH%
-  - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman --noconfirm -S mingw-w64-x86_64-zstd"
+  #- C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman --noconfirm -S mingw-w64-x86_64-zstd"
   - C:\CPP\tools\msys64\usr\bin\bash -l -c "pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-libmariadbclient mingw64/mingw-w64-x86_64-boost 2>&1"
   # end prepare for sim local env
+
+build_script:
   - mkdir build
   - cd build
   - cmake -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" ..
   - cmake --build .
+
+test_script:
   - cd test
   - ctest
 
