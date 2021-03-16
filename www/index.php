@@ -769,42 +769,42 @@ $(function () {
 							type: 'minute',
 							count: 60,
 							text: '1h',
-                            title: 'View 60 minutes'
+                            title: 'Zeige 60 Minuten'
 					}, {
 							type: 'minute',
 							count: 180,
 							text: '3h',
-                            title: 'View 3 hours'
+                            title: 'Zeige 3 Stunden'
 					}, {
 							type: 'minute',
 							count: 360,
 							text: '6h',
-                            title: 'View 6 hours'
+                            title: 'Zeige 6 Stunden'
 					}, {
 							type: 'minute',
 							count: 720,
 							text: '12h',
-                            title: 'View 12 hours'
+                            title: 'Zeige 12 Stunden'
 					}, {
 							type: 'day',
 							count: 1,
-							text: '1d',
-                            title: 'View 24 hours'
+							text: '1t',
+                            title: 'Zeige 24 Stunden'
 					}, {
 							type: 'day',
 							count: 2,
-							text: '2d',
-                            title: 'View 2 days'
+							text: '2t',
+                            title: 'Zeige 2 Tage'
 					},  {
 							type: 'day',
 							count: 3,
-							text: '3d',
-                            title: 'View 3 days'
+							text: '3t',
+                            title: 'Zeige 3 Tage'
 					}, {
 							type: 'week',
 							count: 1,
 							text: '1w',
-                            title: 'View 7 days'
+                            title: 'Zeige 7 Tage'
 					}]
 				},
 				title: {
