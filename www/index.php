@@ -1,11 +1,12 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
 
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script> -->
  
