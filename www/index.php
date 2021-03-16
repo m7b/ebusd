@@ -8,11 +8,10 @@
   <meta name="googlebot" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=0.5">
 
-  <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script> -->
- 
   
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  
 
   <style type="text/css"></style>
 
@@ -774,35 +773,43 @@ $(function () {
 					buttons: [{
 							type: 'minute',
 							count: 60,
-							text: '1h'
+							text: '1h',
+                            title: 'View 60 minutes'
 					}, {
 							type: 'minute',
 							count: 180,
-							text: '3h'
+							text: '3h',
+                            title: 'View 3 hours'
 					}, {
 							type: 'minute',
 							count: 360,
-							text: '6h'
+							text: '6h',
+                            title: 'View 6 hours'
 					}, {
 							type: 'minute',
 							count: 720,
-							text: '12h'
+							text: '12h',
+                            title: 'View 12 hours'
 					}, {
 							type: 'day',
 							count: 1,
-							text: '1d'
+							text: '1d',
+                            title: 'View 24 hours'
 					}, {
 							type: 'day',
 							count: 2,
-							text: '2d'
+							text: '2d',
+                            title: 'View 2 days'
 					},  {
 							type: 'day',
 							count: 3,
-							text: '3d'
+							text: '3d',
+                            title: 'View 3 days'
 					}, {
 							type: 'week',
 							count: 1,
-							text: '1w'
+							text: '1w',
+                            title: 'View 7 days'
 					}]
 				},
 				title: {
@@ -1143,7 +1150,7 @@ $(function () {
     });
     // Scrolls to the selected menu item on the page
     $(function() {
-        $('a[href*=#]:not([href=#],[data-toggle],[data-target],[data-slide])').click(function() {
+        $('a[href*=\\#]:not([href=\\#],[data-toggle],[data-target],[data-slide])').click(function() {
             if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
                 var target = $(this.hash);
                 target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
