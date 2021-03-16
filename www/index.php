@@ -921,25 +921,25 @@ $(function () {
                 <a href="#chart" onclick=$("#menu-close").click();>BDE/MDE</a>
             </li>
             <li>
-                <a href="#temp2021" onclick=$("#menu-close").click();>Heatmap 2021</a>
+                <a href="#temp2021" onclick=$("#menu-close").click();>Wärmekarte 2021</a>
             </li>
             <li>
-                <a href="#temp2020" onclick=$("#menu-close").click();>Heatmap 2020</a>
+                <a href="#temp2020" onclick=$("#menu-close").click();>Wärmekarte 2020</a>
             </li>
             <li>
-                <a href="#temp2019" onclick=$("#menu-close").click();>Heatmap 2019</a>
+                <a href="#temp2019" onclick=$("#menu-close").click();>Wärmekarte 2019</a>
             </li>
             <li>
-                <a href="#temp2018" onclick=$("#menu-close").click();>Heatmap 2018</a>
+                <a href="#temp2018" onclick=$("#menu-close").click();>Wärmekarte 2018</a>
             </li>
             <li>
-                <a href="#temp2017" onclick=$("#menu-close").click();>Heatmap 2017</a>
+                <a href="#temp2017" onclick=$("#menu-close").click();>Wärmekarte 2017</a>
             </li>
             <li>
-                <a href="#temp2016" onclick=$("#menu-close").click();>Heatmap 2016</a>
+                <a href="#temp2016" onclick=$("#menu-close").click();>Wärmekarte 2016</a>
             </li>
             <li>
-                <a href="#temp2015" onclick=$("#menu-close").click();>Heatmap 2015</a>
+                <a href="#temp2015" onclick=$("#menu-close").click();>Wärmekarte 2015</a>
             </li>
         </ul>
     </nav>
