@@ -101,7 +101,11 @@ $(function () {
 
 
     var start;
-	
+    var heatmap_title = 'Wärmekarte ';
+    var heatmap_subtitle = 'Temperschwankung nach Tag und Stunde im Jahr ';
+	var act_year;
+
+    act_year = '2015';
     $('#container2015').highcharts({
 
         data: {
@@ -117,13 +121,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2015',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -190,6 +194,7 @@ $(function () {
     });
 	
 	
+    act_year = '2016';
     $('#container2016').highcharts({
 
         data: {
@@ -205,13 +210,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2016',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -278,6 +283,7 @@ $(function () {
     });
 	
 	
+    act_year = '2017';
     $('#container2017').highcharts({
 
         data: {
@@ -293,13 +299,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2017',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -366,6 +372,7 @@ $(function () {
     });
 	
 	
+    act_year = '2018';
     $('#container2018').highcharts({
 
         data: {
@@ -381,13 +388,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2018',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -454,6 +461,7 @@ $(function () {
     });
 	
 	
+    act_year = '2019';
     $('#container2019').highcharts({
 
         data: {
@@ -469,13 +477,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2019',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -542,6 +550,7 @@ $(function () {
     });
 	
 	
+    act_year = '2020';
     $('#container2020').highcharts({
 
         data: {
@@ -557,13 +566,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2020',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -630,6 +639,7 @@ $(function () {
     });
 	
 	
+    act_year = '2021';
     $('#container2021').highcharts({
 
         data: {
@@ -645,13 +655,13 @@ $(function () {
         },
 
         title: {
-            text: 'Highcharts extended heat map',
+            text: heatmap_title + act_year,
             align: 'left',
             x: 40
         },
 
         subtitle: {
-            text: 'Temperature variation by day and hour through 2021',
+            text: heatmap_subtitle + act_year,
             align: 'left',
             x: 40
         },
@@ -893,7 +903,8 @@ $(function () {
 
 
     <!-- Navigation -->
-    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <!-- <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a> -->
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"></a>
     <nav id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
@@ -960,7 +971,7 @@ $(function () {
 			</div>
 
             <br>
-            <a href="#about" class="btn btn-dark btn-lg">Find Out More</a>
+            <a href="#about" class="btn btn-dark btn-lg">Zu den Charts</a>
         </div>
     </header>
 	
@@ -970,8 +981,8 @@ $(function () {
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
-                    <p class="lead">This theme features some wonderful photography courtesy of <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a>.</p>
+                    <h2>Visualisierung der Betriebsdaten und der Außentemperatur</h2>
+                    <p class="lead">Von 2015 bis heute.</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -1090,29 +1101,18 @@ $(function () {
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h4><strong>Start Bootstrap</strong>
+                    <h4><strong>mjbsoft</strong>
                     </h4>
-                    <p>3481 Melrose Place
-                        <br>Beverly Hills, CA 90210</p>
+                    <p>...
+                        <br>Swabian</p>
                     <ul class="list-unstyled">
-                        <li><i class="fa fa-phone fa-fw"></i> (123) 456-7890</li>
-                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:name@example.com">name@example.com</a>
+                        <li><i class="fa fa-phone fa-fw"></i> no phone</li>
+                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:name@example.com">no email</a>
                         </li>
                     </ul>
                     <br>
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-dribbble fa-fw fa-3x"></i></a>
-                        </li>
-                    </ul>
                     <hr class="small">
-                    <p class="text-muted">Copyright &copy; Your Website 2017</p>
+                    <p class="text-muted">Copyright &copy; mjbsoft.de 2017</p>
                 </div>
             </div>
         </div>
