@@ -76,7 +76,7 @@ $(function () {
             if (ctx) {
 
                 // draw the columns
-                each(this.points, function (point) {
+                this.points.forEach((point) => {
                     var plotY = point.plotY,
                         shapeArgs,
                         pointAttr;
@@ -738,7 +738,6 @@ $(function () {
 <body>
 
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
-<!-- <script src="https://code.highcharts.com/highcharts.src.js"></script> -->
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/heatmap.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
