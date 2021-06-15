@@ -149,6 +149,7 @@ void mysql_connect(deamon_settings *p_ds)
     std::string db_name          = p_ds->db_name;
     std::string db_user_name     = p_ds->db_user_name;
     std::string db_user_password = p_ds->db_user_password;
+    unsigned int db_port         = p_ds->db_port;
 
     //Initialize MYSQL object for connections
     mysql1 = mysql_init(NULL);
@@ -157,6 +158,7 @@ void mysql_connect(deamon_settings *p_ds)
     {
         printf("%s\n", mysql_error(mysql1));
         printf("    server: %s\n",  db_server.c_str());
+        printf("    port: %d\n",    db_port);
         printf("    db name: %s\n", db_name.c_str());
         printf("    db user: %s\n", db_user_name.c_str());
         return;
@@ -179,6 +181,7 @@ void mysql_connect(deamon_settings *p_ds)
     {
         printf("%s\n", mysql_error(mysql1));
         printf("    server: %s\n",  db_server.c_str());
+        printf("    port: %d\n",    db_port);
         printf("    db name: %s\n", db_name.c_str());
         printf("    db user: %s\n", db_user_name.c_str());
         return;
@@ -295,6 +298,7 @@ int deamon_settings::load(const std::string &filename)
     db_name          = pt.get<std::string>("ebusd.database.name");
     db_user_name     = pt.get<std::string>("ebusd.database.user_name");
     db_user_password = pt.get<std::string>("ebusd.database.user_password");
+    db_port          = pt.get<unsigned int>("ebusd.database.port");
 
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("ebusd.elements"))
     {
@@ -331,6 +335,7 @@ void deamon_settings::save(const std::string &filename)
     pt.put("ebusd.database.name",          db_name);
     pt.put("ebusd.database.user_name",     db_user_name);
     pt.put("ebusd.database.user_password", db_user_password);
+    pt.put("ebusd.database.port",          db_port);
 
     BOOST_FOREACH(const C_item::param &it, other_item)
     {
@@ -365,6 +370,7 @@ void save_example(deamon_settings *ds)
     ds->db_name          = "db-name";
     ds->db_user_name     = "db-username";
     ds->db_user_password = "db-username-password";
+    ds->db_port          = 3306;
 
     par.name        = "Zustand LDW";
     par.unit        = "an/aus";

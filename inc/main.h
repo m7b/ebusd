@@ -40,6 +40,7 @@ struct deamon_settings
     std::string db_name;
     std::string db_user_name;
     std::string db_user_password;
+    unsigned int db_port;
 
     //parameter of relevant items to fetch
     std::vector<C_item::param> other_item;
