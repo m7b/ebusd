@@ -3,7 +3,7 @@ require_once ('setting.php');
 
 date_default_timezone_set('Europe/Berlin');
 
-$con = mysqli_connect($strHostName, $strUserName, $strPassword, $strDbName);
+$con = mysqli_connect($strHostName, $strUserName, $strPassword, $strDbName, $numPort);
 
 /* check connection */
 if (mysqli_connect_errno()) {
