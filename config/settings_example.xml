@@ -8,6 +8,7 @@
         <name>db_name</name>
         <user_name>db_user_name</user_name>
         <user_password>db_user_password</user_password>
+        <port>3306</port>
     </database>
     <elements>
         <element>
