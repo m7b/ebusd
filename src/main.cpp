@@ -173,13 +173,11 @@ void mysql_connect(deamon_settings *p_ds)
     else
     {
         printf("MySQL Options OK\n");
-        /* Test */
-        printf("    Password: %s\n",  db_user_password.c_str());
     }
 
 
     //Connect to the database
-    if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), 0, NULL, 0) == NULL)
+    if (mysql_real_connect(mysql1, db_server.c_str(), db_user_name.c_str(), db_user_password.c_str(), db_name.c_str(), db_port, NULL, 0) == NULL)
     {
         printf("%s\n", mysql_error(mysql1));
         printf("    server: %s\n",  db_server.c_str());
