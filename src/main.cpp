@@ -173,6 +173,8 @@ void mysql_connect(deamon_settings *p_ds)
     else
     {
         printf("MySQL Options OK\n");
+        /* Test */
+        printf("    Password: %s\n",  db_user_password.c_str());
     }
 
 
