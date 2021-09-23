@@ -9,10 +9,16 @@ Das Ziel dieses Projekts ist in erster Linie die Betriebsdatenerfassung einer
 Wolf Wärmepumpe (BWS-1-06, Sole/Wasser) zu realisieren. Angezapft können diese
 Daten vom Wärmepumpenmanager WPM-1 über die dort vorhandene eBus-Schnittstelle.
 
+![Blockdiagram](bilder/Blockdiagram.png)
+
+Aus den Daten können dann verschiedenartige Diagramme erstellt werden um die
+Funktion der Wärmepumpe und deren Einstellungen überprüfen bzw. optimieren zu
+können.
+
+![Datenvisualisierung](bilder/Datenvisualisierung.png)
+
 Als weiteres Ziel wäre dann eine Konfiguration der Anlage über z.B. eine
 Web-Applikation zu ermöglichen.
-
-![Blockdiagram](bilder/Blockdiagram.png)\
 
 
 Verwendete Werkzeuge
@@ -79,7 +85,7 @@ Signal kann nun direkt auf die UART-Schnittstelle des RPi geführt werden.
 Einstellung R3
 ==============
 
-![Spannungspegel](bilder/Spannungspegel.png)\
+![Spannungspegel](bilder/Spannungspegel.png)
 
 Die Pegel des eBus müssen zur Verarbeitung mittels des CMOS 4011 auf desen
 logische Pegel angepasst werden.
