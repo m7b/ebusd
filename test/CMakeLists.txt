@@ -8,6 +8,7 @@ IF(WIN32)
   set(BOOST_INCLUDEDIR C:/CPP/tools/msys64/mingw64/include)
 ENDIF()
 
+SET(Boost_USE_STATIC_LIBS ON)
 FIND_PACKAGE(Boost REQUIRED unit_test_framework)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
