@@ -1,0 +1,7 @@
+Die Datei 'ebusd.service' muss zunächst in unter /etc/systemd/system abgelegt werden.
+
+Um den Service zu aktivieren:
+sudo systemctl enable ebusd.service
+
+Um den Service zu starten:
+sudo systemctl start ebusd.service
