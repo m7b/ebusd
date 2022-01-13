@@ -221,8 +221,8 @@ void C_ebus_message::write_db(MYSQL *db)
 
                 //printf("%s\n", q);
 
-                ///todo:
-                printf("inserting new %s into db table %s (ret val %d)\n", it->get_name().c_str(), table.c_str(), b_ret_val);
+                //TODO: Enabling via parameter
+                //printf("inserting new %s into db table %s (ret val %d)\n", it->get_name().c_str(), table.c_str(), b_ret_val);
 
                 it->reset_new_val();
             }
