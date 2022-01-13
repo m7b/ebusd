@@ -1,10 +1,10 @@
 [Unit]
-Description=Ebus daemon für das Empfangen der Betreibsdaten einer Wolf Wärmepunpe
+Description=Ebus daemon für das Empfangen der Betriebsdaten einer Wolf Wärmepumpe
 
 [Service]
-Type=Simple
+Type=simple
 User=pi
-ExecStart=$HOME/ebusd/build/ebusd $HOME/ebusd/build/settings_example.xml
+ExecStart=/home/pi/ebusd/build/ebusd /home/pi/ebusd/build/settings_example.xml
 
 [Install]
 WantedBy=multi-user.target
