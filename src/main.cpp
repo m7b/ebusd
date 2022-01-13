@@ -64,19 +64,37 @@ int main(int argc, char* argv[])
     printf("Start main loop!");
     int comport_number = RS232_GetPortnr(ebusd_settings.ser_port.c_str());  //should be 22 for "/dev/ttyAMA0"
 
+    bool mysql_ping_error = false;
     while(true)
     {
         //Ping MySQL server
         res = mysql_ping(mysql1);
         if (res != 0)
         {
-            printf("MySQL-Ping error: %s\n", mysql_error(mysql1));
+            if (!mysql_ping_error)
+            {
+                printf("MySQL-Ping error: %s\n", mysql_error(mysql1));
+
+                //set mysql ping error
+                mysql_ping_error = true;
+            }
 
             /* sleep for 2000 milliSeconds */
             my_sleep_ms(2000);
 
             goto while_end;
         }
+        else
+        {
+            if (mysql_ping_error)
+            {
+                printf("MySQL-Ping error cleared: %s\n", mysql_error(mysql1));
+
+                //reset mysql ping error
+                mysql_ping_error = false;
+            }
+        }
+
 
         //Read COM port
         res = RS232_PollComport(comport_number, buf, 255);
