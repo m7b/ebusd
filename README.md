@@ -10,9 +10,7 @@ Master:   | [![example workflow](https://github.com/m7b/ebusd/actions/workflows/
 
 ebusd is a program to log ebus telegrams and write it to a MySQL/MariaDB database. This data can be visualized with Grafana or similar tools, for example.
 
-![Datenvisualisierung Grafana](doc/bilder/Datenvisualisierung_Grafana.png){:width="350px"}
-
-![Datenvisualisierung](doc/bilder/Datenvisualisierung.png){:width="350px"}
+![Datenvisualisierung Grafana](doc/bilder/Datenvisualisierung_Grafana.png)
 
 ### Build instructions
 
