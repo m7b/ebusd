@@ -1,4 +1,6 @@
 ﻿<?php
+header("Cache-Control: no-cache");
+
 require_once ('setting.php');
 
 date_default_timezone_set('Europe/Berlin');
